@@ -1,4 +1,5 @@
 # README
+[![Coverage Status](https://coveralls.io/repos/github/osulp/LibNav-Rails/badge.svg?branch=master)](https://coveralls.io/github/osulp/LibNav-Rails?branch=master)
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
