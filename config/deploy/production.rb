@@ -1,6 +1,7 @@
 require 'yaml'
 config = YAML.load_file('config/config.yml')["deployment"]["production"] || {}
 
+append :linked_files, 'db/production.sqlite3'
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
