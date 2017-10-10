@@ -34,6 +34,9 @@ gem 'capistrano-yarn'
 # Use webpacker to support ES6 javascript
 gem "webpacker", github: "rails/webpacker"
 
+#User Generation, Authorization, and Authentication
+gem 'devise'
+
 #Testing/Development gems
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
