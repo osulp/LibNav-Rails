@@ -21,3 +21,21 @@
 /yarn-error.log
 
 .byebug_history
+
+/node_modules
+/yarn-error.log
+
+.byebug_history
+.vscode
+
+/public/*
+
+
+# Ignore vim .swp files
+*.swp
+config/config.yml
+config/local_env.yml
+/public/packs
+/public/packs-test
+/node_modules
+coverage/*
