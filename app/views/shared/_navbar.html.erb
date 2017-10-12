@@ -10,7 +10,11 @@
       <a class="nav-link" href="#">Pricing</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href=<%= user_session_path %>>Login</a>
+      <% unless current_user.nil? %>
+        <%= link_to "Logout #{current_user.email}", destroy_user_session_path, :method => :delete, :class => "nav-link" %>
+      <% else %>
+        <%= link_to "Login", user_session_path, :class => "nav-link"  %>
+      <% end %>
     </li>
   </ul>
   <form class="form-inline my-2 my-lg-0">
