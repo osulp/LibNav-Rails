@@ -18,7 +18,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'puma', '~> 3.7'
 gem 'puma_worker_killer'
 
-#Bootstrap/UI gems
+# Bootstrap/UI gems
 gem 'bootstrap', '~> 4.0.0.beta'
 gem 'jquery-rails'
 
@@ -34,13 +34,17 @@ gem 'capistrano-yarn'
 # Use webpacker to support ES6 javascript
 gem "webpacker", github: "rails/webpacker"
 
-#User Generation, Authorization, and Authentication
+# User Generation, Authorization, and Authentication
 gem 'devise'
+
+# For form formatting.
+gem 'simple_form'
 
 #Testing/Development gems
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails', '~> 3.6'
+  gem 'rails-controller-testing'
 end
 
 #Development Environment Gems

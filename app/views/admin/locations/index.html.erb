@@ -1,0 +1,5 @@
+<% @locations.each do |location| %>
+  <%= location.name %>
+  <%= link_to "Delete", admin_location_path(location), :method => :delete %>
+  <%= link_to "Edit", edit_admin_location_path(location) %>
+<% end %>
