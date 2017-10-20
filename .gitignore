@@ -38,4 +38,5 @@ config/local_env.yml
 /public/packs
 /public/packs-test
 /node_modules
-coverage/*
+#coverage/*
+#coverage/*.*
