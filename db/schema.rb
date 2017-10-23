@@ -10,14 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171023172717) do
+ActiveRecord::Schema.define(version: 20171023201457) do
 
   create_table "locations", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "trait_id"
-    t.index ["trait_id"], name: "index_locations_on_trait_id"
   end
 
   create_table "traits", force: :cascade do |t|
@@ -25,6 +23,8 @@ ActiveRecord::Schema.define(version: 20171023172717) do
     t.string "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "location_id"
+    t.index ["location_id"], name: "index_traits_on_location_id"
   end
 
   create_table "users", force: :cascade do |t|
