@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 git_source(:github) do |repo_name|
-  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
   "https://github.com/#{repo_name}.git"
 end
 
@@ -32,7 +34,7 @@ gem 'capistrano-nvm'
 gem 'capistrano-yarn'
 
 # Use webpacker to support ES6 javascript
-gem "webpacker", github: "rails/webpacker"
+gem 'webpacker', github: 'rails/webpacker'
 
 # User Generation, Authorization, and Authentication, Admin
 gem 'devise'
@@ -41,14 +43,17 @@ gem 'rails_admin', '~> 1.2'
 # For form formatting.
 gem 'simple_form'
 
-#Testing/Development gems
+# Use paperclip for svg uploads
+gem 'paperclip'
+
+# Testing/Development gems
 group :development, :test do
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'rspec-rails', '~> 3.6'
   gem 'rails-controller-testing'
 end
 
-#Development Environment Gems
+# Development Environment Gems
 group :development, :staging do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
@@ -79,4 +84,4 @@ group :test do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
