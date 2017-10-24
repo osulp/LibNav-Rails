@@ -1,0 +1,15 @@
+<%= simple_form_for [:admin, @trait_type] do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :label %>
+  </div>
+
+  <div class="form-inputs">
+    <%= f.input :values %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

@@ -1,0 +1,6 @@
+<% @trait_types.each do |trait_type| %>
+  <%= trait_type.label %>
+  <%= trait_type.values %>
+  <%= link_to "Delete", admin_trait_type_path(trait_type), :method => :delete %>
+  <%= link_to "Edit", edit_admin_trait_type_path(trait_type) %>
+<% end %>
