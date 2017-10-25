@@ -34,8 +34,9 @@ gem 'capistrano-yarn'
 # Use webpacker to support ES6 javascript
 gem "webpacker", github: "rails/webpacker"
 
-# User Generation, Authorization, and Authentication
+# User Generation, Authorization, and Authentication, Admin
 gem 'devise'
+gem 'rails_admin', '~> 1.2'
 
 # For form formatting.
 gem 'simple_form'
