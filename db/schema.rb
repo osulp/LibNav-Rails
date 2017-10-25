@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171023214942) do
+ActiveRecord::Schema.define(version: 20171024182929) do
+
+  create_table "floors", force: :cascade do |t|
+    t.string "name"
+    t.integer "level"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "map_file_name"
+    t.string "map_content_type"
+    t.integer "map_file_size"
+    t.datetime "map_updated_at"
+  end
 
   create_table "locations", force: :cascade do |t|
     t.string "name"
