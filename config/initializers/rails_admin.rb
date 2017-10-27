@@ -1,7 +1,7 @@
 RailsAdmin.config do |config|
   ## == Devise/Warden Authorization using User #admin? method ==
   config.authorize_with do
-    redirect_to main_app.root_path unless warden.user.admin?
+    redirect_to main_app.root_path unless !warden.user.nil? && warden.user.admin?
   end
 
   # Configures CRUD Actions/Functionality
@@ -39,7 +39,7 @@ RailsAdmin.config do |config|
     config.model 'Location' do
       edit do
         field :name
-        field :trait
+        field :traits
       end
     end
 
@@ -48,6 +48,7 @@ RailsAdmin.config do |config|
       edit do
         field :name
         field :value
+        field :location
       end
     end
 
