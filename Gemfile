@@ -46,6 +46,9 @@ gem 'simple_form'
 # Use paperclip for svg uploads
 gem 'paperclip'
 
+# Use fontawesome for icons
+gem 'font-awesome-sass'
+
 # Testing/Development gems
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
