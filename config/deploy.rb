@@ -1,8 +1,10 @@
 require 'yaml'
-config = YAML.load_file('config/config.yml')["deployment"] || {}
+config = YAML.load_file('config/config.yml')['deployment'] || {}
 
 # config valid only for current version of Capistrano
 lock '3.8.2'
+
+set :rails_env, fetch(:stage)
 
 set :application, 'LibNav-Rails'
 set :repo_url, config['repository']
@@ -42,4 +44,8 @@ set :passenger_restart_with_touch, true
 
 set :nvm_type, :user # or :system, depends on your nvm setup
 set :nvm_node, 'v6.9.5'
-set :nvm_map_bins, %w{node npm yarn}
+set :nvm_map_bins, %w[node npm yarn]
+
+namespace :deploy do
+  after :finishing, :seed
+end

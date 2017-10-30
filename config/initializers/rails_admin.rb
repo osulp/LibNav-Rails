@@ -12,12 +12,12 @@ RailsAdmin.config do |config|
 
     # CRUD
     new do
-      # except Floor
+      except Floor
     end
     show
     edit
     delete do
-      # except Floor
+      except Floor
     end
 
     # Provided by Rails_Admin. Not entirely sure what this does yet.
