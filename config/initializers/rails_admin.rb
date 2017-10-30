@@ -48,7 +48,7 @@ RailsAdmin.config do |config|
       edit do
         field :name
         field :value
-        field :location
+        field :locations
       end
     end
 

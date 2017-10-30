@@ -1,3 +1,3 @@
 class Location < ApplicationRecord
-  has_many :traits, dependent: :destroy
+  has_many :traits
 end
