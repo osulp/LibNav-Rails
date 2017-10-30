@@ -1,3 +1,3 @@
 class Trait < ApplicationRecord
-  belongs_to :location, optional: true
+  has_many :locations
 end
