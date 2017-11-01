@@ -25,7 +25,7 @@ RailsAdmin.config do |config|
     show_in_app
 
     # Configuration for Models controlled by rails_admin
-    config.included_models = %w[User Location Trait TraitType Floor]
+    config.included_models = %w[User Location Trait TraitType Floor Tag]
 
     # User Model Configuration. Allows editing of Email and Admin Status
     config.model 'User' do
@@ -40,6 +40,7 @@ RailsAdmin.config do |config|
       edit do
         field :name
         field :traits
+        field :tags
       end
     end
 
@@ -68,6 +69,12 @@ RailsAdmin.config do |config|
         field :map do
           thumb_method :medium
         end
+      end
+    end
+    config.model 'Tag' do
+      edit do
+        field :label
+        field :location
       end
     end
   end
