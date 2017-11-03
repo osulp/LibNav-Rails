@@ -1,0 +1,10 @@
+<section class="<%= get_floor_pane_class(floor) %>" id="<%= get_floor_id(floor) %>" role="tabpanel">
+  <h2><%= floor.name %></h2>
+  <% if floor.map.exists? %>
+    <h3>Map:</h3>
+    <%= image_tag floor.map.url, class: "w-75" %>
+  <% else %>
+    <p>No map available</p>
+  <% end %>
+  </p>This is some placeholder text</p>
+</section>
