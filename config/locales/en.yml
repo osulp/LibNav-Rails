@@ -31,3 +31,5 @@
 
 en:
   hello: "Hello world"
+  login:
+    alert: "Login is only for LibNav admins. Your OSU login will not work"
