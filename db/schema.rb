@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171101171746) do
+ActiveRecord::Schema.define(version: 20171107185904) do
 
   create_table "floors", force: :cascade do |t|
     t.string "name"
@@ -21,6 +21,10 @@ ActiveRecord::Schema.define(version: 20171101171746) do
     t.string "map_content_type"
     t.integer "map_file_size"
     t.datetime "map_updated_at"
+    t.integer "bounding_box_x"
+    t.integer "bounding_box_y"
+    t.integer "bounding_box_width"
+    t.integer "bounding_box_length"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -28,6 +32,8 @@ ActiveRecord::Schema.define(version: 20171101171746) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "trait_id"
+    t.integer "position_x"
+    t.integer "position_y"
     t.index ["trait_id"], name: "index_locations_on_trait_id"
   end
 
