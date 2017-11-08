@@ -50,6 +50,8 @@ gem 'paperclip'
 gem 'font-awesome-sass'
 
 gem 'react-rails'
+# Searching Library for model searching
+gem "scoped_search"
 
 # Testing/Development gems
 group :development, :test do
