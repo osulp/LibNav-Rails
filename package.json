@@ -15,6 +15,7 @@
     "react_ujs": "^2.4.1"
   },
   "devDependencies": {
+    "jest": "^21.2.1",
     "webpack-dev-server": "^2.9.4"
   }
 }
