@@ -1,0 +1,64 @@
+.navbar {
+  background-color: $beaver-orange;
+  flex-wrap: wrap;
+  padding: 0rem;
+  .navbar-brand {
+    margin: 0px;
+    padding: .5rem;
+    color: white;
+    flex-basis: 40%;
+    img {
+      height: 50px;
+    }
+  }
+  .nav-item {
+    a.nav-link {
+      font-size: 1.2em;
+      color: white;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  .navbar-collapse {
+    padding-right: 2rem;
+    display: flex;
+    justify-content: flex-end;
+    flex-basis: 60%;
+    &.collapse {
+      display: none;
+    }
+    &.show,
+    &.collapsing {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+  }
+  .navbar-toggler {
+    .fa-bars {
+      color: white;
+      &:hover {
+        color: black;
+      }
+    }
+  }
+  .btn-search {
+    color: white;
+    background: none;
+    &:hover {
+      color: black;
+    }
+  }
+  .sub-nav {
+    background-color: black;
+    flex-basis: 100%;
+    padding: .5rem;
+    h1 {
+      color: white;
+      font-size: 1.4em;
+      margin: 0;
+    }
+  }
+}
