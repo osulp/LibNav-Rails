@@ -3,7 +3,9 @@ import PropTypes from "prop-types"
 class MapView extends React.Component {
   render () {
     return (
-      <img src={this.props.mapUrl} />
+      <div>
+        <img src={this.props.mapUrl || this.props.map} />
+      </div>
     );
   }
 }
