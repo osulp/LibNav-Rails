@@ -5,6 +5,10 @@ class FloorsController < ApplicationController
     @floors = @floors.order('level ASC')
   end
 
+  def chosen_floor
+    @floor = Floor.find(params[:floor_number])
+  end
+
   private
 
   def set_floors

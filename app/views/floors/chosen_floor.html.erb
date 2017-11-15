@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-2 right-padding">
+    <div class="row">
+      <%= button_to "Floor 1", chosen_floor_path("1"), method: :get %>
+    </div>
+    <div class="row">
+      <%= button_to "Floor 2", chosen_floor_path("2"), method: :get %>
+    </div>
+    <div class="row">
+      <%= button_to "Floor 3", chosen_floor_path("3"), method: :get %>
+    </div>
+    <div class="row">
+      <%= button_to "Floor 4", chosen_floor_path("4"), method: :get %>
+    </div>
+    <div class="row">
+      <%= button_to "Floor 5", chosen_floor_path("5"), method: :get %>
+    </div>
+    <div class="row">
+      <%= button_to "Floor 6", chosen_floor_path("6"), method: :get %>
+    </div>
+  </div>
+  <div class="col-9">
+    </p><%= react_component("MapView", { map: @floor.map, floor: @floor }) %></p>
+  </div>
+</div>
