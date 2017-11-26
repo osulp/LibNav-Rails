@@ -15,10 +15,14 @@
         <%= link_to "Login", user_session_path, :class => "nav-link" if current_user.nil? %>
       </li>
     </ul>
-     <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-search my-2 my-sm-0" type="submit"><i class="fa fa-search fa-lg" label="search"></i></button>
-    </form>
+    <%= form_tag(root_path, :method => :get) do %>
+      <select name="search_type">
+        <option value="Tag">Tag</option>
+        <option value="Trait">Trait</option>
+      </select>
+      <%= text_field_tag :search, params[:search] %>
+      <%= submit_tag 'Search', :method => :get %>
+    <% end %>
   </div>
   <div class="sub-nav">
     <h1>LibNav::Rails</h1>

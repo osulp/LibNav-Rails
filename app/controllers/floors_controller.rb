@@ -3,6 +3,7 @@ class FloorsController < ApplicationController
 
   def index
     @floors = @floors.order('level ASC')
+    @search_results = params[:search_type].constantize.search_for(params[:search]) if params[:search]
   end
 
   def chosen_floor

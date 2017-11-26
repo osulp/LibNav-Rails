@@ -3,5 +3,6 @@
      
   </div>
   <div class="col-12">
-    </p><%= react_component("MapAndButtons", { user: current_user, floors: @floors, map: @floors.second.map }) %></p>
+    <%= render :partial => "search_results", locals: {results: @search_results} if @search_results %>
+    </p><%= react_component("MapAndButtons", { user: current_user, floors: @floors, map: @floors.second.map, search_results: @search_results }) %></p>
   </div>

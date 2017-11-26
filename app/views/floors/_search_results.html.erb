@@ -1,0 +1,4 @@
+<% results.each do |result| %>
+  <%= result.label if result.respond_to?(:label) %>
+  <%= result.name if result.respond_to?(:name) %>
+<% end %>
