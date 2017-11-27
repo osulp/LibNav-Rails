@@ -6,6 +6,7 @@
     "babel-preset-react": "^6.24.1",
     "bootstrap": "4.0.0-beta",
     "coffeescript": "1.12.7",
+    "d3": "^4.12.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
     "popper.js": "^1.12.6",
