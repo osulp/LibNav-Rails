@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171107185904) do
+ActiveRecord::Schema.define(version: 20171115192016) do
 
   create_table "floors", force: :cascade do |t|
     t.string "name"
@@ -24,7 +24,8 @@ ActiveRecord::Schema.define(version: 20171107185904) do
     t.integer "bounding_box_x"
     t.integer "bounding_box_y"
     t.integer "bounding_box_width"
-    t.integer "bounding_box_length"
+    t.integer "bounding_box_height"
+    t.integer "grid_size"
   end
 
   create_table "locations", force: :cascade do |t|
