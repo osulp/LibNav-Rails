@@ -17,6 +17,14 @@ class MapView extends React.Component {
         .attr("y", 0)
         .attr("width", 800)
         .attr("height", 800);
+
+      svgContainer.append("rect")
+        .attr("x", 200)
+        .attr("y", 400)
+        .attr("width", 100)
+        .attr("height", 100)
+        .style("fill", "yellow")
+        .style("opacity", .75);
     });
   }
 
