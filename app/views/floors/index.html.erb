@@ -4,7 +4,7 @@
   </div>
   <div class="col-12">
     <%= render :partial => "search_results", locals: {results: @search_results} if @search_results %>
-    </p><%= react_component("MapAndButtons", { user: current_user, floors: @floors, map: @floors.second.map, search_results: @search_results, locations: @locations }) %></p>
+    </p><%= react_component("MapAndButtons", { user: current_user, floors: @floors, map: @floors.second.map, search_result_floors: @search_result_floors, locations: @locations }) %></p>
     </p><%= react_component("MapEdit", Floor.second.get_edit_map_props)  %></p>
   </div>
   <%= csrf_meta_tag %>

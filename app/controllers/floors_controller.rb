@@ -6,6 +6,7 @@ class FloorsController < ApplicationController
     @floors = @floors.order('level ASC')
     @search_results = params[:search_type].constantize.search_for(params[:search]) if params[:search]
     @locations = extract_locations(@search_results) if @search_results
+    @search_result_floors = extract_floors(@locations.flatten) if @locations
   end
 
   def update
@@ -34,6 +35,14 @@ class FloorsController < ApplicationController
   end
 
   private
+
+  def extract_floors(locations)
+    @search_result_floors = []
+    locations.each do |location|
+      @search_result_floors << location.floor if !@search_result_floors.include?(location.floor)
+    end
+    @search_result_floors
+  end
 
   def extract_locations(search_results)
     @locations = []
