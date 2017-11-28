@@ -5,6 +5,7 @@ class FloorsController < ApplicationController
   def index
     @floors = @floors.order('level ASC')
     @search_results = params[:search_type].constantize.search_for(params[:search]) if params[:search]
+    @locations = extract_locations(@search_results) if @search_results
   end
 
   def update
@@ -33,6 +34,14 @@ class FloorsController < ApplicationController
   end
 
   private
+
+  def extract_locations(search_results)
+    @locations = []
+    search_results.each do |result|
+      @locations << result.locations if result.value == "Yes"
+    end
+    @locations
+  end
 
   def set_floor
     @floor = Floor.find(params[:id])

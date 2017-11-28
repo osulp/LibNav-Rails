@@ -1,4 +1,4 @@
 class Trait < ApplicationRecord
-  has_many :locations
+  has_and_belongs_to_many :locations
   scoped_search on: [:name]
 end
