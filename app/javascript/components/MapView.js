@@ -18,13 +18,16 @@ class MapView extends React.Component {
         .attr("width", 800)
         .attr("height", 800);
 
-      svgContainer.append("rect")
-        .attr("x", 200)
-        .attr("y", 400)
-        .attr("width", 100)
-        .attr("height", 100)
-        .style("fill", "yellow")
-        .style("opacity", .75);
+      var arrayLength = props.locations[0].length;
+      for (var i = 0; i < arrayLength; i++) {
+        svgContainer.append("rect")
+          .attr("x", props.locations[0][i].position_x)
+          .attr("y", props.locations[0][i].position_y)
+          .attr("width", props.locations[0][i].width)
+          .attr("height", props.locations[0][i].height)
+          .style("fill", "yellow")
+          .style("opacity", .75);
+      }
     });
   }
 
@@ -37,6 +40,7 @@ class MapView extends React.Component {
   }
 }
 MapView.propTypes = {
-  mapUrl: PropTypes.string
+  mapUrl: PropTypes.string,
+  locations: PropTypes.array
 };
 export default MapView

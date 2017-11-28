@@ -39,6 +39,10 @@ RailsAdmin.config do |config|
     config.model 'Location' do
       edit do
         field :name
+        field :position_x
+        field :position_y
+        field :width
+        field :height
         field :traits
         field :tags
       end

@@ -17,7 +17,7 @@ class MapAndButtons extends React.Component {
             })}
           </div>
           <div className="col-9">
-            <MapView mapUrl={this.props.map}/>
+            <MapView mapUrl={this.props.map} locations={this.props.locations}/>
           </div>
         </div>
       </main>

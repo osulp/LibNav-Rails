@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171115192016) do
+ActiveRecord::Schema.define(version: 20171128190737) do
 
   create_table "floors", force: :cascade do |t|
     t.string "name"
@@ -32,10 +32,16 @@ ActiveRecord::Schema.define(version: 20171115192016) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "trait_id"
     t.integer "position_x"
     t.integer "position_y"
-    t.index ["trait_id"], name: "index_locations_on_trait_id"
+    t.integer "width"
+    t.integer "height"
+  end
+
+  create_table "locations_traits", id: false, force: :cascade do |t|
+    t.integer "location_id", null: false
+    t.integer "trait_id", null: false
+    t.index ["location_id", "trait_id"], name: "index_locations_traits_on_location_id_and_trait_id"
   end
 
   create_table "tags", force: :cascade do |t|
@@ -58,8 +64,6 @@ ActiveRecord::Schema.define(version: 20171115192016) do
     t.string "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "location_id"
-    t.index ["location_id"], name: "index_traits_on_location_id"
   end
 
   create_table "users", force: :cascade do |t|
