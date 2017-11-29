@@ -3,6 +3,18 @@ import PropTypes from "prop-types"
 import FloorButton from "./FloorButton"
 import MapView from "./MapView"
 class MapAndButtons extends React.Component {
+  searched_floor(search_result_floors, floor_index) {
+
+    if(search_result_floors == null){
+      return false
+    } else if (search_result_floors[floor_index]) {
+      return true
+    } else {
+      return false
+    }
+
+  }
+
   render () {
     return (
       <main className="floor-index">
@@ -11,7 +23,7 @@ class MapAndButtons extends React.Component {
             {this.props.floors.map((floor, i) => {
               return (
                 <div key={`floor.${i}`} className="row right-padding">
-                  <FloorButton key={`floor.${i}`} floor={floor}/>
+                  <FloorButton key={`floor.${i}`} floor={floor} was_searched_floor={this.searched_floor(this.props.search_result_floors, i)}/>
                 </div>
               )
             })}

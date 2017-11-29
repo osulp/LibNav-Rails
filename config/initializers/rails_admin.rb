@@ -45,6 +45,7 @@ RailsAdmin.config do |config|
         field :height
         field :traits
         field :tags
+        field :floor
       end
     end
 
@@ -70,6 +71,7 @@ RailsAdmin.config do |config|
       edit do
         field :name
         field :level
+        field :locations
         field :map do
           thumb_method :medium
         end
