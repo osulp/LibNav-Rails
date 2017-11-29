@@ -54,8 +54,14 @@ class FloorsController < ApplicationController
 
   def extract_locations(search_results)
     @locations = []
-    search_results.each do |result|
-      @locations << result.locations if result.value == "Yes"
+    if search_results.first.is_a?(Trait)
+      search_results.each do |result|
+        @locations << result.locations if result.value == "Yes"
+      end
+    else
+      search_results.each do |result|
+        @locations << result.location
+      end
     end
     @locations
   end

@@ -28,8 +28,18 @@ class MapView extends React.Component {
             .attr("height", props.locations[0][i].height)
             .style("fill", "yellow")
             .style("opacity", .75);
-        }
+        }      
       }
+      if (props.locations[0].floor_id == 2) {
+        svgContainer.append("rect")
+          .attr("x", props.locations[0].position_x)
+          .attr("y", props.locations[0].position_y)
+          .attr("width", props.locations[0].width)
+          .attr("height", props.locations[0].height)
+          .style("fill", "yellow")
+          .style("opacity", .75);
+      }
+
     });
   }
 
