@@ -1,6 +1,7 @@
 class FloorsController < ApplicationController
   before_action :set_floors, only: %i[index]
   before_action :set_floor, only: %i[update]
+  # before_action :set_locations, only: %i[update]
 
   def index
     @floors = @floors.order('level ASC')
@@ -10,9 +11,20 @@ class FloorsController < ApplicationController
   end
 
   def update
+    # puts "Floor: #{@floor}"
+    # puts "Locations: #{@floor.locations.each { |loc| puts loc }}"
+    # byebug
+    # floor_params.locations_attributes.each do |location|
+    #   Location.update(location)
+    # end
     if @floor.update(floor_params)
+      floor_params[:locations_attributes].each_pair do |_k, location|
+        # byebug
+        Location.find(location[:id]).update_attributes(location)
+      end
       respond_to do |format|
         format.json do
+          puts '== responding to JSON'
           render json: @floor
         end
       end
@@ -26,11 +38,8 @@ class FloorsController < ApplicationController
   def floor_params
     params.require(:floor).permit(
       :id,
-      :bounding_box_x,
-      :bounding_box_y,
-      :bounding_box_height,
-      :bounding_box_width,
-      :grid_size
+      :name,
+      locations_attributes: %i[id position_x position_y height width]
     )
   end
 
@@ -47,7 +56,7 @@ class FloorsController < ApplicationController
   def extract_floors(locations)
     @search_result_floors = []
     locations.each do |location|
-      @search_result_floors << location.floor if !@search_result_floors.include?(location.floor)
+      @search_result_floors << location.floor unless @search_result_floors.include?(location.floor)
     end
     normalize_search_result_floors(@search_result_floors)
   end
@@ -68,6 +77,11 @@ class FloorsController < ApplicationController
 
   def set_floor
     @floor = Floor.find(params[:id])
+    # byebug
+  end
+
+  def set_locations
+    @floor.locations = Location.where(floor: @floor)
   end
 
   def set_floors
