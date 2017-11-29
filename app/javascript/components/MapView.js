@@ -20,13 +20,15 @@ class MapView extends React.Component {
 
       var arrayLength = props.locations[0].length;
       for (var i = 0; i < arrayLength; i++) {
-        svgContainer.append("rect")
-          .attr("x", props.locations[0][i].position_x)
-          .attr("y", props.locations[0][i].position_y)
-          .attr("width", props.locations[0][i].width)
-          .attr("height", props.locations[0][i].height)
-          .style("fill", "yellow")
-          .style("opacity", .75);
+        if (props.locations[0][i].floor_id == 2){
+          svgContainer.append("rect")
+            .attr("x", props.locations[0][i].position_x)
+            .attr("y", props.locations[0][i].position_y)
+            .attr("width", props.locations[0][i].width)
+            .attr("height", props.locations[0][i].height)
+            .style("fill", "yellow")
+            .style("opacity", .75);
+        }
       }
     });
   }

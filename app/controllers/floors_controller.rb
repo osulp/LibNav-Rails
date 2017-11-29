@@ -36,12 +36,20 @@ class FloorsController < ApplicationController
 
   private
 
+  def normalize_search_result_floors(floors)
+    @normalized_floors = [nil, nil, nil, nil, nil, nil]
+    floors.each do |floor|
+      @normalized_floors[floor.level - 1] = floor
+    end
+    @normalized_floors
+  end
+
   def extract_floors(locations)
     @search_result_floors = []
     locations.each do |location|
       @search_result_floors << location.floor if !@search_result_floors.include?(location.floor)
     end
-    @search_result_floors
+    normalize_search_result_floors(@search_result_floors)
   end
 
   def extract_locations(search_results)
