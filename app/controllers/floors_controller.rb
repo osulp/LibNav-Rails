@@ -5,6 +5,7 @@ class FloorsController < ApplicationController
 
   def index
     @floors = @floors.order('level ASC')
+    @maps = extract_maps_from_floors(@floors)
     @search_results = params[:search_type].constantize.search_for(params[:search]) if params[:search]
     @locations = extract_locations(@search_results) if @search_results
     @search_result_floors = extract_floors(@locations.flatten) if @locations
@@ -51,6 +52,14 @@ class FloorsController < ApplicationController
       @normalized_floors[floor.level - 1] = floor
     end
     @normalized_floors
+  end
+
+  def extract_maps_from_floors(floors)
+    @maps = []
+    floors.each do |floor|
+      @maps << floor.map
+    end
+    @maps
   end
 
   def extract_floors(locations)

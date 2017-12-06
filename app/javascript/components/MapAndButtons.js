@@ -44,7 +44,7 @@ class MapAndButtons extends React.Component {
             })}
           </div>
           <div className="col-9">
-            <MapView mapUrl={this.props.map} 
+            <MapView mapUrl={this.props.maps[this.state.current_selected_floor - 1]}
                      locations={this.props.locations} 
                      current_selected_floor={this.state.current_selected_floor}/>
           </div>
