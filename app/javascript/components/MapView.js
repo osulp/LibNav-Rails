@@ -7,12 +7,18 @@ class MapView extends React.Component {
   render_svg(props) {
     $(document).ready(function() {
 
+      if(d3.select('svg')) {
+        d3.select('svg').remove();
+      }
+
       var svgContainer = d3.select(".svgContainer").append("svg")
         .attr("width", 800)
         .attr("height", 800);
 
+
       svgContainer.append('svg:image')
-        .attr("xlink:href", props.mapUrl || props.map)  // can also add svg file here
+        .attr("class", "map_image")
+        .attr("xlink:href", props.mapUrl)
         .attr("x", 0)
         .attr("y", 0)
         .attr("width", 800)
@@ -20,7 +26,7 @@ class MapView extends React.Component {
 
       var arrayLength = props.locations[0].length;
       for (var i = 0; i < arrayLength; i++) {
-        if (props.locations[0][i].floor_id == 2){
+        if (props.locations[0][i].floor_id == this.props.current_selected_floor){
           svgContainer.append("rect")
             .attr("x", props.locations[0][i].position_x)
             .attr("y", props.locations[0][i].position_y)
@@ -30,7 +36,7 @@ class MapView extends React.Component {
             .style("opacity", .75);
         }      
       }
-      if (props.locations[0].floor_id == 2) {
+      if (props.locations[0].floor_id == this.props.current_selected_floor) {
         svgContainer.append("rect")
           .attr("x", props.locations[0].position_x)
           .attr("y", props.locations[0].position_y)
@@ -53,6 +59,7 @@ class MapView extends React.Component {
 }
 MapView.propTypes = {
   mapUrl: PropTypes.string,
-  locations: PropTypes.array
+  locations: PropTypes.array,
+  current_selected_floor: PropTypes.number
 };
 export default MapView
