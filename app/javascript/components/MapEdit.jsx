@@ -16,8 +16,8 @@ class EditMap extends React.Component {
     locations: PropTypes.array
   }
   static defaultProps = {
-    bounding_box_height: 500,
-    bounding_box_width: 700,
+    bounding_box_height: 800,
+    bounding_box_width: 800,
     bounding_box_x: 0,
     bounding_box_y: 0,
     grid_size: 10,
@@ -53,8 +53,8 @@ class EditMap extends React.Component {
     let diffY = d3.event.dy;
     console.log('dragging circle');
     this.setState({
-      bounding_box_width: Math.max(Math.min(this.state.bounding_box_width + diffX, 700), 0),
-      bounding_box_height: Math.max(Math.min(this.state.bounding_box_height + diffY, 500), 0)
+      bounding_box_width: Math.max(Math.min(this.state.bounding_box_width + diffX, 800), 0),
+      bounding_box_height: Math.max(Math.min(this.state.bounding_box_height + diffY, 800), 0)
     });
   }
 
@@ -63,8 +63,8 @@ class EditMap extends React.Component {
     // let diffX = d3.event.dx;
     // let diffY = d3.event.dy;
     // this.setState({
-    //   bounding_box_y: Math.max(Math.min(this.state.bounding_box_y + diffY, 500 - this.state.bounding_box_height), 0),
-    //   bounding_box_x: Math.max(Math.min(this.state.bounding_box_x + diffX, 700 - this.state.bounding_box_width), 0)
+    //   bounding_box_y: Math.max(Math.min(this.state.bounding_box_y + diffY, 800 - this.state.bounding_box_height), 0),
+    //   bounding_box_x: Math.max(Math.min(this.state.bounding_box_x + diffX, 800 - this.state.bounding_box_width), 0)
     // });
     d3.select(this)
       .attr("x", d.x = d3.event.x)
@@ -124,7 +124,7 @@ class EditMap extends React.Component {
       <div className='map' >
         <div className="row">
           <div className="col">
-            <svg height="500px" width="700px" id={`${this.props.id}-svg`}>
+            <svg height="800px" width="800px" id={`${this.props.id}-svg`}>
               {/* <pattern id="grid" width={this.state.grid_size + "px"} height={this.state.grid_size + "px"} patternUnits="userSpaceOnUse">
                 <path d="M 100 0 L 0 0 0 100" fill="none" stroke="gray" strokeWidth="1" />
               </pattern>

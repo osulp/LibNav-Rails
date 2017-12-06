@@ -50,8 +50,8 @@ class LocationBox extends React.Component {
     let diffX = d3.event.dx;
     let diffY = d3.event.dy;
     this.setState({
-      width: Math.max(Math.min(this.state.width + diffX, 700), 0),
-      height: Math.max(Math.min(this.state.height + diffY, 500), 0)
+      width: Math.max(Math.min(this.state.width + diffX, 800), 0),
+      height: Math.max(Math.min(this.state.height + diffY, 800), 0)
     });
   }
 
@@ -59,8 +59,8 @@ class LocationBox extends React.Component {
     let diffX = d3.event.dx;
     let diffY = d3.event.dy;
     this.setState({
-      position_y: Math.max(Math.min(this.state.position_y + diffY, 500 - this.state.height), 0),
-      position_x: Math.max(Math.min(this.state.position_x + diffX, 700 - this.state.width), 0)
+      position_y: Math.max(Math.min(this.state.position_y + diffY, 800 - this.state.height), 0),
+      position_x: Math.max(Math.min(this.state.position_x + diffX, 800 - this.state.width), 0)
     });
   }
 

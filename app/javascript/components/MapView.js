@@ -7,11 +7,12 @@ class MapView extends React.Component {
   render_svg(props) {
     $(document).ready(function() {
 
-      if(d3.select('svg')) {
-        d3.select('svg').remove();
+      if(d3.select('.map-svg')) {
+        d3.select('.map-svg').remove();
       }
 
       var svgContainer = d3.select(".svgContainer").append("svg")
+        .attr("class", "map-svg")
         .attr("width", 800)
         .attr("height", 800);
 
@@ -24,9 +25,10 @@ class MapView extends React.Component {
         .attr("width", 800)
         .attr("height", 800);
 
+
       var arrayLength = props.locations[0].length;
       for (var i = 0; i < arrayLength; i++) {
-        if (props.locations[0][i].floor_id == this.props.current_selected_floor){
+        if (props.locations[0][i].floor_id == props.current_selected_floor){
           svgContainer.append("rect")
             .attr("x", props.locations[0][i].position_x)
             .attr("y", props.locations[0][i].position_y)
@@ -36,7 +38,7 @@ class MapView extends React.Component {
             .style("opacity", .75);
         }      
       }
-      if (props.locations[0].floor_id == this.props.current_selected_floor) {
+      if (props.locations[0].floor_id == props.current_selected_floor) {
         svgContainer.append("rect")
           .attr("x", props.locations[0].position_x)
           .attr("y", props.locations[0].position_y)
@@ -60,6 +62,6 @@ class MapView extends React.Component {
 MapView.propTypes = {
   mapUrl: PropTypes.string,
   locations: PropTypes.array,
-  current_selected_floor: PropTypes.number
+  current_selected_floor: PropTypes.string
 };
 export default MapView
