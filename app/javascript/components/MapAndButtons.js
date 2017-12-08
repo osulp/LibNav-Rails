@@ -18,6 +18,14 @@ class MapAndButtons extends React.Component {
     this.state = { current_selected_floor: 2 }
   }
 
+  componentDidMount = () => {
+    $(document).ready(() => {
+      $('.bounding-box').each((index, element) => {
+        let name = element.dataset.name;
+        $(element).tooltip({ title: name });
+      })
+    });
+  }
   searched_floor(search_result_floors, floor_index) {
     if (search_result_floors == null) {
       return false

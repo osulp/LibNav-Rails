@@ -5,9 +5,9 @@ import * as d3 from "d3";
 class MapView extends React.Component {
 
   render_svg(props) {
-    $(document).ready(function() {
+    $(document).ready(function () {
 
-      if(d3.select('.map-svg')) {
+      if (d3.select('.map-svg')) {
         d3.select('.map-svg').remove();
       }
 
@@ -26,32 +26,34 @@ class MapView extends React.Component {
         .attr("height", 800);
 
 
-      var arrayLength = props.locations[0].length;
+      var arrayLength = props.locations.length;
       for (var i = 0; i < arrayLength; i++) {
-        if (props.locations[0][i].floor_id == props.current_selected_floor){
+        if (props.locations[i].floor_id == props.current_selected_floor) {
           svgContainer.append("rect")
-            .attr("x", props.locations[0][i].position_x)
-            .attr("y", props.locations[0][i].position_y)
-            .attr("width", props.locations[0][i].width)
-            .attr("height", props.locations[0][i].height)
+            .attr("x", props.locations[i].position_x)
+            .attr("y", props.locations[i].position_y)
+            .attr("width", props.locations[i].width)
+            .attr("height", props.locations[i].height)
+            .attr("class", "bounding-box")
+            .attr("data-name", props.locations[i].name)
             .style("fill", "yellow")
             .style("opacity", .75);
-        }      
+        }
       }
-      if (props.locations[0].floor_id == props.current_selected_floor) {
-        svgContainer.append("rect")
-          .attr("x", props.locations[0].position_x)
-          .attr("y", props.locations[0].position_y)
-          .attr("width", props.locations[0].width)
-          .attr("height", props.locations[0].height)
-          .style("fill", "yellow")
-          .style("opacity", .75);
-      }
+      // if (props.locations[0].floor_id == props.current_selected_floor) {
+      //   svgContainer.append("rect")
+      //     .attr("x", props.locations[0].position_x)
+      //     .attr("y", props.locations[0].position_y)
+      //     .attr("width", props.locations[0].width)
+      //     .attr("height", props.locations[0].height)
+      //     .style("fill", "yellow")
+      //     .style("opacity", .75);
+      // }
 
     });
   }
 
-  render () {
+  render() {
     return (
       <div className="svgContainer">
         {this.render_svg(this.props)}

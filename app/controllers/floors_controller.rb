@@ -9,7 +9,7 @@ class FloorsController < ApplicationController
     @search_results = params[:search_type].constantize.search_for(params[:search]) if params[:search]
     if @search_results
       @locations = extract_locations(@search_results) if @search_results
-      @search_result_floors = extract_floors(@locations.flatten) if @locations
+      @search_result_floors = extract_floors(@locations) if @locations
     else
       @locations = Location.all
     end
@@ -78,7 +78,7 @@ class FloorsController < ApplicationController
     @locations = []
     if search_results.first.is_a?(Trait)
       search_results.each do |result|
-        @locations << result.locations if result.value == "Yes"
+        @locations.concat(result.locations) if result.value == 'Yes'
       end
     else
       search_results.each do |result|

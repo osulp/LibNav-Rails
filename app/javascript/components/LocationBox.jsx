@@ -10,6 +10,7 @@ class LocationBox extends React.Component {
     position_y: PropTypes.number,
     width: PropTypes.number,
     height: PropTypes.number,
+    name: PropTypes.strong,
     id: PropTypes.number
   }
 
@@ -34,13 +35,12 @@ class LocationBox extends React.Component {
 
   componentDidMount = () => {
     this.baseElement = d3.select(`#location-box-${this.props.id}`);
-    console.log(this.baseElement);
-    console.log($(`#location-box-${this.props.id}`).attr('id'));
-    // this.baseElement
+    $(`#location-box-${this.props.id}`).find('.bounding-box').on('mousedown', (event) => {
+      $(`#location-box-${this.props.id}`).find('.bounding-box').tooltip('hide')
+    });
     d3.select(`#location-box-${this.props.id}`).select('rect')
       .call(d3.drag()
         .on('drag', this.draggedBox));
-    // this.baseElement
     d3.select(`#location-box-${this.props.id}`).select('circle')
       .call(d3.drag()
         .on('drag', this.draggedCircle));
@@ -67,7 +67,7 @@ class LocationBox extends React.Component {
   render = () => {
     return (
       <g className="location-box" id={`location-box-${this.props.id}`}>
-        <rect className="bounding-box" height={this.state.height + "px"} width={this.state.width + "px"} x={this.state.position_x + "px"} y={this.state.position_y} />
+        <rect className="bounding-box edit" data-name={this.props.name} height={this.state.height + "px"} width={this.state.width + "px"} x={this.state.position_x + "px"} y={this.state.position_y} />
         <circle className="drag-circle" r="8px" cx={this.state.position_x + this.state.width + "px"} cy={this.state.position_y + this.state.height + "px"} />
       </g>
     )
