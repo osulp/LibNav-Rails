@@ -23,6 +23,7 @@ class MapAndButtons extends React.Component {
       $('.bounding-box').each((index, element) => {
         let name = element.dataset.name;
         $(element).tooltip({ title: name });
+        $(element).attr('tabindex', '0');
       })
     });
   }

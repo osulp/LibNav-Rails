@@ -38,12 +38,72 @@ class LocationBox extends React.Component {
     $(`#location-box-${this.props.id}`).find('.bounding-box').on('mousedown', (event) => {
       $(`#location-box-${this.props.id}`).find('.bounding-box').tooltip('hide')
     });
+    $(`#location-box-${this.props.id}`).find('.bounding-box').on('keydown', this.handleKeyPress);
     d3.select(`#location-box-${this.props.id}`).select('rect')
       .call(d3.drag()
         .on('drag', this.draggedBox));
     d3.select(`#location-box-${this.props.id}`).select('circle')
       .call(d3.drag()
         .on('drag', this.draggedCircle));
+  }
+
+  handleKeyPress = (event) => {
+    console.log("pressed");
+    let change = 10;
+    if (event.shiftKey) {
+      change = 1;
+    }
+    if (event.ctrlKey) {
+      if (event.key == "ArrowUp") {
+        this.setState({
+          height: Math.max(Math.min(this.state.height - change, 800), 0)
+        });
+        event.preventDefault();
+      } else if (event.key == "ArrowDown") {
+        this.setState({
+          height: Math.max(Math.min(this.state.height + change, 800), 0)
+        });
+        event.preventDefault();
+      }
+      if (event.key == "ArrowLeft") {
+        this.setState({
+          width: Math.max(Math.min(this.state.width - change, 800), 0)
+        });
+        event.preventDefault();
+      } else if (event.key == "ArrowRight") {
+        this.setState({
+          width: Math.max(Math.min(this.state.width + change, 800), 0)
+        });
+        event.preventDefault();
+      } else if (event.key == "-") {
+        this.setState({
+
+        })
+      }
+    } else {
+      if (event.key == "ArrowUp") {
+        this.setState({
+          position_y: Math.max(Math.min(this.state.position_y - change, 800 - this.state.height), 0)
+        });
+        event.preventDefault();
+      } else if (event.key == "ArrowDown") {
+        this.setState({
+          position_y: Math.max(Math.min(this.state.position_y + change, 800 - this.state.height), 0)
+        });
+        event.preventDefault();
+      }
+      if (event.key == "ArrowLeft") {
+        this.setState({
+          position_x: Math.max(Math.min(this.state.position_x - change, 800 - this.state.width), 0)
+        });
+        event.preventDefault();
+      } else if (event.key == "ArrowRight") {
+        this.setState({
+          position_x: Math.max(Math.min(this.state.position_x + change, 800 - this.state.width), 0)
+        });
+        event.preventDefault();
+      }
+    }
   }
 
   draggedCircle = d => {
