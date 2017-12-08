@@ -7,8 +7,12 @@ class FloorsController < ApplicationController
     @floors = @floors.order('level ASC')
     @maps = extract_maps_from_floors(@floors)
     @search_results = params[:search_type].constantize.search_for(params[:search]) if params[:search]
-    @locations = extract_locations(@search_results) if @search_results
-    @search_result_floors = extract_floors(@locations.flatten) if @locations
+    if @search_results
+      @locations = extract_locations(@search_results) if @search_results
+      @search_result_floors = extract_floors(@locations.flatten) if @locations
+    else
+      @locations = Location.all
+    end
   end
 
   def update
