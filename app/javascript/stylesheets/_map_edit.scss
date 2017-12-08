@@ -1,8 +1,11 @@
 .drag-circle {
   cursor: nwse-resize;
+  fill: black;
+  stroke: white;
+  stroke-width: 2px;
 }
 
-.bounding-box {
+.bounding-box.edit {
   cursor: move;
   fill: $beaver-orange;
   opacity: .75;

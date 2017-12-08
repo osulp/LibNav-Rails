@@ -25,7 +25,7 @@ class EditMap extends React.Component {
     super(props);
     this.state = {
       locations: this.props.locations.filter(location => location.floor_id == this.props.id),
-      locationsBoxes: this.props.locations.map((location => location.floor_id == this.props.id ? (<LocationBox key={location.id} position_x={location.position_x} position_y={location.position_y} width={location.width} height={location.height} id={location.id} />) : null))
+      locationsBoxes: this.props.locations.map((location => location.floor_id == this.props.id ? (<LocationBox key={location.id} name={location.name} position_x={location.position_x} position_y={location.position_y} width={location.width} height={location.height} id={location.id} />) : null))
     }
     console.log(this.state.locationsBoxes);
   }
