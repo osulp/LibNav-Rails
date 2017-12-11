@@ -6,12 +6,14 @@ class FloorsController < ApplicationController
   def index
     @floors = @floors.order('level ASC')
     @maps = extract_maps_from_floors(@floors)
-    @search_results = params[:search_type].constantize.search_for(params[:search]) if params[:search]
+    @search_results = process_search(params[:search]) if params[:search]
+    @search_results = @search_results.flatten if @search_results
     if @search_results
       @locations = extract_locations(@search_results) if @search_results
       @search_result_floors = extract_floors(@locations) if @locations
+      @edit_locations = Location.all
     else
-      @locations = Location.all
+      @edit_locations = Location.all
     end
   end
 
@@ -49,6 +51,14 @@ class FloorsController < ApplicationController
   end
 
   private
+
+  def process_search(search_params)
+    @search_results = []
+    @search_results << Location.search_for(search_params)
+    @search_results << Tag.search_for(search_params)
+    @search_results << Trait.search_for(search_params)
+    @search_results
+  end
 
   def normalize_search_result_floors(floors)
     @normalized_floors = [nil, nil, nil, nil, nil, nil]
