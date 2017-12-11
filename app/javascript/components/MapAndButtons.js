@@ -1,9 +1,23 @@
 import React from "react"
 import PropTypes from "prop-types"
 import FloorButton from "./FloorButton"
+import ToggleEditButton from './ToggleEditButton'
 import MapView from "./MapView"
 import MapEdit from "./MapEdit"
+import Map from "./Map"
 class MapAndButtons extends React.Component {
+
+  toggleHandler(e, edit_state) {
+    if(edit_state == true) {
+      this.setState({
+        edit_mode: false
+      })
+    } else {
+      this.setState({
+        edit_mode: true
+      })
+    }
+  }
 
   handler(e, selected_floor) {
     e.preventDefault()
@@ -15,7 +29,8 @@ class MapAndButtons extends React.Component {
   constructor(props) {
     super(props)
     this.handler = this.handler.bind(this)
-    this.state = { current_selected_floor: 2 }
+    this.toggleHandler = this.toggleHandler.bind(this)
+    this.state = { current_selected_floor: 2, edit_mode: false }
   }
 
   componentDidMount = () => {
@@ -37,6 +52,20 @@ class MapAndButtons extends React.Component {
     }
   }
 
+  render_map_view(){
+    if(this.state.edit_mode == true){
+      return <MapEdit mapUrl={this.props.maps[this.state.current_selected_floor - 1]}
+              locations={this.props.edit_locations}
+              id={this.props.floors[this.state.current_selected_floor - 1].id.toString()}
+              current_selected_floor={this.state.current_selected_floor.toString()} />
+    }else{
+      return <MapView mapUrl={this.props.maps[this.state.current_selected_floor - 1]}
+              locations={this.props.locations}
+              current_selected_floor={this.state.current_selected_floor.toString()} />
+
+    }
+  }
+
   render() {
     return (
       <main className="floor-index">
@@ -52,12 +81,10 @@ class MapAndButtons extends React.Component {
                 </div>
               )
             })}
+            <ToggleEditButton handler={this.toggleHandler} edit_state={this.state.edit_mode} />
           </div>
           <div className="col-9">
-            <MapEdit mapUrl={this.props.maps[this.state.current_selected_floor - 1]}
-              locations={this.props.locations}
-              id={this.props.floors[this.state.current_selected_floor - 1].id.toString()}
-              current_selected_floor={this.state.current_selected_floor.toString()} />
+            {this.render_map_view()}
           </div>
         </div>
       </main>
