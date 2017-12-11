@@ -39,7 +39,7 @@ class EditMap extends React.Component {
     this.render_svg(nextProps.mapUrl);
     this.setState({
       locations: nextProps.locations.filter(location => location.floor_id == nextProps.id),
-      locationsBoxes: nextProps.locations.map((location => location.floor_id == nextProps.id ? (<LocationBox key={location.id} position_x={location.position_x} position_y={location.position_y} width={location.width} height={location.height} id={location.id} />) : null))
+      locationsBoxes: nextProps.locations.map((location => location.floor_id == nextProps.id ? (<LocationBox key={location.id} name={location.name} position_x={location.position_x} position_y={location.position_y} width={location.width} height={location.height} id={location.id} />) : null))
     })
   }
   componentDidMount = () => {
@@ -89,8 +89,6 @@ class EditMap extends React.Component {
       },
       data: {
         floor: {
-          // id: floorId,
-          name: "Second Floor",
           locations_attributes: locations_attributes
         }
       }
