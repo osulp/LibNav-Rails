@@ -40,6 +40,11 @@ class MapView extends React.Component {
             .style("opacity", .75);
         }
       }
+      $('.bounding-box').each((index, element) => {
+        let name = element.dataset.name;
+        $(element).tooltip({ title: name });
+        $(element).attr('tabindex', '0');
+      })
     });
   }
 

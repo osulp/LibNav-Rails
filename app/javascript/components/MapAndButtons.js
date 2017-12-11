@@ -8,7 +8,7 @@ import Map from "./Map"
 class MapAndButtons extends React.Component {
 
   toggleHandler(e, edit_state) {
-    if(edit_state == true) {
+    if (edit_state == true) {
       this.setState({
         edit_mode: false
       })
@@ -33,15 +33,6 @@ class MapAndButtons extends React.Component {
     this.state = { current_selected_floor: 2, edit_mode: false }
   }
 
-  componentDidMount = () => {
-    $(document).ready(() => {
-      $('.bounding-box').each((index, element) => {
-        let name = element.dataset.name;
-        $(element).tooltip({ title: name });
-        $(element).attr('tabindex', '0');
-      })
-    });
-  }
   searched_floor(search_result_floors, floor_index) {
     if (search_result_floors == null) {
       return false
@@ -52,16 +43,16 @@ class MapAndButtons extends React.Component {
     }
   }
 
-  render_map_view(){
-    if(this.state.edit_mode == true){
+  render_map_view() {
+    if (this.state.edit_mode == true) {
       return <MapEdit mapUrl={this.props.maps[this.state.current_selected_floor - 1]}
-              locations={this.props.edit_locations}
-              id={this.props.floors[this.state.current_selected_floor - 1].id.toString()}
-              current_selected_floor={this.state.current_selected_floor.toString()} />
-    }else{
+        locations={this.props.edit_locations}
+        id={this.props.floors[this.state.current_selected_floor - 1].id.toString()}
+        current_selected_floor={this.state.current_selected_floor.toString()} />
+    } else {
       return <MapView mapUrl={this.props.maps[this.state.current_selected_floor - 1]}
-              locations={this.props.locations}
-              current_selected_floor={this.state.current_selected_floor.toString()} />
+        locations={this.props.locations}
+        current_selected_floor={this.state.current_selected_floor.toString()} />
 
     }
   }

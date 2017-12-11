@@ -45,6 +45,9 @@ class LocationBox extends React.Component {
     d3.select(`#location-box-${this.props.id}`).select('circle')
       .call(d3.drag()
         .on('drag', this.draggedCircle));
+    let box = $(`#location-box-${this.props.id}`).find('.bounding-box');
+    box.tooltip({ title: this.props.name });
+    box.attr('tabindex', '0');
   }
 
   handleKeyPress = (event) => {
