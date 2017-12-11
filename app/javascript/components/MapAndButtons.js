@@ -59,7 +59,7 @@ class MapAndButtons extends React.Component {
 
   render() {
     return (
-      <main className="floor-index">
+      <main className="floor-index" id="main-content">
         <div className="row">
           <div className="col-xl-3 col-lg-4 col-3">
             {this.props.floors.map((floor, i) => {
