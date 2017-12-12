@@ -75,6 +75,7 @@ class MapAndButtons extends React.Component {
             <ToggleEditButton handler={this.toggleHandler} edit_state={this.state.edit_mode} />
           </div>
           <div className="col-9">
+            <h2>{this.props.floors[this.state.current_selected_floor - 1].name}</h2>
             {this.render_map_view()}
           </div>
         </div>
