@@ -66,6 +66,7 @@ class MapAndButtons extends React.Component {
               return (
                 <div key={`floor.${i}`} className="row right-padding">
                   <FloorButton key={`floor.${i}`}
+                    active={i == this.state.current_selected_floor - 1}
                     floor={floor}
                     was_searched_floor={this.searched_floor(this.props.search_result_floors, i)}
                     handler={this.handler} />
