@@ -60,8 +60,8 @@ class MapAndButtons extends React.Component {
   render() {
     return (
       <main className="floor-index" id="main-content">
-        <div className="row">
-          <div className="col-xl-3 col-lg-4 col-3">
+        <div className="row map-and-buttons">
+          <div className="buttons-row">
             {this.props.floors.map((floor, i) => {
               return (
                 <div key={`floor.${i}`} className="row right-padding">
@@ -72,10 +72,10 @@ class MapAndButtons extends React.Component {
                 </div>
               )
             })}
-            <ToggleEditButton handler={this.toggleHandler} edit_state={this.state.edit_mode} />
           </div>
-          <div className="col-9">
+          <div className="map-row">
             <h2>{this.props.floors[this.state.current_selected_floor - 1].name}</h2>
+            <ToggleEditButton handler={this.toggleHandler} edit_state={this.state.edit_mode} />
             {this.render_map_view()}
           </div>
         </div>
