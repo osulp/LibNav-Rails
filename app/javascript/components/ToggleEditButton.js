@@ -2,12 +2,12 @@ import React from "react"
 import PropTypes from "prop-types"
 class ToggleEditButton extends React.Component {
 
-  render () {
+  render() {
     return (
       <button type="button"
-              onClick={(e) => this.props.handler(e, this.props.edit_state)} 
-              className="btn btn-primary center-block">
-        Edit
+        onClick={(e) => this.props.handler(e, this.props.edit_state)}
+        className="btn btn-primary center-block">
+        {this.props.edit_state ? "Exit" : "Edit"}
       </button>
     );
   }
