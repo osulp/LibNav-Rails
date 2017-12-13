@@ -26,26 +26,29 @@ class MapView extends React.Component {
         .attr("height", 800);
 
 
-      var arrayLength = props.locations.length;
-      for (var i = 0; i < arrayLength; i++) {
-        if (props.locations[i].floor_id == props.current_selected_floor) {
-          svgContainer.append("rect")
-            .attr("x", props.locations[i].position_x)
-            .attr("y", props.locations[i].position_y)
-            .attr("width", props.locations[i].width)
-            .attr("height", props.locations[i].height)
-            .attr("class", "bounding-box")
-            .attr("data-name", props.locations[i].name)
-            .style("fill", "yellow")
-            .style("opacity", .75);
+      if (props.locations) {
+        var arrayLength = props.locations.length;
+        for (var i = 0; i < arrayLength; i++) {
+          if (props.locations[i].floor_id == props.current_selected_floor) {
+            svgContainer.append("rect")
+              .attr("x", props.locations[i].position_x)
+              .attr("y", props.locations[i].position_y)
+              .attr("width", props.locations[i].width)
+              .attr("height", props.locations[i].height)
+              .attr("class", "bounding-box")
+              .attr("data-name", props.locations[i].name)
+              .style("fill", "yellow")
+              .style("opacity", .75);
+          }
         }
+        $('.bounding-box').each((index, element) => {
+          let name = element.dataset.name;
+          $(element).tooltip({ title: name });
+          $(element).attr('tabindex', '0');
+        })
       }
-      $('.bounding-box').each((index, element) => {
-        let name = element.dataset.name;
-        $(element).tooltip({ title: name });
-        $(element).attr('tabindex', '0');
-      })
     });
+
   }
 
   render() {

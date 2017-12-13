@@ -9,6 +9,7 @@ body {
   .buttons-row {
     flex-basis: 100%;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     justify-content: center;
   }
@@ -43,6 +44,7 @@ body {
     color: $beaver-orange;
     border: 1px solid $beaver-orange;
     background-color: white;
+    margin: 10px 25px;
     &:focus {
       box-shadow: 0 0 0 3px rgba($beaver-orange, .25);
     }

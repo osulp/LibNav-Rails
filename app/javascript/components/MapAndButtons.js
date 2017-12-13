@@ -35,9 +35,11 @@ class MapAndButtons extends React.Component {
       edit_mode: false,
       result_hit_counts: this.props.floors.map((floor, index) => {
         let count = 0;
-        this.props.locations.forEach((location) => {
-          if (location.floor_id == floor.id) count++;
-        })
+        if (this.props.locations) {
+          this.props.locations.forEach((location) => {
+            if (location.floor_id == floor.id) count++;
+          })
+        }
         return count;
       })
     }
@@ -68,13 +70,16 @@ class MapAndButtons extends React.Component {
     }
   }
 
-  componentDidUpdate = (prevProps, prevState) => {
-    if (this.state.edit_mode) {
-      $('#floor-save-btn').on('click', this.saveFloor);
-    }
+  componentDidMount = () => {
+    $(document).on('click', (event) => {
+      if (event.target.id == 'floor-save-btn') {
+        this.saveFloor(event);
+      }
+    })
   }
 
   saveFloor = (event) => {
+    console.log('saving . . .');
     let locations = this.props.edit_locations.filter((location) =>
       location.floor_id == this.props.floors[this.state.current_selected_floor - 1].id);
     let floorId = this.props.floors[this.state.current_selected_floor - 1].id;
@@ -137,14 +142,12 @@ class MapAndButtons extends React.Component {
           <div className="buttons-row">
             {this.props.floors.map((floor, i) => {
               return (
-                <div key={`floor.${i}`} className="row right-padding">
-                  <FloorButton key={`floor.${i}`}
-                    active={i == this.state.current_selected_floor - 1}
-                    floor={floor}
-                    was_searched_floor={this.searched_floor(this.props.search_result_floors, i)}
-                    hit_count={this.state.result_hit_counts[i]}
-                    handler={this.handler} />
-                </div>
+                <FloorButton key={`floor.${i}`}
+                  active={i == this.state.current_selected_floor - 1}
+                  floor={floor}
+                  was_searched_floor={this.searched_floor(this.props.search_result_floors, i)}
+                  hit_count={this.state.result_hit_counts[i]}
+                  handler={this.handler} />
               )
             })}
           </div>
