@@ -13,7 +13,7 @@ class FloorButton extends React.Component {
         onClick={(e) => this.props.handler(e, this.props.floor.level)}
         className={`${this.props.was_searched_floor ? 'searched-floor' : ''} ${this.props.active ? 'active' : ''} btn`}>
         {this.props.floor.name}
-        {this.props.was_searched_floor ? <i className="fa fa-exclamation-circle" /> : ''}
+        {this.props.was_searched_floor ? <span className="search-hit-count">{this.props.hit_count}</span> : ''}
       </button>
     );
   }
@@ -25,6 +25,7 @@ FloorButton.propTypes = {
   floor: PropTypes.object,
   was_searched_floor: PropTypes.bool,
   handler: PropTypes.func,
-  active: PropTypes.bool
+  active: PropTypes.bool,
+  hit_count: PropTypes.number
 };
 export default FloorButton

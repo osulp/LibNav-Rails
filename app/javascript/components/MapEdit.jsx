@@ -123,11 +123,6 @@ class EditMap extends React.Component {
             </svg>
           </div>
         </div>
-        <div className="row">
-          <div className="col">
-            <button id={`floor-${this.props.current_selected_floor}-save-btn`} className="btn btn-primary">Save</button>
-          </div>
-        </div>
       </div >);
   }
 }

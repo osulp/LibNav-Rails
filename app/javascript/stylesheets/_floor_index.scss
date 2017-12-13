@@ -1,6 +1,8 @@
 html,
 body {
   height: 100%;
+  width: 100%;
+  overflow-x: hidden;
 }
 .map-and-buttons {
   display: flex;
@@ -12,13 +14,30 @@ body {
   }
   .map-row {
     flex-basis: 100%;
-    flex-direction: column;
+    flex-direction: row;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
   }
 }
-
+.map-row {
+  .info-col,
+  .map-col {
+    display: flex;
+    flex-direction: column;
+  }
+  .info-col {
+    padding-top: 100px;
+    flex-basis: 350px;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    .btn {
+      margin-bottom: 10px;
+    }
+  }
+}
 .buttons-row {
   .btn {
     color: $beaver-orange;
@@ -30,10 +49,49 @@ body {
     &.active {
       color: white;
       background-color: $beaver-orange;
+      .search-hit-count {
+        color: $beaver-orange;
+        background-color: white;
+      }
     }
-    .fa {
-      padding-left: 5px;
+    .search-hit-count {
+      background-color: $beaver-orange;
+      color: white;
+      border-radius: 8px;
+      padding: 2px 7px;
+      margin-left: 5px;
     }
+  }
+}
+
+.save-btn {
+  .icon {
+    display: none;
+    &.active {
+      display: inline-block;
+      // animation-duration: .5s;
+      // animation-name: slidein;
+      // animation-iteration-count: 1;
+    }
+  }
+  .icon-container {
+    display: none;
+    &.active {
+      display: inline-block;
+      margin-left: 5px;
+      animation-duration: 1s;
+      animation-name: slidein;
+    }
+  }
+}
+
+@keyframes slidein {
+  from {
+    margin-right: 100%;
+  }
+
+  to {
+    margin-right: 0%;
   }
 }
 // .floor-index {
