@@ -1,0 +1,2 @@
+CAS_BASE_URL: 'https://login.oregonstate.edu/cas'
+CAS_VALIDATE_URL: 'https://login.oregonstate.edu/cas/samlValidate'

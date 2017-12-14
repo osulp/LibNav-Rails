@@ -1,4 +1,19 @@
 GIT
+  remote: https://github.com/osulp/rubycas-client
+  revision: 41ebf8cad3dcd83ed7c35f335b6b281b5c1f84f5
+  specs:
+    rubycas-client (2.3.10.rc1)
+      activesupport
+
+GIT
+  remote: https://github.com/osulp/rubycas-client-rails
+  revision: 6eab4d18cfd47c34027158841268707fd50b050c
+  specs:
+    rubycas-client-rails (0.1.1)
+      rails (>= 3.0.0)
+      rubycas-client (~> 2.3.9.rc1)
+
+GIT
   remote: https://github.com/rails/webpacker.git
   revision: 938245eb72c062ec582bd6ea18640b0a4ab1a885
   specs:
@@ -152,6 +167,9 @@ GEM
       railties (>= 4.1.0, < 5.2)
       responders
       warden (~> 1.2.3)
+    devise_cas_authenticatable (1.10.3)
+      devise (>= 1.2.0)
+      rubycas-client (>= 2.2.1)
     diff-lcs (1.3)
     docile (1.1.5)
     domain_name (0.5.20170404)
@@ -460,6 +478,7 @@ DEPENDENCIES
   database_cleaner
   debride
   devise
+  devise_cas_authenticatable
   equivalent-xml
   fasterer
   fastri
@@ -482,6 +501,8 @@ DEPENDENCIES
   rspec-rails (~> 3.6)
   rspec_junit_formatter
   rubocop
+  rubycas-client!
+  rubycas-client-rails!
   sass-rails (~> 5.0)
   scoped_search
   selenium-webdriver

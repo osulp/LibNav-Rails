@@ -24,5 +24,6 @@ module LibNavRails
         end
       end
     end
+    config.rubycas.cas_base_url = ENV['CAS_BASE_URL']
   end
 end
