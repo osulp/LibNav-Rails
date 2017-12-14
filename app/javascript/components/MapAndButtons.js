@@ -164,8 +164,38 @@ class MapAndButtons extends React.Component {
               </button> : ''}
               {this.state.edit_mode ? <div className="alert save-result hidden" /> : ''}
             </div>
-            <div className="map-col">
-              {this.render_map_view()}
+          <div className="map-col col-7">
+            <h2>{this.props.floors[this.state.current_selected_floor - 1].name}</h2>
+            {this.render_map_view()}
+          </div>
+          <div className="col-2">
+            <div id="accordion" role="tablist">
+              <div className="card">
+                <div className="card-header" role="tab" id="headingOne">
+                  <h5 className="mb-0">
+                    <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      Services
+                    </a>
+                  </h5>
+                </div>
+                <div id="collapseOne" className="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+                  <div className="card-body">
+                  </div>
+                </div>
+              </div>
+              <div className="card">
+                <div className="card-header" role="tab" id="headingTwo">
+                  <h5 className="mb-0">
+                    <a data-toggle="collapse" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                      Services
+                    </a>
+                  </h5>
+                </div>
+                <div id="collapseTwo" className="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
+                  <div className="card-body">
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
