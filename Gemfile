@@ -53,6 +53,10 @@ gem 'react-rails'
 # Searching Library for model searching
 gem "scoped_search"
 
+gem 'rubycas-client', git: 'https://github.com/osulp/rubycas-client'
+gem 'rubycas-client-rails', git: 'https://github.com/osulp/rubycas-client-rails'
+gem 'devise_cas_authenticatable'
+
 # Testing/Development gems
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
