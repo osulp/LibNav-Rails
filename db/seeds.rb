@@ -24,6 +24,6 @@ locations = [
   {:name => "2nd Floor Women's Restroom", :position_x => 421, :position_y => 520, :width => 39, :height => 67, :floor_id => 2}
 ]
 
-locations.each do |floor|
-  Floor.create(floor) unless Floor.exists?(name: floor[:name])
+locations.each do |location|
+  Location.create(location) unless Location.exists?(name: location[:name])
 end
