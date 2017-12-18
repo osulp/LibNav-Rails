@@ -83,9 +83,13 @@ class FloorsController < ApplicationController
       search_results.each do |result|
         @locations.concat(result.locations) if result.value == 'Yes'
       end
-    else
+    elsif search_results.first.is_a?(Tag)
       search_results.each do |result|
         @locations << result.location
+      end
+    else
+      search_results.each do |result|
+        @locations << result
       end
     end
     @locations

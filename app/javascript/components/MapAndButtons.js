@@ -180,6 +180,7 @@ class MapAndButtons extends React.Component {
                 </div>
                 <div id="collapseOne" className="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
                   <div className="card-body">
+                    <a href="?utf8=✓&search=circ&commit=Search"> Circulation </a>
                   </div>
                 </div>
               </div>
@@ -187,12 +188,13 @@ class MapAndButtons extends React.Component {
                 <div className="card-header" role="tab" id="headingTwo">
                   <h5 className="mb-0">
                     <a data-toggle="collapse" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                      Services
+                      Facilities
                     </a>
                   </h5>
                 </div>
                 <div id="collapseTwo" className="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
                   <div className="card-body">
+                    <a href="?utf8=✓&search=Restroom&commit=Search"> Restrooms </a>
                   </div>
                 </div>
               </div>

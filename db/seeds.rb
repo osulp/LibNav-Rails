@@ -18,3 +18,12 @@ floors = [
 floors.each do |floor|
   Floor.create(floor) unless Floor.exists?(name: floor[:name])
 end
+
+locations = [
+  {:name => "Circulation", :position_x => 71, :position_y => 121, :width => 314, :height => 151, :floor_id => 2},
+  {:name => "2nd Floor Women's Restroom", :position_x => 421, :position_y => 520, :width => 39, :height => 67, :floor_id => 2}
+]
+
+locations.each do |floor|
+  Floor.create(floor) unless Floor.exists?(name: floor[:name])
+end
