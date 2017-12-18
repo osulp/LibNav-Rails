@@ -29,11 +29,9 @@
     <h1>LibNav::Rails</h1>
   </div>
   <div class="search-nav">
-    <%= form_tag(root_path, :method => :get, class: "form-group row") do %>
+    <%= form_tag(root_path, :method => :get, class: "form-group row overflowing") do %>
       <%= text_field_tag :search, params[:search], class: "form-control col-8" %>
-      <%= button_tag(type: 'submit', class: "form-control col-4") do %>
-        <i class="fa fa-search"></i> Search
-      <% end %>
+      <%= submit_tag "Search", :method => :get, :class => "col-4" %>
     <% end %>
   </div>
 </nav>
