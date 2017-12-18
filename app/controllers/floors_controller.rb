@@ -71,9 +71,15 @@ class FloorsController < ApplicationController
 
   def extract_floors(locations)
     @search_result_floors = []
-    locations.each do |location|
-      @search_result_floors << location.floor unless @search_result_floors.include?(location.floor)
-    end
+      locations.each do |location|
+        if (location.is_a?(Location))
+          @search_result_floors << location.floor unless @search_result_floors.include?(location.floor)
+        elsif(locations.first.is_a?(Tag))
+          @search_result_floors << tag.location.floor unless @search_result_floors.include?(tag.location.floor)
+        else
+
+        end
+      end
     normalize_search_result_floors(@search_result_floors)
   end
 
