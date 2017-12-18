@@ -1,52 +1,145 @@
 html,
 body {
   height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+.map-and-buttons {
+  display: flex;
+  .buttons-row {
+    flex-basis: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+  }
+  .map-row {
+    flex-basis: 100%;
+    flex-direction: row;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+}
+.map-row {
+  .info-col,
+  .map-col {
+    display: flex;
+    flex-direction: column;
+  }
+  .info-col {
+    padding-top: 100px;
+    flex-basis: 350px;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    .btn {
+      margin-bottom: 10px;
+    }
+  }
+}
+.buttons-row {
+  .btn {
+    color: $beaver-orange;
+    border: 1px solid $beaver-orange;
+    background-color: white;
+    margin: 10px 25px;
+    &:focus {
+      box-shadow: 0 0 0 3px rgba($beaver-orange, .25);
+    }
+    &.active {
+      color: white;
+      background-color: $beaver-orange;
+      .search-hit-count {
+        color: $beaver-orange;
+        background-color: white;
+      }
+    }
+    .search-hit-count {
+      background-color: $beaver-orange;
+      color: white;
+      border-radius: 8px;
+      padding: 2px 7px;
+      margin-left: 5px;
+    }
+  }
 }
 
-.floor-index {
-  height: 100%;
-  .row {
-    @media(min-width: $screen-lg) {
-      height: inherit;
+.save-btn {
+  .icon {
+    display: none;
+    &.active {
+      display: inline-block;
+      // animation-duration: .5s;
+      // animation-name: slidein;
+      // animation-iteration-count: 1;
     }
   }
-  .tabs {
-    padding: 0px;
-    background-color: black;
-    @media(min-width: $screen-lg) {
-      height: 100%;
+  .icon-container {
+    display: none;
+    &.active {
+      display: inline-block;
+      margin-left: 5px;
+      animation-duration: 1s;
+      animation-name: slidein;
     }
-    h2,
-    a {
-      color: white;
-    }
-    h2 {
-      background-color: $gray-dark;
-      padding: .5rem 2rem;
-      margin-bottom: 0px;
-    }
-    .nav-link {
-      padding-left: 2.5rem;
-      border-radius: 0;
-      .fa-caret-right {
-        display: none;
-      }
-      &.active {
-        background-color: $beaver-orange;
-        .fa-caret-right {
-          animation-duration: .25s;
-          animation-name: popleft;
-          display: inline-block;
-          padding-right: .75rem;
-        }
-      }
-    }
-  }
-  .tab-pane {
-    width: 100%;
-    padding: 1rem 1rem 0 0;
   }
 }
+
+@keyframes slidein {
+  from {
+    margin-right: 100%;
+  }
+
+  to {
+    margin-right: 0%;
+  }
+}
+// .floor-index {
+//   height: 100%;
+//   .row {
+//     @media(min-width: $screen-lg) {
+//       height: inherit;
+//     }
+//   }
+//   .tabs {
+//     padding: 0px;
+//     background-color: black;
+//     @media(min-width: $screen-lg) {
+//       height: 100%;
+//     }
+//     h2,
+//     a {
+//       color: white;
+//     }
+//     h2 {
+//       background-color: $gray-dark;
+//       padding: .5rem 2rem;
+//       margin-bottom: 0px;
+//     }
+//     .nav-link {
+//       padding-left: 2.5rem;
+//       border-radius: 0;
+//       .fa-caret-right {
+//         display: none;
+//       }
+//       &.active {
+//         background-color: $beaver-orange;
+//         .fa-caret-right {
+//           animation-duration: .25s;
+//           animation-name: popleft;
+//           display: inline-block;
+//           padding-right: .75rem;
+//         }
+//       }
+//     }
+//   }
+//   .tab-pane {
+//     width: 100%;
+//     padding: 1rem 1rem 0 0;
+//   }
+// }
 
 @keyframes popleft {
   from {

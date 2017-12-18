@@ -18,15 +18,8 @@ class FloorsController < ApplicationController
   end
 
   def update
-    # puts "Floor: #{@floor}"
-    # puts "Locations: #{@floor.locations.each { |loc| puts loc }}"
-    # byebug
-    # floor_params.locations_attributes.each do |location|
-    #   Location.update(location)
-    # end
     if @floor.update(floor_params)
       floor_params[:locations_attributes].each_pair do |_k, location|
-        # byebug
         Location.find(location[:id]).update_attributes(location)
       end
       respond_to do |format|

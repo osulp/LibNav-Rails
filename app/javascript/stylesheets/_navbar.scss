@@ -65,4 +65,46 @@
       margin: 0;
     }
   }
+  .search-nav {
+    $input-radius: 5px;
+    background-color: black;
+    flex-basis: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: $beaver-orange;
+    form.form-group {
+      margin: 8px;
+      width: 20rem;
+      input[type="text"].form-control {
+        // border-top-left-radius: $input-radius;
+        // border-bottom-left-radius: $input-radius;
+        border-radius: $input-radius 0 0 $input-radius;
+        margin-right: 0;
+      }
+      button[type="submit"].form-control {
+        // border-top-right-radius: $input-radius;
+        // border-bottom-right-radius: $input-radius;
+        border-radius: 0 $input-radius $input-radius 0;
+        margin-left: 0;
+        color: $beaver-orange;
+        background-color: white;
+      }
+    }
+  }
+}
+
+.skip-navigation {
+  display: block;
+  position: absolute;
+  left: -100000000px;
+  line-height: .1px;
+  &:focus {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 20px;
+    line-height: inherit;
+    background-color: $beaver-orange;
+    color: white;
+  }
 }

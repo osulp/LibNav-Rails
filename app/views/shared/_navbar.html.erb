@@ -1,4 +1,7 @@
 <nav class="navbar navbar-expand-lg">
+  <a class="skip-navigation" href="#main-content">
+    Skip to main content
+  </a>
   <%= link_to root_path, class: "navbar-brand" do %>
     <%= image_tag "OSU_logo_horizontal.png", class: "d-inline-block align-top" %>
   <% end %>
@@ -15,12 +18,22 @@
         <%= link_to "Login", user_session_path, :class => "nav-link" if current_user.nil? %>
       </li>
     </ul>
+    <!--
     <%= form_tag(root_path, :method => :get) do %>
       <%= text_field_tag :search, params[:search] %>
       <%= submit_tag 'Search', :method => :get %>
     <% end %>
+    -->
   </div>
   <div class="sub-nav">
     <h1>LibNav::Rails</h1>
+  </div>
+  <div class="search-nav">
+    <%= form_tag(root_path, :method => :get, class: "form-group row") do %>
+      <%= text_field_tag :search, params[:search], class: "form-control col-8" %>
+      <%= button_tag(type: 'submit', class: "form-control col-4") do %>
+        <i class="fa fa-search"></i> Search
+      <% end %>
+    <% end %>
   </div>
 </nav>
