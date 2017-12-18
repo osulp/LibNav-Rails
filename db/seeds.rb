@@ -8,7 +8,7 @@
 
 floors = [
   { name: 'First Floor', level: 1 },
-  { name: 'Second Floor', level: 2 },
+  { name: 'Second Floor - Main', level: 2 },
   { name: 'Third Floor', level: 3 },
   { name: 'Fourth Floor', level: 4 },
   { name: 'Fifth Floor', level: 5 },
