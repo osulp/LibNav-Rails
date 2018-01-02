@@ -5,6 +5,7 @@ import ToggleEditButton from './ToggleEditButton'
 import MapView from "./MapView"
 import MapEdit from "./MapEdit"
 import Map from "./Map"
+import SplashPage from "./SplashPage"
 class MapAndButtons extends React.Component {
 
   toggleHandler(e, edit_state) {
@@ -33,6 +34,7 @@ class MapAndButtons extends React.Component {
     this.state = {
       current_selected_floor: 2,
       edit_mode: false,
+      modal_popup: true,
       result_hit_counts: this.props.floors.map((floor, index) => {
         let count = 0;
         if (this.props.locations) {
@@ -70,11 +72,20 @@ class MapAndButtons extends React.Component {
     }
   }
 
+  render_modal = () => {
+    if (window.location.href.includes("?") == false) {
+      return <SplashPage />
+    }
+  }
+
   componentDidMount = () => {
     $(document).on('click', (event) => {
       if (event.target.id == 'floor-save-btn') {
         this.saveFloor(event);
       }
+    })
+    $(document).ready(function () {
+      $('.modal').modal({show: true});
     })
   }
 
@@ -201,6 +212,7 @@ class MapAndButtons extends React.Component {
             </div>
           </div>
         </div>
+        { this.render_modal() }
       </main>
     );
   }
