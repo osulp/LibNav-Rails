@@ -2,6 +2,12 @@ import React from "react"
 import PropTypes from "prop-types"
 class SplashPage extends React.Component {
 
+  componentDidMount = () => {
+    $(document).on('click', (event) => {
+      $('.modal').modal('toggle');
+    });
+  }
+
   render() {
     return (
         <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
