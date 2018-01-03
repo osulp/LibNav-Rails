@@ -27,8 +27,18 @@ class MapAndButtons extends React.Component {
     })
   }
 
+  set_or_reset_timer() {
+    if(this.timer_handle > 0) {
+      window.clearTimeout(this.time_handle);
+    }
+    this.timer_handle = window.setTimeout(function(){
+      location.reload();
+    },600000);
+  }
+
   constructor(props) {
     super(props)
+    this.timer_handle
     this.handler = this.handler.bind(this)
     this.toggleHandler = this.toggleHandler.bind(this)
     this.state = {
@@ -80,6 +90,7 @@ class MapAndButtons extends React.Component {
 
   componentDidMount = () => {
     $(document).on('click', (event) => {
+      document.body.addEventListener('click', this.set_or_reset_timer);
       if (event.target.id == 'floor-save-btn') {
         this.saveFloor(event);
       }
