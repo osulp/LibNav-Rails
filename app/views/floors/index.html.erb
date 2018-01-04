@@ -2,3 +2,5 @@
     </p><%= react_component("MapAndButtons", { user: current_user, floors: @floors, maps: @maps, search_result_floors: @search_result_floors, locations: @locations, edit_locations: @edit_locations }) %></p>
   </div>
   <%= csrf_meta_tag %>
+<%= render partial: "shared/footer_login.html.erb" %>
+
