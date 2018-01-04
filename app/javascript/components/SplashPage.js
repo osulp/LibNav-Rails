@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 class SplashPage extends React.Component {
 
   componentDidMount = () => {
-    $(document).on('click', (event) => {
+    $(".modal").on('click', (event) => {
       $('.modal').modal('toggle');
     });
   }
