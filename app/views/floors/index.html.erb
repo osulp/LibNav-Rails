@@ -1,6 +1,15 @@
-<%= render partial: "shared/navbar.html.erb" %>
-    </p><%= react_component("MapAndButtons", { user: current_user, floors: @floors, maps: @maps, search_result_floors: @search_result_floors, locations: @locations, edit_locations: @edit_locations }) %></p>
+<% if @toggle_nav == false %>
+  <%= render partial: "shared/navbar.html.erb" %>
+<% end %>
+  <%= render partial: "shared/search_nav.html.erb" %>
+
+</p><%= react_component("MapAndButtons", { user: current_user, 
+                                           floors: @floors,
+                                           floor: @floor,
+                                           maps: @maps, 
+                                           search_result_floors: @search_result_floors, 
+                                           locations: @locations, 
+                                           edit_locations: @edit_locations }) %></p>
   </div>
   <%= csrf_meta_tag %>
-<%= render partial: "shared/footer_login.html.erb" %>
 
