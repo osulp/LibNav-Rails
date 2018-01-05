@@ -1,8 +1,14 @@
 .map-row .info-col {
   padding-top: 0 !important;
 }
+.top-margin {
+  margin-top: 15px;
+}
 .overflowing {
   overflow: auto;
+}
+.search-nav {
+  background-color: $beaver-orange;
 }
 
 .navbar {
@@ -20,7 +26,7 @@
   }
   .nav-item {
     a.nav-link {
-      font-size: 1.2em;
+      font-size: .8em !important;
       color: white;
       &:hover {
         text-decoration: underline;

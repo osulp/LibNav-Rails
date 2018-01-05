@@ -42,7 +42,7 @@ class MapAndButtons extends React.Component {
     this.handler = this.handler.bind(this)
     this.toggleHandler = this.toggleHandler.bind(this)
     this.state = {
-      current_selected_floor: 2,
+      current_selected_floor: this.props.floor,
       edit_mode: false,
       modal_popup: true,
       result_hit_counts: this.props.floors.map((floor, index) => {

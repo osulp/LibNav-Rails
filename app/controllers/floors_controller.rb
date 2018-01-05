@@ -5,6 +5,8 @@ class FloorsController < ApplicationController
 
   def index
     @floors = @floors.order('level ASC')
+    @floor = params[:floor_number] || 2
+    @toggle_nav = params[:toggle_navbar] || false
     @maps = extract_maps_from_floors(@floors)
     @search_results = process_search(params[:search]) if params[:search]
     @search_results = @search_results.flatten if @search_results
