@@ -176,15 +176,15 @@ class MapAndButtons extends React.Component {
           <div className="map-row">
             <div className="info-col col-1">
               <h2>{this.props.floors[this.state.current_selected_floor - 1].name}</h2>
-              <ToggleEditButton handler={this.toggleHandler} edit_state={this.state.edit_mode} />
-              {this.state.edit_mode ? <button id={`floor-save-btn`} className="btn btn-success save-btn">Save
+              {this.props.admin_user ? <ToggleEditButton handler={this.toggleHandler} edit_state={this.state.edit_mode} /> : '' }
+              {this.state.edit_mode && this.props.admin_user ? <button id={`floor-save-btn`} className="btn btn-success save-btn">Save
                 <span className="icon-container">
                   <i className="fa fa-spin fa-circle-o-notch icon active" />
                   <i className="fa fa-check icon" />
                   <i className="fa fa-times icon" />
                 </span>
               </button> : ''}
-              {this.state.edit_mode ? <div className="alert save-result hidden" /> : ''}
+              {this.state.edit_mode && this.props.admin_user ? <div className="alert save-result hidden" /> : ''}
             </div>
             <div className="map-col col-9">
               {this.render_map_view()}

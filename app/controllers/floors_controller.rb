@@ -9,6 +9,11 @@ class FloorsController < ApplicationController
     @toggle_nav = params[:toggle_navbar] || false
     @maps = extract_maps_from_floors(@floors)
     @search_results = process_search(params[:search]) if params[:search]
+    if current_user
+      @admin_user = current_user.admin?
+    else
+      @admin_user = false
+    end
     @search_results = @search_results.flatten if @search_results
     if @search_results
       @locations = extract_locations(@search_results) if @search_results
