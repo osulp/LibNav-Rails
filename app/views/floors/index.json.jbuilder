@@ -7,4 +7,4 @@ json.maps @maps
 json.locations @locations
 json.search_result_floors @search_result_floors
 json.edit_locations @edit_locations
-
+json.admin_user @admin_user
