@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171214170954) do
+ActiveRecord::Schema.define(version: 20180108225415) do
 
   create_table "floors", force: :cascade do |t|
     t.string "name"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20171214170954) do
     t.integer "length"
     t.integer "height", default: 10
     t.integer "width", default: 10
+    t.boolean "persistent"
     t.index ["floor_id"], name: "index_locations_on_floor_id"
   end
 

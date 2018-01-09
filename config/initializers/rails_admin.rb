@@ -46,6 +46,7 @@ RailsAdmin.config do |config|
         field :traits
         field :tags
         field :floor
+        field :persistent
       end
     end
 

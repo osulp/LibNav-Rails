@@ -8,6 +8,7 @@ class FloorsController < ApplicationController
     @floor = params[:floor_number] || 2
     @toggle_nav = params[:toggle_navbar] || false
     @maps = extract_maps_from_floors(@floors)
+    @persistent_locations = fetch_persistent_locations
     @search_results = process_search(params[:search]) if params[:search]
     if current_user
       @admin_user = current_user.admin?
@@ -51,6 +52,10 @@ class FloorsController < ApplicationController
   end
 
   private
+
+  def fetch_persistent_locations
+    Location.where(:persistent => true)
+  end
 
   def process_search(search_params)
     @search_results = []
