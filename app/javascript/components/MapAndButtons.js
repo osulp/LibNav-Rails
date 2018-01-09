@@ -77,7 +77,8 @@ class MapAndButtons extends React.Component {
     } else {
       return <MapView mapUrl={this.props.maps[this.state.current_selected_floor - 1]}
         locations={this.props.locations}
-        current_selected_floor={this.state.current_selected_floor.toString()} />
+        current_selected_floor={this.state.current_selected_floor.toString()} 
+        persistent_locations={this.props.persistent_locations} />
 
     }
   }

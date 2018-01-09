@@ -11,8 +11,8 @@ class Location < ApplicationRecord
 
   private
 
-  def foo
-    byebug
-    puts 'test'
+  def self.is_persistent?
+    self.persistent
   end
+
 end

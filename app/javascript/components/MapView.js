@@ -47,6 +47,27 @@ class MapView extends React.Component {
           $(element).attr('tabindex', '0');
         })
       }
+      if (props.persistent_locations) {
+        var arrayLength = props.persistent_locations.length;
+        for (var i = 0; i < arrayLength; i++) {
+          if (props.persistent_locations[i].floor_id == props.current_selected_floor) {
+            svgContainer.append("rect")
+              .attr("x", props.persistent_locations[i].position_x)
+              .attr("y", props.persistent_locations[i].position_y)
+              .attr("width", props.persistent_locations[i].width)
+              .attr("height", props.persistent_locations[i].height)
+              .attr("class", "bounding-box")
+              .attr("data-name", props.persistent_locations[i].name)
+              .style("fill", "yellow")
+              .style("opacity", .75);
+          }
+        }
+        $('.bounding-box').each((index, element) => {
+          let name = element.dataset.name;
+          $(element).tooltip({ title: name });
+          $(element).attr('tabindex', '0');
+        })
+      }
     });
 
   }
@@ -62,6 +83,7 @@ class MapView extends React.Component {
 MapView.propTypes = {
   mapUrl: PropTypes.string,
   locations: PropTypes.array,
-  current_selected_floor: PropTypes.string
+  current_selected_floor: PropTypes.string,
+  persistent_locations: PropTypes.array
 };
 export default MapView
