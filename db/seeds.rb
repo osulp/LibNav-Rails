@@ -24,6 +24,19 @@ locations = [
   {:name => "2nd Floor Women's Restroom", :position_x => 421, :position_y => 520, :width => 39, :height => 67, :floor_id => 2}
 ]
 
+kiosk_locations = [
+  {:name => "You Are Here - 4th Floor Kiosk", :position_x => 267, :position_y => 313, :width => 9, :height => 11, :floor_id => 4},
+  {:name => "You Are Here - 4th Floor Kiosk", :position_x => 267, :position_y => 313, :width => 9, :height => 11, :floor_id => 4}
+]
+
+kiosk_trait = Trait.create({:name => "Kiosk", :value => "Yes"}) unless Trait.exists?(name: "Kiosk")
+
 locations.each do |location|
   Location.create(location) unless Location.exists?(name: location[:name])
+end
+
+kiosk_locations.each do |kiosk_location|
+  location = Location.create(kiosk_location) unless Location.exists?(name: kiosk_location[:name])
+  location.trait << kiosk_trait
+  location.save
 end
