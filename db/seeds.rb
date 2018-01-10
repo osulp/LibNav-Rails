@@ -37,6 +37,6 @@ end
 
 kiosk_locations.each do |kiosk_location|
   location = Location.create(kiosk_location) unless Location.exists?(name: kiosk_location[:name])
-  location.trait << kiosk_trait
+  location.traits << kiosk_trait
   location.save
 end
