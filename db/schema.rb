@@ -31,7 +31,6 @@ ActiveRecord::Schema.define(version: 20180108225415) do
     t.integer "position_x"
     t.integer "position_y"
     t.integer "floor_id"
-    t.integer "length"
     t.integer "height", default: 10
     t.integer "width", default: 10
     t.boolean "persistent"
