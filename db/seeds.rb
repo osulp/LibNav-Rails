@@ -25,11 +25,12 @@ locations = [
 ]
 
 kiosk_locations = [
-  {:name => "You Are Here - 4th Floor Kiosk", :position_x => 267, :position_y => 313, :width => 9, :height => 11, :floor_id => 4},
-  {:name => "You Are Here - 4th Floor Kiosk", :position_x => 267, :position_y => 313, :width => 9, :height => 11, :floor_id => 4}
+  {:name => "You Are Here - 4th Floor Kiosk", :persistent => true, :position_x => 267, :position_y => 313, :width => 9, :height => 11, :floor_id => 4},
+  {:name => "You Are Here - 2nd Floor Kiosk", :persistent => true, :position_x => 440, :position_y => 	265, :width => 9, :height => 11, :floor_id => 2}
 ]
 
 kiosk_trait = Trait.create({:name => "Kiosk", :value => "Yes"}) unless Trait.exists?(name: "Kiosk")
+kiosk_trait ||= Trait.where(:name => "Kiosk")
 
 locations.each do |location|
   Location.create(location) unless Location.exists?(name: location[:name])
@@ -37,6 +38,7 @@ end
 
 kiosk_locations.each do |kiosk_location|
   location = Location.create(kiosk_location) unless Location.exists?(name: kiosk_location[:name])
-  location.traits << kiosk_trait
+  location ||= Location.where(:name => kiosk_location[:name]).first
+  location.traits << kiosk_trait unless location.traits.include?(kiosk_trait)
   location.save
 end
