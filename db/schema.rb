@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180108225415) do
+ActiveRecord::Schema.define(version: 20180112232254) do
 
   create_table "floors", force: :cascade do |t|
     t.string "name"
@@ -24,6 +24,15 @@ ActiveRecord::Schema.define(version: 20180108225415) do
     t.integer "bounding_box_height"
   end
 
+  create_table "icons", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "icon_image_file_name"
+    t.string "icon_image_content_type"
+    t.integer "icon_image_file_size"
+    t.datetime "icon_image_updated_at"
+  end
+
   create_table "locations", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -34,7 +43,9 @@ ActiveRecord::Schema.define(version: 20180108225415) do
     t.integer "height", default: 10
     t.integer "width", default: 10
     t.boolean "persistent"
+    t.integer "icon_id"
     t.index ["floor_id"], name: "index_locations_on_floor_id"
+    t.index ["icon_id"], name: "index_locations_on_icon_id"
   end
 
   create_table "locations_traits", id: false, force: :cascade do |t|
