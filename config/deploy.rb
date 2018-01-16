@@ -32,7 +32,7 @@ set :pty, true
 append :linked_files, 'config/local_env.yml', 'config/config.yml'
 
 # Default value for linked_dirs is []
-append :linked_dirs, 'log', 'tmp', 'config/puma', 'public/assets'
+append :linked_dirs, 'log', 'tmp', 'config/puma', 'public/assets', 'public/system'
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
