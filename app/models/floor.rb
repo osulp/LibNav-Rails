@@ -12,4 +12,15 @@ class Floor < ApplicationRecord
     { locations: locations.map(&:get_edit_map_props),
       id: "floor-#{id}" }
   end
+
+  rails_admin do
+    base do
+      field :name
+      field :level
+      field :locations
+      field :map do
+        thumb_method :medium
+      end
+    end
+  end
 end
