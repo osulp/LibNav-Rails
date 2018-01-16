@@ -5,7 +5,11 @@ class Icon < ApplicationRecord
 
   rails_admin do
     base do
-      field :icon_image
+      field :icon_image do
+        thumb_method :medium
+      end
+      field :name
+      field :locations
     end
   end
 end
