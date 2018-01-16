@@ -20,13 +20,13 @@ floors.each do |floor|
 end
 
 locations = [
-  { name: 'Circulation', position_x: 71, position_y: 121, width: 314, height: 151, floor_id: 2 },
-  { name: "2nd Floor Women's Restroom", position_x: 421, position_y: 520, width: 39, height: 67, floor_id: 2 }
+  { name: 'Circulation', position_x: 71, position_y: 121, width: 314, height: 151, floor_id: Floor.where(level: 2).first.id },
+  { name: "2nd Floor Women's Restroom", position_x: 421, position_y: 520, width: 39, height: 67, floor_id: Floor.where(level: 2).first.id }
 ]
 
 kiosk_locations = [
-  { name: 'You Are Here - 4th Floor Kiosk', persistent: true, position_x: 267, position_y: 313, width: 9, height: 11, floor_id: 4 },
-  { name: 'You Are Here - 2nd Floor Kiosk', persistent: true, position_x: 440, position_y: 	265, width: 9, height: 11, floor_id: 2 }
+  { name: 'You Are Here - 4th Floor Kiosk', persistent: true, position_x: 267, position_y: 313, width: 9, height: 11, floor_id: Floor.where(level: 4).first.id },
+  { name: 'You Are Here - 2nd Floor Kiosk', persistent: true, position_x: 440, position_y: 	265, width: 9, height: 11, floor_id: Floor.where(level: 2).first.id }
 ]
 
 kiosk_trait = Trait.create(name: 'Kiosk', value: 'Yes') unless Trait.exists?(name: 'Kiosk')

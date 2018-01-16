@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180112232254) do
+ActiveRecord::Schema.define(version: 20180116220915) do
 
   create_table "floors", force: :cascade do |t|
     t.string "name"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20180112232254) do
     t.string "icon_image_content_type"
     t.integer "icon_image_file_size"
     t.datetime "icon_image_updated_at"
+    t.string "name"
   end
 
   create_table "locations", force: :cascade do |t|
