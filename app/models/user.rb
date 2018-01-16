@@ -3,8 +3,14 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :cas_authenticatable
 
+  validates :email, presence: true
+
+  def name
+    email
+  end
+
   def admin?
-    self.admin
+    admin
   end
 
   def cas_extra_attributes=(extra_attributes)
@@ -15,6 +21,13 @@ class User < ApplicationRecord
       when :email
         self.email = value
       end
+    end
+  end
+
+  rails_admin do
+    base do
+      field :email
+      field :admin
     end
   end
 end
