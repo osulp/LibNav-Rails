@@ -23,6 +23,7 @@ class Location < ApplicationRecord
       field :persistent
       field :traits
       field :tags
+      field :icon
     end
   end
 

@@ -9,6 +9,7 @@ class FloorsController < ApplicationController
     @toggle_nav = params[:toggle_navbar] || false
     @maps = extract_maps_from_floors(@floors)
     @persistent_locations = fetch_persistent_locations
+    @icons_images = extract_icon_images
     @search_results = process_search(params[:search]) if params[:search]
     if current_user
       @admin_user = current_user.admin?
@@ -93,6 +94,14 @@ class FloorsController < ApplicationController
         end
       end
     normalize_search_result_floors(@search_result_floors)
+  end
+
+  def extract_icon_images
+    @icon_images = {}
+    Icon.all.each do |icon|
+      @icon_images[icon.id] = icon.icon_image
+    end
+    @icon_images
   end
 
   def extract_locations(search_results)
