@@ -5,6 +5,14 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+images = [
+  { level: 1, file: 'Map_1.svg' },
+  { level: 2, file: 'Map_2.svg' },
+  { level: 3, file: 'Map_3.svg' },
+  { level: 4, file: 'Map_4.svg' },
+  { level: 5, file: 'Map_5.svg' },
+  { level: 6, file: 'Map_6.svg' }
+]
 
 floors = [
   { name: 'First Floor', level: 1 },
@@ -15,8 +23,15 @@ floors = [
   { name: 'Sixth Floor', level: 6 }
 ]
 
-floors.each do |floor|
-  Floor.create(floor) unless Floor.exists?(name: floor[:name])
+floors.each do |f|
+  floor = Floor.where(name: f[:name]).first
+  floor = Floor.create(f) if floor.nil?
+  next unless floor.map_file_name.nil?
+  image = images.find { |i| i[:level] == f[:level] }
+  file = File.open(File.join(Rails.root, 'app/assets/images', image[:file]))
+  floor.map = file
+  file.close
+  floor.save!
 end
 
 locations = [

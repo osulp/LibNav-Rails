@@ -18,8 +18,8 @@ class Floor < ApplicationRecord
       field :name
       field :level
       field :locations
-      field :map do
-        thumb_method :medium
+      field :map, :paperclip do
+        thumb_method :original
       end
     end
   end
