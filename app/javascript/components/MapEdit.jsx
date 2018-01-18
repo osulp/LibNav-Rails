@@ -25,7 +25,7 @@ class EditMap extends React.Component {
     super(props);
     this.state = {
       locations: this.props.locations.filter(location => location.floor_id == this.props.id),
-      locationsBoxes: this.props.locations.map((location => location.floor_id == this.props.id ? (<LocationBox key={location.id} name={location.name} position_x={location.position_x} position_y={location.position_y} width={location.width} height={location.height} id={location.id} />) : null))
+      locationsBoxes: this.props.locations.map((location => location.floor_id == this.props.id ? this.locationBox(location) : null))
     }
     console.log(this.state.locationsBoxes);
   }
@@ -39,12 +39,23 @@ class EditMap extends React.Component {
     this.render_svg(nextProps.mapUrl);
     this.setState({
       locations: nextProps.locations.filter(location => location.floor_id == nextProps.id),
-      locationsBoxes: nextProps.locations.map((location => location.floor_id == nextProps.id ? (<LocationBox key={location.id} name={location.name} position_x={location.position_x} position_y={location.position_y} width={location.width} height={location.height} id={location.id} />) : null))
+      locationsBoxes: nextProps.locations.map((location => location.floor_id == nextProps.id ? this.locationBox(location) : null))
     })
   }
   componentDidMount = () => {
     this.render_svg(this.props.mapUrl);
     $(`#floor-${this.props.current_selected_floor}-save-btn`).on('click', this.saveFloor);
+  }
+
+  locationBox = l => {
+    return (<LocationBox key={l.id} 
+                         name={l.name} 
+                         position_x={l.position_x} 
+                         position_y={l.position_y} 
+                         width={l.width} 
+                         height={l.height} 
+                         id={l.id} 
+                         admin_url={l.admin_url} />);
   }
 
   draggedCircle = d => {

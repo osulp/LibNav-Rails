@@ -5,6 +5,13 @@
   stroke-width: 2px;
 }
 
+.link-circle {
+  cursor: pointer;
+  fill: #007bff;
+  stroke: white;
+  stroke-width: 2px;
+}
+
 .bounding-box.edit {
   cursor: move;
   fill: $beaver-orange;

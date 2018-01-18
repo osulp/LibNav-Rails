@@ -10,8 +10,9 @@ class LocationBox extends React.Component {
     position_y: PropTypes.number,
     width: PropTypes.number,
     height: PropTypes.number,
-    name: PropTypes.strong,
-    id: PropTypes.number
+    name: PropTypes.string,
+    id: PropTypes.number,
+    admin_url: PropTypes.string
   }
 
   static defaultProps = {
@@ -19,7 +20,8 @@ class LocationBox extends React.Component {
     position_y: 0,
     width: 50,
     height: 50,
-    id: null
+    id: null,
+    admin_url: null
   }
 
   constructor(props) {
@@ -30,7 +32,6 @@ class LocationBox extends React.Component {
       width: this.props.width,
       height: this.props.height
     }
-
   }
 
   componentDidMount = () => {
@@ -39,12 +40,12 @@ class LocationBox extends React.Component {
       $(`#location-box-${this.props.id}`).find('.bounding-box').tooltip('hide')
     });
     $(`#location-box-${this.props.id}`).find('.bounding-box').on('keydown', this.handleKeyPress);
-    d3.select(`#location-box-${this.props.id}`).select('rect')
-      .call(d3.drag()
-        .on('drag', this.draggedBox));
-    d3.select(`#location-box-${this.props.id}`).select('circle')
-      .call(d3.drag()
-        .on('drag', this.draggedCircle));
+    d3.select(`#location-box-${this.props.id}`)
+      .select('rect')
+      .call(d3.drag().on('drag', this.draggedBox));
+    d3.select(`#location-box-${this.props.id}`)
+      .select('circle')
+      .call(d3.drag().on('drag', this.draggedCircle));
     let box = $(`#location-box-${this.props.id}`).find('.bounding-box');
     box.tooltip({ title: this.props.name });
     box.attr('tabindex', '0');
@@ -132,6 +133,10 @@ class LocationBox extends React.Component {
       <g className="location-box" id={`location-box-${this.props.id}`}>
         <rect className="bounding-box edit" data-name={this.props.name} height={this.state.height + "px"} width={this.state.width + "px"} x={this.state.position_x + "px"} y={this.state.position_y} />
         <circle className="drag-circle" r="8px" cx={this.state.position_x + this.state.width + "px"} cy={this.state.position_y + this.state.height + "px"} />
+        <a href={this.props.admin_url}>
+          <circle className="link-circle" r="8px" cx={this.state.position_x + "px"} cy={this.state.position_y + "px"}/>
+          <text x={(this.state.position_x - 3) + "px"} y={(this.state.position_y + 4) + "px"} fontSize="0.75rem" fill="#fff">?</text>
+        </a>
       </g>
     )
   }
