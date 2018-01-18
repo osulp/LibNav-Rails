@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users
   root 'floors#index'
-  get '/floor/:floor_number(/:toggle_navbar)', to: 'floors#index', as: 'chosen_floor'
+  get '/floor/:floor_number(/:show_navbar)', to: 'floors#index', as: 'chosen_floor'
   resources :floors do
     resources :locations
   end

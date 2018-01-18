@@ -1,4 +1,5 @@
 class Floor < ApplicationRecord
+  scope :ordered, -> { order(:level) }
   has_many :locations
   has_attached_file :map
   has_many :locations, inverse_of: :floor
