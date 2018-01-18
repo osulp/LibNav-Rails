@@ -1,3 +1,20 @@
+.modal-dialog {
+  margin-top: 160px !important;
+}
+.modal-content {
+  background: none !important;
+  border: none !important;
+}
+
+.modal_text {
+  text-align: center;
+  color: white;
+}
+
+.modal-backdrop {
+  opacity:0.8 !important;
+}
+
 html,
 body {
   height: 100%;
