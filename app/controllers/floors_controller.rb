@@ -1,29 +1,28 @@
 class FloorsController < ApplicationController
   before_action :set_floors, only: %i[index]
   before_action :set_floor, only: %i[update]
+  before_action :show_navbar
   # before_action :set_locations, only: %i[update]
 
   def index
-    @floors = @floors.order('level ASC')
-    @floor = params[:floor_number] || 2
-    @toggle_nav = params[:toggle_navbar] || false
-    @maps = extract_maps_from_floors(@floors)
-    @persistent_locations = fetch_persistent_locations
-    @icons_images = extract_icon_images
-    @search_results = process_search(params[:search]) if params[:search]
-    if current_user
-      @admin_user = current_user.admin?
-    else
-      @admin_user = false
-    end
-    @search_results = @search_results.flatten if @search_results
-    if @search_results
-      @locations = extract_locations(@search_results) if @search_results
-      @search_result_floors = extract_floors(@locations) if @locations
-      @edit_locations = Location.all
-    else
-      @edit_locations = Location.all
-    end
+    search_results = process_search(params[:search])
+    locations = extract_locations(search_results)
+    search_result_floors = extract_floors(locations)
+    admin_user = false
+    admin_user = current_user.admin? if user_signed_in?
+
+    @state = {
+      admin_user: admin_user,
+      edit_locations: Location.all,
+      floor: params[:floor_number] || 2,
+      floors: @floors,
+      icon_images: Icon.all.map { |i| [i.id, i.icon_image] }.to_h,
+      locations: locations,
+      maps: @floors.map { |f| f.map.url(:original) },
+      persistent_locations: Location.persistent,
+      search_result_floors: search_result_floors,
+      user: current_user
+    }
   end
 
   def update
@@ -40,10 +39,6 @@ class FloorsController < ApplicationController
     end
   end
 
-  def chosen_floor
-    @floor = Floor.find(params[:floor_number])
-  end
-
   def floor_params
     params.require(:floor).permit(
       :id,
@@ -54,77 +49,37 @@ class FloorsController < ApplicationController
 
   private
 
-  def fetch_persistent_locations
-    Location.where(:persistent => true)
-  end
-
   def process_search(search_params)
-    @search_results = []
-    @search_results << Location.search_for(search_params)
-    @search_results << Tag.search_for(search_params)
-    @search_results << Trait.search_for(search_params)
-    @search_results
-  end
-
-  def normalize_search_result_floors(floors)
-    @normalized_floors = [nil, nil, nil, nil, nil, nil]
-    floors.each do |floor|
-      @normalized_floors[floor.level - 1] = floor
-    end
-    @normalized_floors
-  end
-
-  def extract_maps_from_floors(floors)
-    @maps = []
-    floors.each do |floor|
-      @maps << floor.map
-    end
-    @maps
+    return [] if search_params.nil?
+    results = []
+    results << Location.search_for(search_params)
+    results << Tag.search_for(search_params)
+    results << Trait.search_for(search_params)
+    results.flatten
   end
 
   def extract_floors(locations)
-    @search_result_floors = []
-      locations.each do |location|
-        if (location.is_a?(Location))
-          @search_result_floors << location.floor unless @search_result_floors.include?(location.floor)
-        elsif(locations.first.is_a?(Tag))
-          @search_result_floors << tag.location.floor unless @search_result_floors.include?(tag.location.floor)
-        else
-
-        end
-      end
-    normalize_search_result_floors(@search_result_floors)
-  end
-
-  def extract_icon_images
-    @icon_images = {}
-    Icon.all.each do |icon|
-      @icon_images[icon.id] = icon.icon_image
+    floors = Array.new(6)
+    locations.to_a.each do |location|
+      floors[location.floor.level - 1] = location.floor if floors[location.floor.level - 1].nil?
     end
-    @icon_images
+    floors
   end
 
   def extract_locations(search_results)
-    @locations = []
-    if search_results.first.is_a?(Trait)
-      search_results.each do |result|
-        @locations.concat(result.locations) if result.value == 'Yes'
-      end
-    elsif search_results.first.is_a?(Tag)
-      search_results.each do |result|
-        @locations << result.location
-      end
-    else
-      search_results.each do |result|
-        @locations << result
-      end
+    search_results.select do |r|
+      return r.locations.to_a if r.is_a?(Trait) && r.value.casecmp('yes').zero?
+      return r.location if r.is_a?(Tag)
+      r
     end
-    @locations
+  end
+
+  def show_navbar
+    @show_navbar = params[:show_navbar] || true
   end
 
   def set_floor
     @floor = Floor.find(params[:id])
-    # byebug
   end
 
   def set_locations
@@ -132,6 +87,6 @@ class FloorsController < ApplicationController
   end
 
   def set_floors
-    @floors = Floor.all
+    @floors = Floor.ordered
   end
 end

@@ -1,4 +1,5 @@
 class Location < ApplicationRecord
+  scope :persistent, -> { where(persistent: true) }
   has_and_belongs_to_many :traits
   has_many :tags
   belongs_to :icon, optional: true
@@ -32,5 +33,4 @@ class Location < ApplicationRecord
   def self.is_persistent?
     self.persistent
   end
-
 end

@@ -1,18 +1,15 @@
-<% if @toggle_nav == false %>
+<% if @show_navbar %>
   <%= render partial: "shared/navbar.html.erb" %>
 <% end %>
-  <%= render partial: "shared/search_nav.html.erb" %>
-
-</p><%= react_component("MapAndButtons", { user: current_user, 
-                                           floors: @floors,
-                                           floor: @floor,
-                                           persistent_locations: @persistent_locations,
-                                           icon_images: @icon_images,
-                                           maps: @maps,
-                                           admin_user: @admin_user,
-                                           search_result_floors: @search_result_floors, 
-                                           locations: @locations, 
-                                           edit_locations: @edit_locations }) %></p>
-  </div>
-  <%= csrf_meta_tag %>
-
+<%= render partial: "shared/search_nav.html.erb" %>
+<%= react_component("MapAndButtons", { admin_user: @state[:admin_user],
+                                       edit_locations: @state[:edit_locations],
+                                       floor: @state[:floor],
+                                       floors: @state[:floors],
+                                       icon_images: @state[:icon_images],
+                                       locations: @state[:locations], 
+                                       maps: @state[:maps],
+                                       persistent_locations: @state[:persistent_locations],
+                                       search_result_floors: @state[:search_result_floors], 
+                                       user: @state[:current_user]
+ }) %>
