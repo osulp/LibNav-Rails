@@ -30,15 +30,14 @@ class MapView extends React.Component {
         var arrayLength = props.locations.length;
         for (var i = 0; i < arrayLength; i++) {
           if (props.locations[i].floor_id == props.current_selected_floor) {
-            svgContainer.append("rect")
+            svgContainer.append("svg:image")
               .attr("x", props.locations[i].position_x)
               .attr("y", props.locations[i].position_y)
               .attr("width", props.locations[i].width)
               .attr("height", props.locations[i].height)
               .attr("class", "bounding-box")
               .attr("data-name", props.locations[i].name)
-              .style("fill", "yellow")
-              .style("opacity", .75);
+              .attr("xlink:href", props.icons[props.locations[i].icon_id])
           }
         }
         $('.bounding-box').each((index, element) => {
@@ -51,15 +50,14 @@ class MapView extends React.Component {
         var arrayLength = props.persistent_locations.length;
         for (var i = 0; i < arrayLength; i++) {
           if (props.persistent_locations[i].floor_id == props.current_selected_floor) {
-            svgContainer.append("rect")
+            svgContainer.append("svg:image")
               .attr("x", props.persistent_locations[i].position_x)
               .attr("y", props.persistent_locations[i].position_y)
               .attr("width", props.persistent_locations[i].width)
               .attr("height", props.persistent_locations[i].height)
               .attr("class", "bounding-box")
               .attr("data-name", props.persistent_locations[i].name)
-              .style("fill", "yellow")
-              .style("opacity", .75);
+              .attr("xlink:href", props.icons[props.persistent_locations[i].icon_id])
           }
         }
         $('.bounding-box').each((index, element) => {
@@ -84,6 +82,7 @@ MapView.propTypes = {
   mapUrl: PropTypes.string,
   locations: PropTypes.array,
   current_selected_floor: PropTypes.string,
-  persistent_locations: PropTypes.array
+  persistent_locations: PropTypes.array,
+  icons: PropTypes.object
 };
 export default MapView
