@@ -75,7 +75,8 @@ class FloorsController < ApplicationController
   end
 
   def show_navbar
-    @show_navbar = params[:show_navbar] || true
+    params[:show_navbar] ||= '1'
+    @show_navbar = params[:show_navbar] == '1'
   end
 
   def set_floor
