@@ -8,9 +8,17 @@ class Location < ApplicationRecord
 
   validates :name, :floor, :position_x, :position_y, :width, :height, presence: true
 
+  def admin_url
+    RailsAdmin::Engine.routes.url_helpers.edit_path(self.class.to_s.downcase, id)
+  end
+
   def get_edit_map_props
     map_props = %i[width height position_x position_y id]
     map_props.each_with_object({}) { |prop, hash| hash[prop] = send(prop) if send(prop) }
+  end
+
+  def attributes
+    super.merge(admin_url: admin_url)
   end
 
   rails_admin do
