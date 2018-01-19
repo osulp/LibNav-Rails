@@ -2,10 +2,10 @@ class Location < ApplicationRecord
   scope :persistent, -> { where(persistent: true) }
 
   has_many :tags
-  has_many :location_icons
-  has_many :icons, through: :location_icons
-  has_many :location_labels
-  has_many :labels, through: :location_labels
+  has_one :location_icon
+  has_one :icon, through: :location_icon
+  has_one :location_label
+  has_one :label, through: :location_label
 
   belongs_to :floor, inverse_of: :locations
 
@@ -20,16 +20,12 @@ class Location < ApplicationRecord
   end
 
   def attributes
-    super.merge(icon_url: icon_url)
+    super.merge({admin_url: admin_url, icon_url: icon_url})
   end
 
   def get_edit_map_props
     map_props = %i[width height position_x position_y id]
     map_props.each_with_object({}) { |prop, hash| hash[prop] = send(prop) if send(prop) }
-  end
-
-  def attributes
-    super.merge(admin_url: admin_url)
   end
 
   rails_admin do
@@ -43,14 +39,14 @@ class Location < ApplicationRecord
       field :persistent
       field :traits
       field :tags
-      field :icons
+      field :icon
     end
   end
 
   private
 
   def icon_url
-    self.icons.first.icon_image.url unless self.icons.empty?
+    self.icon.icon_image.url unless self.icon.nil?
   end
 
   def self.is_persistent?

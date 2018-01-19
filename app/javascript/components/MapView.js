@@ -30,7 +30,6 @@ class MapView extends React.Component {
         var arrayLength = props.locations.length;
         for (var i = 0; i < arrayLength; i++) {
           if (props.locations[i].floor_id == props.current_selected_floor) {
-            alert(JSON.stringify(props.locations[i]))
             svgContainer.append("svg:image")
               .attr("x", props.locations[i].position_x)
               .attr("y", props.locations[i].position_y)
@@ -51,7 +50,6 @@ class MapView extends React.Component {
         var arrayLength = props.persistent_locations.length;
         for (var i = 0; i < arrayLength; i++) {
           if (props.persistent_locations[i].floor_id == props.current_selected_floor) {
-            alert(JSON.stringify(props.persistent_locations[i]))
             svgContainer.append("svg:image")
               .attr("x", props.persistent_locations[i].position_x)
               .attr("y", props.persistent_locations[i].position_y)
