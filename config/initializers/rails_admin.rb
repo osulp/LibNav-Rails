@@ -24,6 +24,6 @@ RailsAdmin.config do |config|
     #show_in_app
 
     # Configuration for Models controlled by rails_admin
-    #config.included_models = %w[User Location Trait TraitType Floor Tag]
+    config.included_models = %w[User Location Trait Floor Tag Icon Label]
   end
 end

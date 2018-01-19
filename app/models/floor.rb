@@ -1,9 +1,12 @@
 class Floor < ApplicationRecord
   scope :ordered, -> { order(:level) }
+
   has_many :locations
-  has_attached_file :map
   has_many :locations, inverse_of: :floor
+  has_attached_file :map
+
   accepts_nested_attributes_for :locations
+
   validates_attachment_content_type :map, content_type: [/svg(\+xml)?\Z/]
 
   def get_edit_map_props
