@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180116220915) do
+ActiveRecord::Schema.define(version: 20180118214216) do
 
   create_table "floors", force: :cascade do |t|
     t.string "name"
@@ -32,6 +32,25 @@ ActiveRecord::Schema.define(version: 20180116220915) do
     t.integer "icon_image_file_size"
     t.datetime "icon_image_updated_at"
     t.string "name"
+  end
+
+  create_table "labels", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "location_icons", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "location_id"
+    t.integer "icon_id"
+  end
+
+  create_table "location_labels", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "location_id"
+    t.integer "label_id"
   end
 
   create_table "locations", force: :cascade do |t|

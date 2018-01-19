@@ -16,7 +16,6 @@ class FloorsController < ApplicationController
       edit_locations: Location.all,
       floor: params[:floor_number] || 2,
       floors: @floors,
-      icon_images: Icon.all.map { |i| [i.id, i.icon_image] }.to_h,
       locations: locations,
       maps: @floors.map { |f| f.map.url(:original) },
       persistent_locations: Location.persistent,

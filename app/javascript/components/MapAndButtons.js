@@ -73,14 +73,12 @@ class MapAndButtons extends React.Component {
       return <MapEdit mapUrl={this.props.maps[this.state.current_selected_floor - 1]}
         locations={this.props.edit_locations}
         id={this.props.floors[this.state.current_selected_floor - 1].id.toString()}
-        current_selected_floor={this.state.current_selected_floor.toString()}
-        icons={this.props.icon_images}/>
+        current_selected_floor={this.state.current_selected_floor.toString()}/>
     } else {
       return <MapView mapUrl={this.props.maps[this.state.current_selected_floor - 1]}
         locations={this.props.locations}
-        current_selected_floor={this.state.current_selected_floor.toString()} 
-        persistent_locations={this.props.persistent_locations} 
-        icons={this.props.icon_images}/>
+        current_selected_floor={this.state.current_selected_floor.toString()}
+        persistent_locations={this.props.persistent_locations}/>
 
     }
   }

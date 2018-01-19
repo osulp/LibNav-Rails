@@ -37,7 +37,7 @@ class MapView extends React.Component {
               .attr("height", props.locations[i].height)
               .attr("class", "bounding-box")
               .attr("data-name", props.locations[i].name)
-              .attr("xlink:href", props.icons[props.locations[i].icon_id])
+              .attr("xlink:href", props.locations[i].icon_url)
           }
         }
         $('.bounding-box').each((index, element) => {
@@ -57,7 +57,7 @@ class MapView extends React.Component {
               .attr("height", props.persistent_locations[i].height)
               .attr("class", "bounding-box")
               .attr("data-name", props.persistent_locations[i].name)
-              .attr("xlink:href", props.icons[props.persistent_locations[i].icon_id])
+              .attr("xlink:href", props.persistent_locations[i].icon_url)
           }
         }
         $('.bounding-box').each((index, element) => {
@@ -82,7 +82,6 @@ MapView.propTypes = {
   mapUrl: PropTypes.string,
   locations: PropTypes.array,
   current_selected_floor: PropTypes.string,
-  persistent_locations: PropTypes.array,
-  icons: PropTypes.object
+  persistent_locations: PropTypes.array
 };
 export default MapView
