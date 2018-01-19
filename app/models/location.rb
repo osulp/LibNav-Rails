@@ -20,7 +20,9 @@ class Location < ApplicationRecord
   end
 
   def attributes
-    super.merge({admin_url: admin_url, icon_url: icon_url})
+    super.merge({admin_url: admin_url,
+                 icon_url: icon_url, 
+                 label_text: label_text})
   end
 
   def get_edit_map_props
@@ -47,6 +49,10 @@ class Location < ApplicationRecord
 
   def icon_url
     self.icon.icon_image.url unless self.icon.nil?
+  end
+
+  def label_text
+    self.label.value unless self.label.nil?
   end
 
   def self.is_persistent?
