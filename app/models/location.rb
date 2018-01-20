@@ -20,7 +20,9 @@ class Location < ApplicationRecord
   end
 
   def attributes
-    super.merge({admin_url: admin_url, icon_url: icon_url})
+    super.merge({admin_url: admin_url, 
+                 icon_url: icon_url,
+                 label_text: label_text})
   end
 
   def get_edit_map_props
@@ -40,10 +42,15 @@ class Location < ApplicationRecord
       field :traits
       field :tags
       field :icon
+      field :label
     end
   end
 
   private
+
+  def label_text
+    self.label.value unless self.label.nil?
+  end
 
   def icon_url
     self.icon.icon_image.url unless self.icon.nil?
