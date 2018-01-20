@@ -6,6 +6,7 @@ class Label < ApplicationRecord
     base do
       field :name
       field :value
+      field :locations
     end
   end
 end
