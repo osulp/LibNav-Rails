@@ -1,2 +1,10 @@
+# If the api call is unable to determine an appropriate redirect url for a query, return the user to this default.
+API_DEFAULT_REDIRECT_URL: 'https://library.oregonstate.edu'
+
+# A simple lookup for location_code => redirect url. Relative path to Rails.root
+# Example: vdonf: https://library.oregonstate.edu/floormaps/circulation
+API_LOCATION_MAP_LOOKUP: 'config/alma_location_map.yml'
+
+# CAS authentication configurations
 CAS_BASE_URL: 'https://login.oregonstate.edu/cas'
 CAS_VALIDATE_URL: 'https://login.oregonstate.edu/cas/samlValidate'
