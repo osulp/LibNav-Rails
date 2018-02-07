@@ -49,19 +49,19 @@ class FloorsController < ApplicationController
   private
 
   def you_are_here_persistent_locations
-    Location.persistent.to_a.delete_if { |location| included_name?(location) } << you_are_here_location if params[:floor_number]
+    persistent_locations_without_kiosk_only << you_are_here_location if params[:floor_number]
   end
 
   def you_are_not_here_persistent_locations
-    Location.persistent.to_a.delete_if { |location| included_name?(location) }
+    persistent_locations_without_kiosk_only
   end
 
   def you_are_here_location
-    Location.persistent.on_floor(params[:floor_number]).to_a.delete_if { |location| !included_name?(location) }
+    Location.persistent.on_floor(params[:floor_number]).select { |location| location.kiosk_only? }
   end
 
-  def included_name?(location)
-    location.name.include?("You Are Here")
+  def persistent_locations_without_kiosk_only
+    Location.persistent.select { |location| !location.kiosk_only? }
   end
 
   def process_search(search_params)

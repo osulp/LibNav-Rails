@@ -32,7 +32,7 @@ class Location < ApplicationRecord
   end
 
   def kiosk_only?
-    tags.include?(name: 'render-only-at-kiosk')
+    traits.exists?(name: 'render-only-at-kiosk')
   end
 
   rails_admin do

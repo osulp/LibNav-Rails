@@ -51,8 +51,10 @@ you_are_here_locations = [
 kiosk_trait = Trait.create(name: 'Kiosk', value: 'Yes') unless Trait.exists?(name: 'Kiosk')
 kiosk_trait ||= Trait.where(name: 'Kiosk')
 
-you_are_here_label = Label.create(name: 'You Are Here', value: 'You Are Here')  unless Label.exists?(name: 'You Are Here')
+you_are_here_label = Label.create(name: 'You Are Here', value: 'You Are Here') unless Label.exists?(name: 'You Are Here')
 you_are_here_label ||= Label.where(name: 'You Are Here')
+you_are_here_trait = Trait.create(name: 'render-only-at-kiosk', value: 'Yes') unless Tag.exists?(name: 'render-only-at-kiosk')
+you_are_here_trait ||= Trait.where(name: 'render-only-at-kiosk')
 
 locations.each do |location|
   Location.create(location) unless Location.exists?(name: location[:name])
@@ -69,5 +71,6 @@ you_are_here_locations.each do |you_are_here|
   location = Location.create(you_are_here) unless Location.exists?(name: you_are_here[:name])
   location ||= Location.where(name: you_are_here[:name]).first
   location.label << you_are_here_label unless location.label.include?(you_are_here_label)
+  location.traits << you_are_here_trait
   location.save
 end
