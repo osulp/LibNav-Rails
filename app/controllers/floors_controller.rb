@@ -18,7 +18,7 @@ class FloorsController < ApplicationController
       floors: @floors,
       locations: locations,
       maps: @floors.map { |f| f.map.url(:original) },
-      persistent_locations: params[:kiosk] ? persistent_locations : Location.persistent,
+      persistent_locations: params[:kiosk] ? you_are_here_persistent_locations.flatten : you_are_not_here_persistent_locations,
       search_result_floors: search_result_floors,
       user: current_user
     }
@@ -48,18 +48,20 @@ class FloorsController < ApplicationController
 
   private
 
-  def persistent_locations
-    if params[:floor_number].exists?
-      persistent_locations = Location.persistent.to_a.delete_if {|location| puts location.name.include? "Kiosk"}
-      insert_kiosk(persistent_locations)
-    else
-      Location.persistent
-    end
+  def you_are_here_persistent_locations
+    Location.persistent.to_a.delete_if { |location| included_name?(location) } << you_are_here_location if params[:floor_number]
   end
 
-  def insert_kiosk(persistent_locations)
-    persistent_locations << Location.where("name LIKE ? AND floor_id = ?", "%You Are Here%", "%#{params[:floor_number]}%").to_a
-    persistent_locations.flatten
+  def you_are_not_here_persistent_locations
+    Location.persistent.to_a.delete_if { |location| included_name?(location) }
+  end
+
+  def you_are_here_location
+    Location.persistent.on_floor(params[:floor_number]).to_a.delete_if { |location| !included_name?(location) }
+  end
+
+  def included_name?(location)
+    location.name.include?("You Are Here")
   end
 
   def process_search(search_params)

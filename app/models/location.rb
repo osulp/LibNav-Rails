@@ -1,5 +1,6 @@
 class Location < ApplicationRecord
   scope :persistent, -> { where(persistent: true) }
+  scope :on_floor, -> (floor_id) {where(floor_id: floor_id)}
 
   has_many :tags
   has_one :location_icon
@@ -28,6 +29,10 @@ class Location < ApplicationRecord
   def get_edit_map_props
     map_props = %i[width height position_x position_y id]
     map_props.each_with_object({}) { |prop, hash| hash[prop] = send(prop) if send(prop) }
+  end
+
+  def kiosk_only?
+    tags.include?(name: 'render-only-at-kiosk')
   end
 
   rails_admin do
