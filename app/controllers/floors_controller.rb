@@ -49,7 +49,9 @@ class FloorsController < ApplicationController
   private
 
   def you_are_here_persistent_locations
-    persistent_locations_without_kiosk_only << you_are_here_location if params[:floor_number]
+    locations = persistent_locations_without_kiosk_only
+    locations << you_are_here_location if params[:floor_number]
+    locations
   end
 
   def you_are_not_here_persistent_locations
