@@ -51,6 +51,10 @@ body {
     align-items: flex-start;
     display: flex;
     flex-direction: column;
+    h2 {
+      text-align: center;
+      padding-bottom: 10px;
+    }
     .btn {
       margin-bottom: 10px;
     }
