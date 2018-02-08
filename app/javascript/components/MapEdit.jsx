@@ -13,7 +13,7 @@ class EditMap extends React.Component {
     locations: PropTypes.array
   }
   static defaultProps = {
-    bounding_box_height: 800,
+    bounding_box_height: 650,
     bounding_box_width: 800,
     bounding_box_x: 0,
     bounding_box_y: 0,
@@ -48,13 +48,13 @@ class EditMap extends React.Component {
   }
 
   locationBox = l => {
-    return (<LocationBox key={l.id} 
-                         name={l.name} 
-                         position_x={l.position_x} 
-                         position_y={l.position_y} 
-                         width={l.width} 
-                         height={l.height} 
-                         id={l.id} 
+    return (<LocationBox key={l.id}
+                         name={l.name}
+                         position_x={l.position_x}
+                         position_y={l.position_y}
+                         width={l.width}
+                         height={l.height}
+                         id={l.id}
                          admin_url={l.admin_url} />);
   }
 
@@ -118,7 +118,7 @@ class EditMap extends React.Component {
       .attr("x", 0)
       .attr("y", 0)
       .attr("width", 800)
-      .attr("height", 800)
+      .attr("height", 650)
       .lower();
   }
 
@@ -127,7 +127,7 @@ class EditMap extends React.Component {
       <div className='map' >
         <div className="row">
           <div className="col">
-            <svg height="800px" width="800px" className="svgContainer" id={`floor-${this.props.current_selected_floor}-svg`}>
+            <svg height="650px" width="800px" className="svgContainer" id={`floor-${this.props.current_selected_floor}-svg`}>
               {
                 this.state.locationsBoxes
               }
