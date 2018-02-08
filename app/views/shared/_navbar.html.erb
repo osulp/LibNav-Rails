@@ -13,7 +13,7 @@
         <%= link_to "Admin Dashboard", rails_admin_path, :class => "nav-link small-text"  if current_user && current_user.admin? %>
       </li>
       <li class="nav-item">
-        <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => "nav-link small-text" if current_user %>
+        <%= link_to "Logout", destroy_user_session_path, method: :get, :class => "nav-link small-text" if current_user %>
         <%= link_to "Administration", user_session_path, :class => "nav-link small-text" if current_user.nil? %>
       </li>
     </ul>
