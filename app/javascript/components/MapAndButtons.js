@@ -162,32 +162,13 @@ class MapAndButtons extends React.Component {
     return (
       <main className="floor-index" id="main-content">
         <div className="row map-and-buttons">
-          <div className="buttons-row">
-            {this.props.floors.map((floor, i) => {
-              return (
-                <FloorButton key={`floor.${i}`}
-                  active={i == this.state.current_selected_floor - 1}
-                  floor={floor}
-                  was_searched_floor={this.searched_floor(this.props.search_result_floors, i)}
-                  hit_count={this.state.result_hit_counts[i]}
-                  handler={this.handler} />
-              )
-            })}
+          <div className="map-row">
+            <div className="info-col col-12">
+              <h2>{this.props.floors[this.state.current_selected_floor - 1].name}</h2>
+            </div>
           </div>
           <div className="map-row">
-            <div className="info-col col-1">
-              <h2>{this.props.floors[this.state.current_selected_floor - 1].name}</h2>
-              {this.props.admin_user ? <ToggleEditButton handler={this.toggleHandler} edit_state={this.state.edit_mode} /> : '' }
-              {this.state.edit_mode && this.props.admin_user ? <button id={`floor-save-btn`} className="btn btn-success save-btn">Save
-                <span className="icon-container">
-                  <i className="fa fa-spin fa-circle-o-notch icon active" />
-                  <i className="fa fa-check icon" />
-                  <i className="fa fa-times icon" />
-                </span>
-              </button> : ''}
-              {this.state.edit_mode && this.props.admin_user ? <div className="alert save-result hidden" /> : ''}
-            </div>
-            <div className="map-col col-9">
+            <div className="map-col col-10">
               {this.render_map_view()}
             </div>
             <div className="col-2">
@@ -221,7 +202,30 @@ class MapAndButtons extends React.Component {
                   </div>
                 </div>
               </div>
+              <div className="info-col col-2 save-edit-buttons">
+                {this.state.edit_mode && this.props.admin_user ? <button id={`floor-save-btn`} className="btn btn-success save-btn">Save
+                  <span className="icon-container">
+                    <i className="fa fa-spin fa-circle-o-notch icon active" />
+                    <i className="fa fa-check icon" />
+                    <i className="fa fa-times icon" />
+                  </span>
+                </button> : ''}
+                {this.props.admin_user ? <ToggleEditButton handler={this.toggleHandler} edit_state={this.state.edit_mode} /> : '' }
+                {this.state.edit_mode && this.props.admin_user ? <div className="alert save-result hidden" /> : ''}
+              </div>
             </div>
+          </div>
+          <div className="buttons-row">
+            {this.props.floors.map((floor, i) => {
+              return (
+                <FloorButton key={`floor.${i}`}
+                  active={i == this.state.current_selected_floor - 1}
+                  floor={floor}
+                  was_searched_floor={this.searched_floor(this.props.search_result_floors, i)}
+                  hit_count={this.state.result_hit_counts[i]}
+                  handler={this.handler} />
+              )
+            })}
           </div>
         </div>
         { this.render_modal() }

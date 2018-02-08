@@ -14,7 +14,7 @@ class MapView extends React.Component {
       var svgContainer = d3.select(".svgContainer").append("svg")
         .attr("class", "map-svg")
         .attr("width", 800)
-        .attr("height", 800);
+        .attr("height", 650);
 
 
       svgContainer.append('svg:image')
@@ -23,7 +23,7 @@ class MapView extends React.Component {
         .attr("x", 0)
         .attr("y", 0)
         .attr("width", 800)
-        .attr("height", 800);
+        .attr("height", 650);
 
 
       if (props.locations) {
