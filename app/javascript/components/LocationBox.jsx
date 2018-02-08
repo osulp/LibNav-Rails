@@ -133,7 +133,7 @@ class LocationBox extends React.Component {
       <g className="location-box" id={`location-box-${this.props.id}`}>
         <rect className="bounding-box edit" data-name={this.props.name} height={this.state.height + "px"} width={this.state.width + "px"} x={this.state.position_x + "px"} y={this.state.position_y} />
         <circle className="drag-circle" r="8px" cx={this.state.position_x + this.state.width + "px"} cy={this.state.position_y + this.state.height + "px"} />
-        <a href={this.props.admin_url}>
+        <a href={this.props.admin_url} target='_blank'>
           <circle className="link-circle" r="8px" cx={this.state.position_x + "px"} cy={this.state.position_y + "px"}/>
           <text x={(this.state.position_x - 3) + "px"} y={(this.state.position_y + 4) + "px"} fontSize="0.75rem" fill="#fff">?</text>
         </a>
