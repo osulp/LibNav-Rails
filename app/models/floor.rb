@@ -21,7 +21,6 @@ class Floor < ApplicationRecord
     base do
       field :name
       field :level
-      field :locations
       field :map, :paperclip do
         thumb_method :original
       end
