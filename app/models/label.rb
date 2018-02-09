@@ -6,7 +6,10 @@ class Label < ApplicationRecord
     base do
       field :name
       field :value
-      field :locations
+      field :locations do
+        inline_add false
+        nested_form false
+      end
     end
   end
 end

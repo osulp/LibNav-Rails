@@ -12,7 +12,10 @@ class Icon < ApplicationRecord
         thumb_method :medium
       end
       field :name
-      field :locations
+      field :locations do
+        inline_add false
+        nested_form false
+      end
     end
   end
 end

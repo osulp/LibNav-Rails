@@ -39,10 +39,6 @@ class Location < ApplicationRecord
     base do
       field :name
       field :floor
-      field :position_x
-      field :position_y
-      field :width
-      field :height
       field :persistent
       field :traits
       field :tags
