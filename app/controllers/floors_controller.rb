@@ -50,7 +50,7 @@ class FloorsController < ApplicationController
 
   def get_persistent_locations
     locations = Location.persistent.select { |location| !location.kiosk_only? }
-    locations << Location.persistent.on_floor(params[:floor_number]).select { |location| location.kiosk_only? } if params[:floor_number] && params[:kiosk]
+    locations << Location.persistent.on_floor(params[:floor_number]).select { |location| location.kiosk_only? } if params[:floor_number] && (params[:kiosk] == "true")
     locations.flatten
   end
 
