@@ -9,31 +9,36 @@ class MapView extends React.Component {
   }
 
   appendLocation = (svg, location) => {
-    // bounding-box for tooltip target
-    svg.append("svg:image")
+    let g = svg.append("g")
+       .attr('class', 'location-container')
+       .attr("x", location.position_x)
+       .attr("y", location.position_y)
+       .attr("width", location.width)
+       .attr("height", location.height);
+    // icon
+    g.append('svg:image')
       .attr("x", location.position_x)
       .attr("y", location.position_y)
       .attr("width", location.width)
-      .attr("height", location.height)
-      .attr("class", "bounding-box")
-      .attr("data-name", location.name);
-    // icon
-    svg.append('svg:image')
-      .attr("x", location.position_x)
-      .attr("y", location.position_y + 20)
-      .attr("width", location.width)
-      .attr("height", location.height - 20)
       .attr("xlink:href", location.icon_url);
     // label
-    svg.append('text')
+    g.append('text')
       .attr("x", location.position_x + (location.width / 2))
       .attr("y", location.position_y)
       .attr("text-anchor", "middle")
       .text(location.label_text);
+    // tooltip target
+    g.append('svg:image')
+      .attr("x", location.position_x)
+      .attr("y", location.position_y)
+      .attr("width", location.width)
+      .attr("height", location.height)
+      .attr('class', 'tooltip')
+      .attr("data-name", location.name);
   }
 
   setTooltips = () => {
-    $('.bounding-box').each((index, element) => {
+    $('.tooltip').each((index, element) => {
       let name = element.dataset.name;
       $(element).tooltip({ title: name });
       $(element).attr('tabindex', '0');
