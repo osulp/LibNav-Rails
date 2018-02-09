@@ -6,13 +6,7 @@ require('d3');
 
 class LocationBox extends React.Component {
   static PropTypes = {
-    position_x: PropTypes.number,
-    position_y: PropTypes.number,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    name: PropTypes.string,
-    id: PropTypes.number,
-    admin_url: PropTypes.string
+    location: PropTypes.object
   }
 
   static defaultProps = {
@@ -21,33 +15,34 @@ class LocationBox extends React.Component {
     width: 50,
     height: 50,
     id: null,
-    admin_url: null
+    admin_url: null,
+    icon_url: null
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      position_x: this.props.position_x,
-      position_y: this.props.position_y,
-      width: this.props.width,
-      height: this.props.height
+      position_x: this.props.location.position_x,
+      position_y: this.props.location.position_y,
+      width: this.props.location.width,
+      height: this.props.location.height
     }
   }
 
   componentDidMount = () => {
-    this.baseElement = d3.select(`#location-box-${this.props.id}`);
-    $(`#location-box-${this.props.id}`).find('.bounding-box').on('mousedown', (event) => {
-      $(`#location-box-${this.props.id}`).find('.bounding-box').tooltip('hide')
+    this.baseElement = d3.select(`#location-box-${this.props.location.id}`);
+    $(`#location-box-${this.props.location.id}`).find('.bounding-box').on('mousedown', (event) => {
+      $(`#location-box-${this.props.location.id}`).find('.bounding-box').tooltip('hide')
     });
-    $(`#location-box-${this.props.id}`).find('.bounding-box').on('keydown', this.handleKeyPress);
-    d3.select(`#location-box-${this.props.id}`)
+    $(`#location-box-${this.props.location.id}`).find('.bounding-box').on('keydown', this.handleKeyPress);
+    d3.select(`#location-box-${this.props.location.id}`)
       .select('rect')
       .call(d3.drag().on('drag', this.draggedBox));
-    d3.select(`#location-box-${this.props.id}`)
+    d3.select(`#location-box-${this.props.location.id}`)
       .select('circle')
       .call(d3.drag().on('drag', this.draggedCircle));
-    let box = $(`#location-box-${this.props.id}`).find('.bounding-box');
-    box.tooltip({ title: this.props.name });
+    let box = $(`#location-box-${this.props.location.id}`).find('.bounding-box');
+    box.tooltip({ title: this.props.location.name });
     box.attr('tabindex', '0');
   }
 
@@ -130,10 +125,11 @@ class LocationBox extends React.Component {
 
   render = () => {
     return (
-      <g className="location-box" id={`location-box-${this.props.id}`}>
-        <rect className="bounding-box edit" data-name={this.props.name} height={this.state.height + "px"} width={this.state.width + "px"} x={this.state.position_x + "px"} y={this.state.position_y} />
+      <g className="location-box" id={`location-box-${this.props.location.id}`}>
+        <image x={this.state.position_x} y={this.state.position_y} width={this.state.width} xlinkHref={this.props.location.icon_url}></image>
+        <rect className="bounding-box edit" data-name={this.props.location.name} height={this.state.height + "px"} width={this.state.width + "px"} x={this.state.position_x + "px"} y={this.state.position_y} />
         <circle className="drag-circle" r="8px" cx={this.state.position_x + this.state.width + "px"} cy={this.state.position_y + this.state.height + "px"} />
-        <a href={this.props.admin_url} target='_blank'>
+        <a href={this.props.location.admin_url} target='_blank'>
           <circle className="link-circle" r="8px" cx={this.state.position_x + "px"} cy={this.state.position_y + "px"}/>
           <text x={(this.state.position_x - 3) + "px"} y={(this.state.position_y + 4) + "px"} fontSize="0.75rem" fill="#fff">?</text>
         </a>
