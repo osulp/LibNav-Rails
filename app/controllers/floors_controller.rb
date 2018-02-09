@@ -18,7 +18,7 @@ class FloorsController < ApplicationController
       floors: @floors,
       locations: locations,
       maps: @floors.map { |f| f.map.url(:original) },
-      persistent_locations: Location.persistent,
+      persistent_locations: get_persistent_locations,
       search_result_floors: search_result_floors,
       user: current_user
     }
@@ -47,6 +47,12 @@ class FloorsController < ApplicationController
   end
 
   private
+
+  def get_persistent_locations
+    locations = Location.persistent.select { |location| !location.kiosk_only? }
+    locations << Location.persistent.on_floor(params[:floor_number]).select { |location| location.kiosk_only? } if params[:floor_number] && (params[:kiosk] == "true")
+    locations.flatten
+  end
 
   def process_search(search_params)
     return [] if search_params.nil?
