@@ -27,7 +27,6 @@ class EditMap extends React.Component {
       locations: this.props.locations.filter(location => location.floor_id == this.props.id),
       locationsBoxes: this.props.locations.map((location => location.floor_id == this.props.id ? this.locationBox(location) : null))
     }
-    console.log(this.state.locationsBoxes);
   }
   updateGridSize = event => {
     this.setState({
@@ -36,14 +35,14 @@ class EditMap extends React.Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    this.render_svg(nextProps.mapUrl);
+    this.renderSvg(nextProps.mapUrl);
     this.setState({
       locations: nextProps.locations.filter(location => location.floor_id == nextProps.id),
       locationsBoxes: nextProps.locations.map((location => location.floor_id == nextProps.id ? this.locationBox(location) : null))
     })
   }
   componentDidMount = () => {
-    this.render_svg(this.props.mapUrl);
+    this.renderSvg(this.props.mapUrl);
     $(`#floor-${this.props.current_selected_floor}-save-btn`).on('click', this.saveFloor);
   }
 
@@ -75,7 +74,7 @@ class EditMap extends React.Component {
   }
 
   saveFloor = (event) => {
-    console.log("clicked");
+    console.log("clicked save");
     let floorId = this.props.id;
     let token = $('meta[name="csrf-token"]').attr('content');
     let locations_attributes = []
@@ -89,9 +88,8 @@ class EditMap extends React.Component {
       new_attributes.position_x = parseInt(group.find('rect').attr('x'));
       new_attributes.position_y = parseInt(group.find('rect').attr('y'));
       locations_attributes.push(new_attributes);
-    })
-    console.log(locations_attributes);
-    let foo = null;
+    });
+    console.log("saving location attributes: ", locations_attributes);
     $.ajax({
       url: `floors/${floorId}.json`,
       type: 'patch',
@@ -103,11 +101,11 @@ class EditMap extends React.Component {
           locations_attributes: locations_attributes
         }
       }
-    })
+    });
   }
 
-  render_svg = (mapUrl) => {
-    var svgContainer = d3.select(".svgContainer");
+  renderSvg = (mapUrl) => {
+    let svgContainer = d3.select(".svgContainer");
     if (d3.select('.map_image')) {
       d3.select('.map_image').remove();
     }
@@ -117,24 +115,16 @@ class EditMap extends React.Component {
       .attr("xlink:href", mapUrl)
       .attr("x", 0)
       .attr("y", 0)
-      .attr("width", 800)
-      .attr("height", 650)
+      .attr("width", '100%')
       .lower();
   }
 
   render() {
     return (
-      <div className='map' >
-        <div className="row">
-          <div className="col">
-            <svg height="650px" width="800px" className="svgContainer" id={`floor-${this.props.current_selected_floor}-svg`}>
-              {
-                this.state.locationsBoxes
-              }
-            </svg>
-          </div>
-        </div>
-      </div >);
+      <svg width="100%" viewBox="0 0 800 650" className="svgContainer" id={`floor-${this.props.current_selected_floor}-svg`}>
+        {this.state.locationsBoxes}
+      </svg>
+    );
   }
 }
 
