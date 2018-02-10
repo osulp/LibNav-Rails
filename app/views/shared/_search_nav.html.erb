@@ -1,11 +1,11 @@
 <div class="search-nav">
   <div class="row">
-    <div class="col-3">
+    <div class="col-1 col-md-2">
     </div>
-    <div class="col-6 top-margin">
+    <div class="col-10 col-md-8 top-margin">
       <%= form_tag(root_path, :method => :get, class: "form-group row overflowing") do %>
-        <%= text_field_tag :search, params[:search], class: "form-control col-8", :placeholder => "(E.g Circulation, Restrooms, Well Lit)" %>
-        <%= submit_tag "Search", :method => :get, :class => "col-4" %>
+        <%= text_field_tag :search, params[:search], class: "form-control col", :placeholder => "(example: Circulation, Restrooms, Well Lit)" %>
+        <%= submit_tag "Search", :method => :get, class: 'col-3 btn btn-primary' %>
       <% end %>
     </div>
   </div>
