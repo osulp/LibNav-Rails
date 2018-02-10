@@ -1,6 +1,6 @@
 class FloorsController < ApplicationController
   before_action :set_floors, only: %i[index]
-  before_action :set_floor, only: %i[update]
+  before_action :set_floor, only: %i[add_location update]
   before_action :show_navbar
   # before_action :set_locations, only: %i[update]
 
@@ -13,6 +13,7 @@ class FloorsController < ApplicationController
 
     @state = {
       admin_user: admin_user,
+      add_location_url: route_for(:floor_add_location, id: 'FLOORID'),
       edit_locations: Location.all,
       floor: params[:floor_number] || 2,
       floors: @floors,
@@ -20,7 +21,7 @@ class FloorsController < ApplicationController
       maps: @floors.map { |f| f.map.url(:original) },
       persistent_locations: get_persistent_locations,
       search_result_floors: search_result_floors,
-      user: current_user
+      user: { email: current_user.email }
     }
   end
 
@@ -38,11 +39,28 @@ class FloorsController < ApplicationController
     end
   end
 
+  def add_location
+    locations = []
+    floor_params[:locations_attributes].each_pair do |_k, location|
+      location['height'] = location['height'].to_i
+      location['position_x'] = location['position_x'].to_i
+      location['position_y'] = location['position_y'].to_i
+      location['width'] = location['width'].to_i
+      location['floor_id'] = @floor['id']
+      locations << Location.create(location)
+    end
+    respond_to do |format|
+      format.json do
+        render json: locations
+      end
+    end
+  end
+
   def floor_params
     params.require(:floor).permit(
       :id,
       :name,
-      locations_attributes: %i[id position_x position_y height width]
+      locations_attributes: %i[id height name position_x position_y width]
     )
   end
 

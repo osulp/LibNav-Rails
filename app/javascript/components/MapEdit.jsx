@@ -10,9 +10,11 @@ class EditMap extends React.Component {
     mapUrl: PropTypes.string,
     id: PropTypes.string,
     current_selected_floor: PropTypes.string,
+    added_locations: PropTypes.array,
     locations: PropTypes.array
   }
   static defaultProps = {
+    added_locations: [],
     bounding_box_height: 650,
     bounding_box_width: 800,
     bounding_box_x: 0,
@@ -24,8 +26,9 @@ class EditMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      locations: this.props.locations.filter(location => location.floor_id == this.props.id),
-      locationsBoxes: this.props.locations.map((location => location.floor_id == this.props.id ? this.locationBox(location) : null))
+      locations: this.props.locations.filter(l => l.floor_id == this.props.id),
+      locationsBoxes: this.props.locations.map(l => l.floor_id == this.props.id ? this.locationBox(l) : null),
+      addedLocationsBoxes: this.props.added_locations.map(l => l.floor_id === this.props.id ? this.locationBox(l) : null)
     }
   }
   updateGridSize = event => {
@@ -37,8 +40,9 @@ class EditMap extends React.Component {
   componentWillReceiveProps = (nextProps) => {
     this.renderSvg(nextProps.mapUrl);
     this.setState({
-      locations: nextProps.locations.filter(location => location.floor_id == nextProps.id),
-      locationsBoxes: nextProps.locations.map((location => location.floor_id == nextProps.id ? this.locationBox(location) : null))
+      locations: nextProps.locations.filter(l => l.floor_id == nextProps.id),
+      locationsBoxes: nextProps.locations.map(l => l.floor_id == nextProps.id ? this.locationBox(l) : null),
+      addedLocationsBoxes: nextProps.added_locations.map(l => l.floor_id === this.props.id ? this.locationBox(l) : null)
     })
   }
   componentDidMount = () => {
@@ -47,7 +51,7 @@ class EditMap extends React.Component {
   }
 
   locationBox = l => {
-    return (<LocationBox key={l.id} location={l} />);
+    return (<LocationBox key={l.id} {...l} />);
   }
 
   draggedCircle = d => {
@@ -116,6 +120,7 @@ class EditMap extends React.Component {
     return (
       <svg width="100%" viewBox="0 0 800 650" className="svgContainer" id={`floor-${this.props.current_selected_floor}-svg`}>
         {this.state.locationsBoxes}
+        {this.state.addedLocationsBoxes}
       </svg>
     );
   }

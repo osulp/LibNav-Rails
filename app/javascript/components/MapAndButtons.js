@@ -1,11 +1,14 @@
-import React from "react"
-import PropTypes from "prop-types"
-import FloorButton from "./FloorButton"
-import ToggleEditButton from './ToggleEditButton'
-import MapView from "./MapView"
-import MapEdit from "./MapEdit"
-import Map from "./Map"
-import SplashPage from "./SplashPage"
+import React from 'react';
+import PropTypes from 'prop-types';
+import FloorButton from './FloorButton';
+import ToggleEditButton from './ToggleEditButton';
+import LocationBox from './LocationBox';
+import AddLocationButton from './AddLocationButton';
+import SearchFilterAccordion from './SearchFilterAccordion';
+import MapView from './MapView';
+import MapEdit from './MapEdit';
+import Map from './Map';
+import SplashPage from './SplashPage';
 class MapAndButtons extends React.Component {
 
   toggleHandler(e, edit_state) {
@@ -18,6 +21,15 @@ class MapAndButtons extends React.Component {
         edit_mode: true
       })
     }
+  }
+
+  addLocationHandler = (e, l) => {
+    let added_locations = this.state.added_locations;
+    l.add_location_url = this.props.add_location_url;
+    let floor_id = this.state.current_selected_floor;
+    l.floor_id = floor_id.toString();
+    added_locations.push(l);
+    this.setState({ added_locations: added_locations });
   }
 
   handler(e, selected_floor) {
@@ -42,6 +54,7 @@ class MapAndButtons extends React.Component {
     this.handler = this.handler.bind(this)
     this.toggleHandler = this.toggleHandler.bind(this)
     this.state = {
+      added_locations: [],
       current_selected_floor: this.props.floor,
       edit_mode: false,
       modal_popup: true,
@@ -72,6 +85,7 @@ class MapAndButtons extends React.Component {
     if (this.state.edit_mode == true) {
       return <MapEdit mapUrl={this.props.maps[this.state.current_selected_floor - 1]}
         locations={this.props.edit_locations}
+        added_locations={this.state.added_locations}
         id={this.props.floors[this.state.current_selected_floor - 1].id.toString()}
         current_selected_floor={this.state.current_selected_floor.toString()}/>
     } else {
@@ -172,36 +186,7 @@ class MapAndButtons extends React.Component {
               {this.render_map_view()}
             </div>
             <div className="col-2">
-              <div id="accordion" role="tablist">
-                <div className="card">
-                  <div className="card-header" role="tab" id="headingOne">
-                    <h5 className="mb-0">
-                      <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Services
-                      </a>
-                    </h5>
-                  </div>
-                  <div id="collapseOne" className="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-                    <div className="card-body">
-                      <a href="?utf8=✓&search=circ&commit=Search"> Circulation </a>
-                    </div>
-                  </div>
-                </div>
-                <div className="card">
-                  <div className="card-header" role="tab" id="headingTwo">
-                    <h5 className="mb-0">
-                      <a data-toggle="collapse" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                        Facilities
-                      </a>
-                    </h5>
-                  </div>
-                  <div id="collapseTwo" className="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
-                    <div className="card-body">
-                      <a href="?utf8=✓&search=Restroom&commit=Search"> Restrooms </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <SearchFilterAccordion />
               <div className="info-col col-2 save-edit-buttons">
                 {this.state.edit_mode && this.props.admin_user ? <button id={`floor-save-btn`} className="btn btn-success save-btn">Save
                   <span className="icon-container">
@@ -211,6 +196,7 @@ class MapAndButtons extends React.Component {
                   </span>
                 </button> : ''}
                 {this.props.admin_user ? <ToggleEditButton handler={this.toggleHandler} edit_state={this.state.edit_mode} /> : '' }
+                {this.state.edit_mode && this.props.admin_user ? <AddLocationButton handler={this.addLocationHandler} /> : '' }
                 {this.state.edit_mode && this.props.admin_user ? <div className="alert save-result hidden" /> : ''}
               </div>
             </div>
