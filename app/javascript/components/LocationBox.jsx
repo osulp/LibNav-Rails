@@ -201,9 +201,23 @@ class LocationBox extends React.Component {
     );
   }
 
+  newLocationBoxStyles = () => {
+    let styles = [];
+    if(this.state.new_location && !this.state.didSave) {
+      styles.push('location-box-new');
+    }
+    if(this.state.isSaving) {
+      styles.push('location-box-saving');
+    }
+    if(this.state.didSave) {
+      styles.push('location-box-saved');
+    }
+    return styles.join(' ');
+  }
+
   render = () => {
     return (
-      <g className={`location-box ${this.state.new_location ? 'location-box-new' : ''}`} id={`location-box-${this.props.id}`}>
+      <g className={`location-box ${this.newLocationBoxStyles()}`} id={`location-box-${this.props.id}`}>
         <image x={this.state.position_x} y={this.state.position_y} width={this.state.width} xlinkHref={this.props.icon_url}></image>
         <rect className="bounding-box edit" data-name={this.props.name} height={this.state.height + "px"} width={this.state.width + "px"} x={this.state.position_x + "px"} y={this.state.position_y} />
         <circle className="drag-circle" r="8px" cx={this.state.position_x + this.state.width + "px"} cy={this.state.position_y + this.state.height + "px"} />
