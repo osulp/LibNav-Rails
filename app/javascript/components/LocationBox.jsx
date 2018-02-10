@@ -7,14 +7,18 @@ require('d3');
 class LocationBox extends React.Component {
   static PropTypes = {
     add_location_url: PropTypes.string.optional,
-    floor_id: PropTypes.string.optional
+    didSave: PropTypes.bool.optional,
+    floor_id: PropTypes.string.optional,
+    isSaving: PropTypes.bool.optional
   }
 
   static defaultProps = {
     admin_url: null,
     add_location_url: null,
+    didSave: false,
     floor_id: null,
     height: 50,
+    isSaving: false,
     icon_url: null,
     id: null,
     new_location: false,
@@ -148,6 +152,7 @@ class LocationBox extends React.Component {
       url: add_location_url,
       type: 'post',
       beforeSend: (xhr) => {
+        this.setState({ isSaving: true });
         xhr.setRequestHeader('X-CSRF-Token', token);
       },
       data: {
@@ -156,16 +161,25 @@ class LocationBox extends React.Component {
         }
       }
     }).done((data, status, xhr) => {
+      this.setState({ isSaving: false, didSave: true });
       console.log(data, status, xhr);
       this.setState({
         admin_url: data[0].admin_url,
         new_location: false
       });
     }).fail((xhr, status, error) => {
+      this.setState({ isSaving: false, didSave: false });
       console.log('failed', xhr, status, error);
     });
   }
 
+  saveOrAdminButton = () => {
+    if(this.state.new_location && !this.state.didSave ) {
+      return this.saveButton();
+    } else {
+      return this.adminButton();
+    }
+  }
   saveButton = () => {
     return(
       <a href='#' target='_blank' onClick={this.saveLocation} >
@@ -193,7 +207,7 @@ class LocationBox extends React.Component {
         <image x={this.state.position_x} y={this.state.position_y} width={this.state.width} xlinkHref={this.props.icon_url}></image>
         <rect className="bounding-box edit" data-name={this.props.name} height={this.state.height + "px"} width={this.state.width + "px"} x={this.state.position_x + "px"} y={this.state.position_y} />
         <circle className="drag-circle" r="8px" cx={this.state.position_x + this.state.width + "px"} cy={this.state.position_y + this.state.height + "px"} />
-        { this.state.new_location ? this.saveButton() : this.adminButton() }
+        { this.saveOrAdminButton() }
       </g>
     )
   }
