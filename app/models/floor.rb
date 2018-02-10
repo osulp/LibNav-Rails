@@ -11,7 +11,6 @@ class Floor < ApplicationRecord
 
   validates :name, presence: true
   validates :level, presence: true
-  validates :map, presence: true
 
   def get_edit_map_props
     # map_props = %i[bounding_box_height bounding_box_width bounding_box_x bounding_box_y grid_size]
