@@ -17,6 +17,7 @@ class LocationBox extends React.Component {
     add_location_url: null,
     didSave: false,
     floor_id: null,
+    hasError: false,
     height: 50,
     isSaving: false,
     icon_url: null,
@@ -148,55 +149,72 @@ class LocationBox extends React.Component {
     console.log('post locations', locations, add_location_url);
 
     let token = $('meta[name="csrf-token"]').attr('content');
-    $.ajax({
-      url: add_location_url,
-      type: 'post',
-      beforeSend: (xhr) => {
-        this.setState({ isSaving: true });
-        xhr.setRequestHeader('X-CSRF-Token', token);
-      },
-      data: {
-        floor: {
-          locations_attributes: locations
+    this.setState({ isSaving: true, hasError: false });
+    setTimeout(() =>   {
+      $.ajax({
+        url: add_location_url,
+        type: 'post',
+        beforeSend: (xhr) => {
+          xhr.setRequestHeader('X-CSRF-Token', token);
+        },
+        data: {
+          floor: {
+            locations_attributes: locations
+          }
         }
-      }
-    }).done((data, status, xhr) => {
-      this.setState({ isSaving: false, didSave: true });
-      console.log(data, status, xhr);
-      this.setState({
-        admin_url: data[0].admin_url,
-        new_location: false
+      }).done((data, status, xhr) => {
+        console.log(data, status, xhr);
+        this.setState({
+          isSaving: false,
+          didSave: true,
+          hasError: false,
+          admin_url: data[0].admin_url,
+          new_location: false
+        });
+      }).fail((xhr, status, error) => {
+        this.setState({ isSaving: false, didSave: false, hasError: true });
+        console.log('failed', xhr, status, error);
       });
-    }).fail((xhr, status, error) => {
-      this.setState({ isSaving: false, didSave: false });
-      console.log('failed', xhr, status, error);
-    });
+    }, 1500);
   }
 
-  saveOrAdminButton = () => {
-    if(this.state.new_location && !this.state.didSave ) {
-      return this.saveButton();
+  actionButton = () => {
+    if(this.state.isSaving) {
+      return this.buildButton({
+        className: 'is-saving',
+        href: '#',
+        icon: 'sync',
+        onClick: () => { return false; }
+      });
+    } else if(this.state.new_location && !this.state.didSave && !this.state.hasError ) {
+      return this.buildButton({
+        className: 'save-location',
+        href: '#',
+        icon: 'save',
+        onClick: this.saveLocation
+      });
+    } else if(this.state.hasError) {
+      return this.buildButton({
+        className: 'has-error',
+        href: '#',
+        icon: 'sync',
+        onClick: this.saveLocation
+      });
     } else {
-      return this.adminButton();
+      return this.buildButton({
+        className: '',
+        href: this.state.admin_url,
+        icon: 'settings',
+        onClick: () => { return true; }
+      });
     }
-  }
-  saveButton = () => {
-    return(
-      <a href='#' target='_blank' onClick={this.saveLocation} >
-        <circle className="link-circle save-location" r="8px" cx={this.state.position_x + "px"} cy={this.state.position_y + "px"}/>
-        <text x={(this.state.position_x - 3) + "px"} y={(this.state.position_y + 4) + "px"} fontSize="0.75rem" fill="#fff">*</text>
-      </a>
-    );
   }
 
-  adminButton = () => {
-    if(this.state.admin_url === null) {
-      return;
-    }
+  buildButton = (options) => {
     return(
-      <a href={this.state.admin_url} target='_blank'>
-        <circle className="link-circle" r="8px" cx={this.state.position_x + "px"} cy={this.state.position_y + "px"}/>
-        <text x={(this.state.position_x - 3) + "px"} y={(this.state.position_y + 4) + "px"} fontSize="0.75rem" fill="#fff">?</text>
+      <a href={options.href} target='_blank' onClick={options.onClick}>
+        <circle className={`link-circle ${options.className}`} r="8px" cx={this.state.position_x + "px"} cy={this.state.position_y + "px"}/>
+        <text x={(this.state.position_x - 6) + "px"} y={(this.state.position_y + 6) + "px"} fontSize="0.75rem" fill="#fff">{options.icon}</text>
       </a>
     );
   }
@@ -212,16 +230,19 @@ class LocationBox extends React.Component {
     if(this.state.didSave) {
       styles.push('location-box-saved');
     }
+    if(this.state.hasError) {
+      styles.push('location-box-error');
+    }
     return styles.join(' ');
   }
 
   render = () => {
     return (
-      <g className={`location-box ${this.newLocationBoxStyles()}`} id={`location-box-${this.props.id}`}>
+      <g className={`location-box material-icons ${this.newLocationBoxStyles()}`} id={`location-box-${this.props.id}`}>
         <image x={this.state.position_x} y={this.state.position_y} width={this.state.width} xlinkHref={this.props.icon_url}></image>
         <rect className="bounding-box edit" data-name={this.props.name} height={this.state.height + "px"} width={this.state.width + "px"} x={this.state.position_x + "px"} y={this.state.position_y} />
-        <circle className="drag-circle" r="8px" cx={this.state.position_x + this.state.width + "px"} cy={this.state.position_y + this.state.height + "px"} />
-        { this.saveOrAdminButton() }
+        <circle className="drag-circle" r="8px" cx={this.state.position_x + this.state.width + "px"} cy={this.state.position_y + this.state.height + "px"}/>
+        { this.actionButton() }
       </g>
     )
   }
