@@ -9,7 +9,8 @@ class LocationBox extends React.Component {
     add_location_url: PropTypes.string.optional,
     didSave: PropTypes.bool.optional,
     floor_id: PropTypes.string.optional,
-    isSaving: PropTypes.bool.optional
+    isSaving: PropTypes.bool.optional,
+    shouldSave: PropTypes.bool.optional
   }
 
   static defaultProps = {
@@ -23,6 +24,7 @@ class LocationBox extends React.Component {
     icon_url: null,
     id: null,
     new_location: false,
+    shouldSave: false,
     position_x: 0,
     position_y: 0,
     width: 50
@@ -56,6 +58,12 @@ class LocationBox extends React.Component {
     let box = $(`#location-box-${this.props.id}`).find('.bounding-box');
     box.tooltip({ title: this.props.name });
     box.attr('tabindex', '0');
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if(nextProps.shouldSave) {
+      this.saveLocation(null);
+    }
   }
 
   handleKeyPress = (event) => {
@@ -136,7 +144,9 @@ class LocationBox extends React.Component {
   }
 
   saveLocation = (e) => {
-    e.preventDefault();
+    if(e !== null) {
+      e.preventDefault();
+    }
     let locations = [{
       height: this.state.height,
       name: this.state.name,
@@ -149,7 +159,10 @@ class LocationBox extends React.Component {
     console.log('post locations', locations, add_location_url);
 
     let token = $('meta[name="csrf-token"]').attr('content');
-    this.setState({ isSaving: true, hasError: false });
+    this.setState({
+      hasError: false,
+      isSaving: true
+    });
     setTimeout(() =>   {
       $.ajax({
         url: add_location_url,
@@ -165,17 +178,21 @@ class LocationBox extends React.Component {
       }).done((data, status, xhr) => {
         console.log(data, status, xhr);
         this.setState({
-          isSaving: false,
+          admin_url: data[0].admin_url,
           didSave: true,
           hasError: false,
-          admin_url: data[0].admin_url,
+          isSaving: false,
           new_location: false
         });
       }).fail((xhr, status, error) => {
-        this.setState({ isSaving: false, didSave: false, hasError: true });
+        this.setState({
+          didSave: false,
+          hasError: true,
+          isSaving: false
+        });
         console.log('failed', xhr, status, error);
       });
-    }, 1500);
+    }, 1000);
   }
 
   actionButton = () => {

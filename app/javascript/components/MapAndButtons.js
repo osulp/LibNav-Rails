@@ -115,10 +115,19 @@ class MapAndButtons extends React.Component {
     })
   }
 
+  saveAddedLocations = (e) => {
+    let added_locations = this.state.added_locations;
+    added_locations.filter(l => l.floor_id === this.props.floors[this.state.current_selected_floor - 1].id.toString()).forEach(l => {
+      l.shouldSave = true;
+    });
+    this.setState({
+      added_locations: added_locations
+    });
+  }
+
   saveFloor = (event) => {
     console.log('saving . . .');
-    let locations = this.props.edit_locations.filter((location) =>
-      location.floor_id == this.props.floors[this.state.current_selected_floor - 1].id);
+    let locations = this.props.edit_locations.filter((location) => location.floor_id == this.props.floors[this.state.current_selected_floor - 1].id);
     let floorId = this.props.floors[this.state.current_selected_floor - 1].id;
     let token = $('meta[name="csrf-token"]').attr('content');
     let locations_attributes = []
@@ -146,30 +155,28 @@ class MapAndButtons extends React.Component {
         floor: {
           locations_attributes: locations_attributes
         }
-      },
-      success: (data) => {
-        $('.save-btn').find('.fa-spin').removeClass('active');
-        $('.save-btn').find('.fa-times').removeClass('active');
-        $('.save-btn').find('.fa-check').addClass('active');
-        $('.save-btn').find('.fa-check').slideDown();
-        $('.save-btn').removeClass('btn-danger').addClass('btn-success');
-        $('.save-result').removeClass('alert-danger')
-          .removeClass('hidden')
-          .addClass('alert-success')
-          .text('Map saved successfully')
-      },
-      error: (error, textStatus) => {
-        $('.save-btn').find('.fa-spin').removeClass('active');
-        $('.save-btn').find('.fa-times').addClass('active');
-        $('.save-btn').find('.fa-check').removeClass('active');
-        $('.save-btn').find('.fa-times').slideDown();
-        $('.save-btn').removeClass('btn-success').addClass('btn-danger');
-        $('.save-result').removeClass('alert-success')
-          .removeClass('hidden')
-          .addClass('alert-danger')
-          .text('There was an error');
       }
-    })
+    }).done((data) => {
+      $('.save-btn').find('.fa-spin').removeClass('active');
+      $('.save-btn').find('.fa-times').removeClass('active');
+      $('.save-btn').find('.fa-check').addClass('active');
+      $('.save-btn').find('.fa-check').slideDown();
+      $('.save-btn').removeClass('btn-danger').addClass('btn-success');
+      $('.save-result').removeClass('alert-danger')
+        .removeClass('hidden')
+        .addClass('alert-success')
+        .text('Map saved successfully')
+    }).fail((error, textStatus) => {
+      $('.save-btn').find('.fa-spin').removeClass('active');
+      $('.save-btn').find('.fa-times').addClass('active');
+      $('.save-btn').find('.fa-check').removeClass('active');
+      $('.save-btn').find('.fa-times').slideDown();
+      $('.save-btn').removeClass('btn-success').addClass('btn-danger');
+      $('.save-result').removeClass('alert-success')
+        .removeClass('hidden')
+        .addClass('alert-danger')
+        .text('There was an error');
+    }).then(() => this.saveAddedLocations(event));
   }
 
   render() {
