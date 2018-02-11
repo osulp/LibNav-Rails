@@ -1,27 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FloorButton from './FloorButton';
-import ToggleEditButton from './ToggleEditButton';
 import LocationBox from './LocationBox';
-import AddLocationButton from './AddLocationButton';
-import SearchFilterAccordion from './SearchFilterAccordion';
-import MapView from './MapView';
 import MapEdit from './MapEdit';
-import Map from './Map';
+import MapEditButtons from './MapEditButtons';
+import MapView from './MapView';
+import SearchFilterAccordion from './SearchFilterAccordion';
 import SplashPage from './SplashPage';
 class MapAndButtons extends React.Component {
 
-  toggleHandler(e, edit_state) {
-    if (edit_state == true) {
-      this.setState({
-        edit_mode: false
-      })
-    } else {
-      this.setState({
-        edit_mode: true
+  constructor(props) {
+    super(props)
+    this.timer_handle
+    this.handler = this.handler.bind(this)
+    this.state = {
+      added_locations: [],
+      current_selected_floor: this.props.floor,
+      edit_mode: false,
+      modal_popup: true,
+      result_hit_counts: this.props.floors.map((floor, index) => {
+        let count = 0;
+        if (this.props.locations) {
+          this.props.locations.forEach((location) => {
+            if (location.floor_id == floor.id) count++;
+          })
+        }
+        return count;
       })
     }
+    console.log(this.state.result_hit_counts);
   }
+
+  toggleEditHandler = (e) => this.setState({ edit_mode: !this.state.edit_mode })
 
   addLocationHandler = (e, l) => {
     let added_locations = this.state.added_locations;
@@ -43,57 +53,30 @@ class MapAndButtons extends React.Component {
     if(this.timer_handle > 0) {
       window.clearTimeout(this.time_handle);
     }
-    this.timer_handle = window.setTimeout(function(){
-      location.reload();
-    },600000);
-  }
-
-  constructor(props) {
-    super(props)
-    this.timer_handle
-    this.handler = this.handler.bind(this)
-    this.toggleHandler = this.toggleHandler.bind(this)
-    this.state = {
-      added_locations: [],
-      current_selected_floor: this.props.floor,
-      edit_mode: false,
-      modal_popup: true,
-      result_hit_counts: this.props.floors.map((floor, index) => {
-        let count = 0;
-        if (this.props.locations) {
-          this.props.locations.forEach((location) => {
-            if (location.floor_id == floor.id) count++;
-          })
-        }
-        return count;
-      })
-    }
-    console.log(this.state.result_hit_counts);
+    this.timer_handle = window.setTimeout(() => { location.reload() }, 600000);
   }
 
   searched_floor(search_result_floors, floor_index) {
     if (search_result_floors == null) {
-      return false
+      return false;
     } else if (search_result_floors[floor_index]) {
-      return true
+      return true;
     } else {
-      return false
+      return false;
     }
   }
 
   render_map_view = () => {
     if (this.state.edit_mode == true) {
-      return <MapEdit mapUrl={this.props.maps[this.state.current_selected_floor - 1]}
-        locations={this.props.edit_locations}
-        added_locations={this.state.added_locations}
-        id={this.props.floors[this.state.current_selected_floor - 1].id.toString()}
-        current_selected_floor={this.state.current_selected_floor.toString()}/>
+      return <MapEdit added_locations={this.state.added_locations}
+                      current_selected_floor={this.state.current_selected_floor.toString()}
+                      id={this.props.floors[this.state.current_selected_floor - 1].id.toString()}
+                      locations={this.props.edit_locations}
+                      mapUrl={this.props.maps[this.state.current_selected_floor - 1]}/>
     } else {
-      return <MapView mapUrl={this.props.maps[this.state.current_selected_floor - 1]}
-        locations={this.props.locations}
-        current_selected_floor={this.state.current_selected_floor.toString()}
-        persistent_locations={this.props.persistent_locations}/>
-
+      return <MapView current_selected_floor={this.state.current_selected_floor.toString()}
+                      mapUrl={this.props.maps[this.state.current_selected_floor - 1]}
+                      {...this.props}/>
     }
   }
 
@@ -109,10 +92,10 @@ class MapAndButtons extends React.Component {
       if (event.target.id == 'floor-save-btn') {
         this.saveFloor(event);
       }
-    })
-    $(document).ready(function () {
+    });
+    $(() => {
       $('.modal').modal({show: true});
-    })
+    });
   }
 
   saveAddedLocations = (e) => {
@@ -181,44 +164,37 @@ class MapAndButtons extends React.Component {
 
   render() {
     return (
-      <main className="floor-index" id="main-content">
-        <div className="row map-and-buttons">
-          <div className="map-row">
-            <div className="info-col col-12">
-              <h2>{this.props.floors[this.state.current_selected_floor - 1].name}</h2>
-            </div>
+      <main className="container-fluid" id="main-content">
+        <div className="row">
+          <div className="col-12">
+            <h2 className="text-center">{this.props.floors[this.state.current_selected_floor - 1].name}</h2>
           </div>
-          <div className="map-row">
-            <div className="map-col col-10">
-              {this.render_map_view()}
-            </div>
-            <div className="col-2">
-              <SearchFilterAccordion />
-              <div className="info-col col-2 save-edit-buttons">
-                {this.state.edit_mode && this.props.admin_user ? <button id={`floor-save-btn`} className="btn btn-success save-btn">Save
-                  <span className="icon-container">
-                    <i className="fa fa-spin fa-circle-o-notch icon active" />
-                    <i className="fa fa-check icon" />
-                    <i className="fa fa-times icon" />
-                  </span>
-                </button> : ''}
-                {this.props.admin_user ? <ToggleEditButton handler={this.toggleHandler} edit_state={this.state.edit_mode} /> : '' }
-                {this.state.edit_mode && this.props.admin_user ? <AddLocationButton handler={this.addLocationHandler} /> : '' }
-                {this.state.edit_mode && this.props.admin_user ? <div className="alert save-result hidden" /> : ''}
+        </div>
+        <div className="row">
+          <div className="col-10">
+            <div className="row">
+              <div className="col-12">
+                {this.render_map_view()}
               </div>
             </div>
+            <div className="row">
+              {this.props.floors.map((floor, i) => {
+                return (<FloorButton key={`floor.${i}`}
+                                     active={i == this.state.current_selected_floor - 1}
+                                     floor={floor}
+                                     was_searched_floor={this.searched_floor(this.props.search_result_floors, i)}
+                                     hit_count={this.state.result_hit_counts[i]}
+                                     handler={this.handler} />)
+                })
+              }
+            </div>
           </div>
-          <div className="buttons-row">
-            {this.props.floors.map((floor, i) => {
-              return (
-                <FloorButton key={`floor.${i}`}
-                  active={i == this.state.current_selected_floor - 1}
-                  floor={floor}
-                  was_searched_floor={this.searched_floor(this.props.search_result_floors, i)}
-                  hit_count={this.state.result_hit_counts[i]}
-                  handler={this.handler} />
-              )
-            })}
+          <div className="col-2">
+            <SearchFilterAccordion />
+            <MapEditButtons addLocationHandler={this.addLocationHandler}
+                            edit_mode={this.state.edit_mode}
+                            toggleEditHandler={this.toggleEditHandler}
+                            {...this.props} />
           </div>
         </div>
         { this.render_modal() }
@@ -226,5 +202,6 @@ class MapAndButtons extends React.Component {
     );
   }
 }
-export default MapAndButtons
+
+export default MapAndButtons;
 
