@@ -83,7 +83,7 @@ class FloorsController < ApplicationController
 
   def extract_floors(locations)
     floors = Array.new(6)
-    locations.to_a.each do |location|
+    locations.each do |location|
       floors[location.floor.level - 1] = location.floor if floors[location.floor.level - 1].nil?
     end
     floors
@@ -92,7 +92,7 @@ class FloorsController < ApplicationController
   def extract_locations(search_results)
     search_results.select do |r|
       return r.locations.to_a if r.is_a?(Trait) && r.value.casecmp('yes').zero?
-      return r.location if r.is_a?(Tag)
+      return [r.location] if r.is_a?(Tag)
       r
     end
   end
