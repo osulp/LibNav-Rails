@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe FloorsController, type: :controller do 
+RSpec.describe FloorsController, type: :controller do
   let(:user) {double("User")}
   let(:floor) {Floor.create(:name => "First Floor", :level => 1)}
   let(:other_floor) {Floor.create(:name => "Second Floor", :level => 2)}
@@ -83,6 +83,7 @@ end
 
 def set_up_controller
   allow(user).to receive(:admin?).and_return(true)
+  allow(user).to receive(:email).and_return('bob@ross.com')
   allow(floor).to receive(:id).and_return(1)
   allow(controller).to receive(:process_search).with(controller_params[:search]).and_return([])
   allow(controller).to receive(:extract_locations).with([]).and_return([])
