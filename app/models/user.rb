@@ -34,10 +34,4 @@ class User < ApplicationRecord
       end
     end
   end
-
-  private
-
-  def validate_not_current_user
-    flash[:warming] << "Cannot change own admin status" if email == current_user.email
-  end
 end
