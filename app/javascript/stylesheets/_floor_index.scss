@@ -20,10 +20,29 @@ body {
   height: 100%;
   width: 100%;
   overflow-x: hidden;
-  main.floor-index {
-    padding: 0 10px;
+  //main.floor-index {
+  //  padding: 0 10px;
+  //}
+}
+
+.btn-primary.orange {
+  color: $beaver-orange;
+  border: 1px solid $beaver-orange;
+  background-color: white;
+  margin: 10px 25px;
+}
+.btn-primary.orange:focus {
+  box-shadow: 0 0 0 3px rgba($beaver-orange, .25) !important;
+}
+.btn-primary.orange.active {
+  color: white !important;
+  background-color: $beaver-orange !important;
+  .search-hit-count {
+    color: $beaver-orange !important;
+    background-color: white !important;
   }
 }
+/*
 .map-and-buttons {
   display: flex;
   .buttons-row {
@@ -64,22 +83,6 @@ body {
   }
 }
 .buttons-row {
-  .btn {
-    color: $beaver-orange;
-    border: 1px solid $beaver-orange;
-    background-color: white;
-    margin: 10px 25px;
-    &:focus {
-      box-shadow: 0 0 0 3px rgba($beaver-orange, .25);
-    }
-    &.active {
-      color: white;
-      background-color: $beaver-orange;
-      .search-hit-count {
-        color: $beaver-orange;
-        background-color: white;
-      }
-    }
     .search-hit-count {
       background-color: $beaver-orange;
       color: white;
@@ -110,6 +113,7 @@ body {
     }
   }
 }
+*/
 
 @keyframes slidein {
   from {

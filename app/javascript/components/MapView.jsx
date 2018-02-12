@@ -75,7 +75,7 @@ class MapView extends React.Component {
 
   render() {
     return (
-      <svg width="100%" viewBox="0 0 800 650" className="svgContainer">
+      <svg width="100%" viewBox="0 0 800 650" className="svgContainer map">
         {this.renderMap(this.props)}
       </svg>
     );

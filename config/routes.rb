@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   devise_for :users
   root 'floors#index'
   get '/floor/:floor_number(/:show_navbar)(/:kiosk)', to: 'floors#index', as: 'chosen_floor'
+  post '/floor/:id/location', to: 'floors#add_location', as: 'floor_add_location'
   resources :floors do
     resources :locations
   end

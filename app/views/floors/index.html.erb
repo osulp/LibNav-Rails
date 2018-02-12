@@ -2,13 +2,4 @@
   <%= render partial: "shared/navbar.html.erb" %>
 <% end %>
 <%= render partial: "shared/search_nav.html.erb" %>
-<%= react_component("MapAndButtons", { admin_user: @state[:admin_user],
-                                       edit_locations: @state[:edit_locations],
-                                       floor: @state[:floor],
-                                       floors: @state[:floors],
-                                       locations: @state[:locations], 
-                                       maps: @state[:maps],
-                                       persistent_locations: @state[:persistent_locations],
-                                       search_result_floors: @state[:search_result_floors], 
-                                       user: @state[:current_user]
- }) %>
+<%= react_component("MapAndButtons", @state) %>

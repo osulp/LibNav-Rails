@@ -1,19 +1,56 @@
-.drag-circle {
-  cursor: nwse-resize;
-  fill: black;
-  stroke: white;
-  stroke-width: 2px;
-}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(-360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(-360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); } }
 
-.link-circle {
-  cursor: pointer;
-  fill: #007bff;
-  stroke: white;
-  stroke-width: 2px;
+.location-box {
+  .bounding-box.edit {
+    cursor: move;
+    fill: $beaver-orange;
+    opacity: .75;
+  }
+  .link-circle {
+    cursor: pointer;
+    fill: #007bff;
+    stroke: white;
+    stroke-width: 2px;
+  }
+  .drag-circle {
+    cursor: nwse-resize;
+    fill: black;
+    stroke: white;
+    stroke-width: 2px;
+  }
+  a text {
+    cursor: pointer;
+  }
 }
-
-.bounding-box.edit {
-  cursor: move;
-  fill: $beaver-orange;
-  opacity: .75;
+.location-box.location-box-saving {
+  .link-circle {
+    fill: #007bff;
+  }
+  a {
+    -webkit-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-animation: spin 1s linear infinite;
+    -moz-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+  }
+}
+.location-box.location-box-new {
+  .bounding-box.edit {
+    fill: #007bff;
+  }
+  .link-circle {
+    fill: #27a645;
+  }
+}
+.location-box.location-box-error {
+  .bounding-box.edit {
+    fill: #ff0000;
+  }
+  .link-circle {
+    fill: #ff0000;
+  }
 }

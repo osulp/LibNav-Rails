@@ -9,12 +9,14 @@ class FloorButton extends React.Component {
 
   render() {
     return (
-      <button type="button"
-        onClick={(e) => this.props.handler(e, this.props.floor.level)}
-        className={`${this.props.was_searched_floor ? 'searched-floor' : ''} ${this.props.active ? 'active' : ''} btn`}>
-        {this.props.floor.name}
-        {this.props.was_searched_floor ? <span className="search-hit-count">{this.props.hit_count}</span> : ''}
-      </button>
+      <div className="col-2 text-center">
+        <button type="button"
+          onClick={(e) => this.props.handler(e, this.props.floor.level)}
+          className={`${this.props.was_searched_floor ? 'searched-floor' : ''} ${this.props.active ? 'active' : ''} btn btn-primary orange`}>
+          {this.props.floor.name}
+          {this.props.was_searched_floor ? <span className="search-hit-count">{this.props.hit_count}</span> : ''}
+        </button>
+      </div>
     );
   }
 }
