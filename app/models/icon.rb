@@ -6,6 +6,9 @@ class Icon < ApplicationRecord
 
   validates_attachment_content_type :icon_image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
 
+  validates :name, presence: true
+  validates :icon_image, presence: true
+
   rails_admin do
     base do
       field :icon_image do

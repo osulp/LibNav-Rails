@@ -9,6 +9,9 @@ class Floor < ApplicationRecord
 
   validates_attachment_content_type :map, content_type: [/svg(\+xml)?\Z/]
 
+  validates :name, presence: true
+  validates :level, presence: true
+
   def get_edit_map_props
     # map_props = %i[bounding_box_height bounding_box_width bounding_box_x bounding_box_y grid_size]
     # map_props.each_with_object({}) { |prop, hash| (hash[prop] = send(prop)) if send(prop) }
