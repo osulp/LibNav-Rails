@@ -57,7 +57,7 @@ class MapAndButtons extends React.Component {
     visible_elements.forEach((s) => heights.push($(s).height()));
     let height_sum = heights.reduce((p,c) => c + p);
     let window_height = window.innerHeight;
-    $('.svgContainer.map').attr('height', `${window_height - height_sum - 10}px`);
+    $('.svgContainer.map').attr('max-height', `${window_height - height_sum - 10}px`);
   }
 
   set_or_reset_timer() {
