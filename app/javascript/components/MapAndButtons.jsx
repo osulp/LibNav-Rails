@@ -17,6 +17,7 @@ class MapAndButtons extends React.Component {
       added_locations: [],
       current_selected_floor: this.props.floor,
       edit_mode: false,
+      map_height: 0,
       modal_popup: true,
       result_hit_counts: this.props.floors.map((floor, index) => {
         let count = 0;
@@ -29,6 +30,7 @@ class MapAndButtons extends React.Component {
       })
     }
     console.log(this.state.result_hit_counts);
+    $(window).resize(this.mapResizeHandler);
   }
 
   toggleEditHandler = (e) => this.setState({ edit_mode: !this.state.edit_mode })
@@ -47,6 +49,15 @@ class MapAndButtons extends React.Component {
     this.setState({
       current_selected_floor: selected_floor
     })
+  }
+
+  mapResizeHandler = (e) => {
+    let heights = [];
+    let visible_elements = ['nav.navbar', '.search-nav', '.floor-buttons', 'main > .header-row'];
+    visible_elements.forEach((s) => heights.push($(s).height()));
+    let height_sum = heights.reduce((p,c) => c + p);
+    let window_height = window.innerHeight;
+    $('.svgContainer.map').attr('height', `${window_height - height_sum - 10}px`);
   }
 
   set_or_reset_timer() {
@@ -96,7 +107,10 @@ class MapAndButtons extends React.Component {
     $(() => {
       $('.modal').modal({show: true});
     });
+    this.mapResizeHandler();
   }
+
+  componentDidUpdate = () => this.mapResizeHandler();
 
   saveAddedLocations = (e) => {
     let added_locations = this.state.added_locations;
@@ -165,7 +179,7 @@ class MapAndButtons extends React.Component {
   render() {
     return (
       <main className="container-fluid" id="main-content">
-        <div className="row">
+        <div className="row header-row">
           <div className="col-12">
             <h2 className="text-center">{this.props.floors[this.state.current_selected_floor - 1].name}</h2>
           </div>
@@ -177,7 +191,7 @@ class MapAndButtons extends React.Component {
                 {this.render_map_view()}
               </div>
             </div>
-            <div className="row">
+            <div className="row floor-buttons">
               {this.props.floors.map((floor, i) => {
                 return (<FloorButton key={`floor.${i}`}
                                      active={i == this.state.current_selected_floor - 1}
