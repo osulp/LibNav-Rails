@@ -27,7 +27,11 @@ class User < ApplicationRecord
   rails_admin do
     base do
       field :email
-      field :admin
+      field :admin do
+        visible do
+          bindings[:controller].current_user.email != bindings[:object].email
+        end
+      end
     end
   end
 end
