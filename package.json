@@ -4,7 +4,7 @@
   "dependencies": {
     "@rails/webpacker": "^3.0.2",
     "babel-preset-react": "^6.24.1",
-    "bootstrap": "4.0.0-beta.3",
+    "bootstrap": "4.0.0",
     "coffeescript": "1.12.7",
     "d3": "^4.12.0",
     "font-awesome": "^4.7.0",

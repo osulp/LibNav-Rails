@@ -1,0 +1,14 @@
+%nav.navbar.navbar-expand-md.navbar-light
+  %a.skip-navigation{ href:"#main-content" }
+  = link_to 'https://www.oregonstate.edu', class: "navbar-brand" do
+    = image_tag "OSU_logo_horizontal.png", class: "d-inline-block align-top"
+  %button.navbar-toggler.mr-2{ type:"button", 'data-toggle' => "collapse", 'data-target' => "#nav_collapse", 'aria-controls' => "nav_collapse" }
+    %span.navbar-toggler-icon
+  %div#nav_collapse.collapse.navbar-collapse
+    %ul.nav.navbar-nav.pl-2.ml-auto
+      %li.nav-item
+        = link_to "Admin Dashboard", rails_admin_path, :class => "nav-link small-text"  if current_user && current_user.admin?
+      %li.nav-item
+        = link_to "Logout", destroy_user_session_path, method: :get, :class => "nav-link small-text faded" if current_user
+        = link_to "Administration", user_session_path, :class => "nav-link small-text faded" if current_user.nil?
+%div.sub-nav= link_to 'Library Navigation', root_path

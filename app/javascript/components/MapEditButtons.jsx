@@ -17,7 +17,7 @@ class MapEditButtons extends React.Component {
   render() {
     return (
       <div className="row">
-        <div className="col-12">
+        <div className="d-none d-lg-block col-12">
           <div className="row mt-2">
             <div className="col-12">
               { this.state.edit_mode && this.props.admin_user ? <AddLocation {...this.props} /> : '' }

@@ -1,0 +1,13 @@
+.search-nav {
+  background-color: $beaver-orange;
+  $input-radius: 5px;
+  form.form-group {
+    margin: 8px;
+    input[type="text"].form-control {
+      border-radius: $input-radius 0 0 $input-radius;
+    }
+    .btn {
+      border-radius: 0 $input-radius $input-radius 0 !important;
+    }
+  }
+}

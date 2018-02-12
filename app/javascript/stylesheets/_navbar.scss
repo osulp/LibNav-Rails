@@ -1,23 +1,8 @@
-.map-row .info-col {
-  padding-top: 0 !important;
-}
-.top-margin {
-  margin-top: 15px;
-}
-.overflowing {
-  overflow: auto;
-}
-.search-nav {
-  background-color: $beaver-orange;
-}
-.right-padding {
-  margin-left: 50px;
-  margin-bottom: 5px;
-}
 .navbar {
   background-color: $beaver-orange;
-  flex-wrap: wrap;
-  padding: 0rem;
+  padding: 0;
+  //flex-wrap: wrap;
+  //padding: 0rem;
   .navbar-brand {
     margin: 0px;
     padding: .5rem;
@@ -32,31 +17,11 @@
       font-size: 1.2em;
       color: white;
       &:hover {
+        color: white;
         text-decoration: underline;
       }
-    }
-  }
-  .navbar-collapse {
-    padding-right: 2rem;
-    display: flex;
-    justify-content: flex-end;
-    flex-basis: 60%;
-    &.collapse {
-      display: none;
-    }
-    &.show,
-    &.collapsing {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: flex-start;
-    }
-  }
-  .navbar-toggler {
-    .fa-bars {
-      color: white;
-      &:hover {
-        color: black;
+      &.faded {
+        color: scale-color($color: $beaver-orange, $saturation: 50%, $lightness: 50%);
       }
     }
   }
@@ -65,42 +30,6 @@
     background: none;
     &:hover {
       color: black;
-    }
-  }
-  .sub-nav {
-    background-color: black;
-    flex-basis: 100%;
-    padding: .5rem;
-    h1 {
-      color: white;
-      font-size: 1.4em;
-      margin: 0;
-    }
-  }
-  .search-nav {
-    $input-radius: 5px;
-    background-color: black;
-    flex-basis: 100%;
-    display: flex;
-    justify-content: center;
-    background-color: $beaver-orange;
-    form.form-group {
-      margin: 8px;
-      width: 20rem;
-      input[type="text"].form-control {
-        // border-top-left-radius: $input-radius;
-        // border-bottom-left-radius: $input-radius;
-        border-radius: $input-radius 0 0 $input-radius;
-        margin-right: 0;
-      }
-      button[type="submit"].form-control {
-        // border-top-right-radius: $input-radius;
-        // border-bottom-right-radius: $input-radius;
-        border-radius: 0 $input-radius $input-radius 0;
-        margin-left: 0;
-        color: $beaver-orange;
-        background-color: white;
-      }
     }
   }
 }

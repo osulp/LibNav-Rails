@@ -26,17 +26,20 @@ body {
 }
 
 .btn-primary.orange {
-  color: $beaver-orange;
-  border: 1px solid $beaver-orange;
+  color: $beaver-orange !important;
+  border: none !important;
   background-color: white;
-  margin: 10px 25px;
+  margin: 5px 5px;
 }
 .btn-primary.orange:focus {
   box-shadow: 0 0 0 3px rgba($beaver-orange, .25) !important;
 }
-.btn-primary.orange.active {
+.btn-primary.orange.active,
+.btn-primary.orange:active,
+.btn-primary.orange:hover {
   color: white !important;
   background-color: $beaver-orange !important;
+  border: solid 1px black;
   .search-hit-count {
     color: $beaver-orange !important;
     background-color: white !important;

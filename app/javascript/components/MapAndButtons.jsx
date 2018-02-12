@@ -183,25 +183,29 @@ class MapAndButtons extends React.Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-10">
+          <div className="col-12 col-lg-10">
             <div className="row">
               <div className="col-12">
                 {this.render_map_view()}
               </div>
             </div>
             <div className="row floor-buttons">
-              {this.props.floors.map((floor, i) => {
-                return (<FloorButton key={`floor.${i}`}
-                                     active={i == this.state.current_selected_floor - 1}
-                                     floor={floor}
-                                     was_searched_floor={this.searched_floor(this.props.search_result_floors, i)}
-                                     hit_count={this.state.result_hit_counts[i]}
-                                     handler={this.handler} />)
-                })
-              }
+              <div className="col-12">
+                <ul className="nav justify-content-center flex-sm-column flex-md-row">
+                  {this.props.floors.map((floor, i) => {
+                    return (<FloorButton key={`floor.${i}`}
+                                        active={i == this.state.current_selected_floor - 1}
+                                        floor={floor}
+                                        was_searched_floor={this.searched_floor(this.props.search_result_floors, i)}
+                                        hit_count={this.state.result_hit_counts[i]}
+                                        handler={this.handler} />)
+                    })
+                  }
+                </ul>
+              </div>
             </div>
           </div>
-          <div className="col-2">
+          <div className="col-12 col-lg-2">
             <SearchFilterAccordion />
             <MapEditButtons addLocationHandler={this.addLocationHandler}
                             edit_mode={this.state.edit_mode}
@@ -216,4 +220,3 @@ class MapAndButtons extends React.Component {
 }
 
 export default MapAndButtons;
-
