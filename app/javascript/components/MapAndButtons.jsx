@@ -29,7 +29,6 @@ class MapAndButtons extends React.Component {
         return count;
       })
     }
-    console.log(this.state.result_hit_counts);
     $(window).resize(this.mapResizeHandler);
   }
 
@@ -123,7 +122,6 @@ class MapAndButtons extends React.Component {
   }
 
   saveFloor = (event) => {
-    console.log('saving . . .');
     let locations = this.props.edit_locations.filter((location) => location.floor_id == this.props.floors[this.state.current_selected_floor - 1].id);
     let floorId = this.props.floors[this.state.current_selected_floor - 1].id;
     let token = $('meta[name="csrf-token"]').attr('content');

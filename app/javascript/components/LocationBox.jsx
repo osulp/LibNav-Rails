@@ -156,8 +156,6 @@ class LocationBox extends React.Component {
     }];
 
     let add_location_url = this.props.add_location_url.replace('FLOORID', this.props.floor_id);
-    console.log('post locations', locations, add_location_url);
-
     let token = $('meta[name="csrf-token"]').attr('content');
     this.setState({
       hasError: false,
@@ -176,7 +174,6 @@ class LocationBox extends React.Component {
           }
         }
       }).done((data, status, xhr) => {
-        console.log(data, status, xhr);
         this.setState({
           admin_url: data[0].admin_url,
           didSave: true,
@@ -190,7 +187,7 @@ class LocationBox extends React.Component {
           hasError: true,
           isSaving: false
         });
-        console.log('failed', xhr, status, error);
+        // TODO: Add a handler to propagate the error to an element for displaying these to user
       });
     }, 1000);
   }
