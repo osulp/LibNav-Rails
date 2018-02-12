@@ -27,7 +27,17 @@ class User < ApplicationRecord
   rails_admin do
     base do
       field :email
-      field :admin
+      field :admin do
+        visible do
+          bindings[:controller].current_user.email != bindings[:object].email
+        end
+      end
     end
+  end
+
+  private
+
+  def validate_not_current_user
+    flash[:warming] << "Cannot change own admin status" if email == current_user.email
   end
 end
