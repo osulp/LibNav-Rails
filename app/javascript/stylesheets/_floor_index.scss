@@ -30,6 +30,11 @@ body {
   border: none !important;
   background-color: white;
   margin: 5px 5px;
+  .badge {
+    margin-left: 5px;
+    background-color: $beaver-orange !important;
+    color: white !important;
+  }
 }
 .btn-primary.orange:focus {
   box-shadow: 0 0 0 3px rgba($beaver-orange, .25) !important;
@@ -40,9 +45,9 @@ body {
   color: white !important;
   background-color: $beaver-orange !important;
   border: solid 1px black;
-  .search-hit-count {
-    color: $beaver-orange !important;
+  .badge {
     background-color: white !important;
+    color: $beaver-orange !important;
   }
 }
 /*

@@ -45,6 +45,8 @@ class FloorsController < ApplicationController
       location['height'] = location['height'].to_i
       location['position_x'] = location['position_x'].to_i
       location['position_y'] = location['position_y'].to_i
+      location['text_position_x'] = location['text_position_x'].to_i
+      location['text_position_y'] = location['text_position_y'].to_i
       location['width'] = location['width'].to_i
       location['floor_id'] = @floor['id']
       locations << Location.create(location)
@@ -60,7 +62,7 @@ class FloorsController < ApplicationController
     params.require(:floor).permit(
       :id,
       :name,
-      locations_attributes: %i[id height name position_x position_y width]
+      locations_attributes: %i[height id name position_x position_y text_position_x text_position_y width]
     )
   end
 
@@ -69,7 +71,7 @@ class FloorsController < ApplicationController
   def get_persistent_locations
     locations = Location.persistent.select { |location| !location.kiosk_only? }
     locations << Location.persistent.on_floor(params[:floor_number]).select { |location| location.kiosk_only? } if params[:floor_number] && (params[:kiosk] == "true")
-    locations.flatten
+    locations.flatten.uniq
   end
 
   def process_search(search_params)
@@ -78,7 +80,7 @@ class FloorsController < ApplicationController
     results << Location.search_for(search_params)
     results << Tag.search_for(search_params)
     results << Trait.search_for(search_params)
-    results.flatten
+    results.flatten.uniq
   end
 
   def extract_floors(locations)
@@ -89,12 +91,12 @@ class FloorsController < ApplicationController
     floors
   end
 
-  def extract_locations(search_results)
-    search_results.select do |r|
-      return r.locations.to_a if r.is_a?(Trait) && r.value.casecmp('yes').zero?
-      return r.location if r.is_a?(Tag)
-      r
-    end
+  def extract_locations(sr)
+    locations = []
+    locations << sr.select { |r| r.is_a?(Trait) && r.value.casecmp('yes').zero? }.map{ |r| r.locations.to_a }
+    locations << sr.select { |r| r.is_a?(Tag) }.map{ |r| r.location }
+    locations << sr.select { |r| r.is_a?(Location) }
+    locations.flatten.uniq
   end
 
   def show_navbar
