@@ -16,6 +16,24 @@ class Location < ApplicationRecord
 
   validates :name, :floor, :position_x, :position_y, :width, :height, presence: true
 
+  # Necessary for rails_admin to set the associated model for a has one
+  # association
+  def icon_id
+    self.icon.try :id
+  end
+
+  def icon_id=(id)
+    self.icon = Icon.find_by_id(id)
+  end
+
+  def label_id
+    self.label.try :id
+  end
+
+  def label_id=(id)
+    self.label = Label.find_by_id(id)
+  end
+
   def admin_url
     RailsAdmin::Engine.routes.url_helpers.edit_path(self.class.to_s.downcase, id)
   end
