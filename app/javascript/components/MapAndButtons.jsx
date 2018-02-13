@@ -12,7 +12,6 @@ class MapAndButtons extends React.Component {
   constructor(props) {
     super(props)
     this.timer_handle
-    this.handler = this.handler.bind(this)
     this.state = {
       added_locations: [],
       current_selected_floor: this.props.floor,
@@ -33,6 +32,7 @@ class MapAndButtons extends React.Component {
   }
 
   toggleEditHandler = (e) => this.setState({ edit_mode: !this.state.edit_mode })
+  selectFloorHandler = (e, floor) => this.setState( { current_selected_floor: floor })
 
   addLocationHandler = (e, l) => {
     let added_locations = this.state.added_locations;
@@ -43,20 +43,14 @@ class MapAndButtons extends React.Component {
     this.setState({ added_locations: added_locations });
   }
 
-  handler(e, selected_floor) {
-    e.preventDefault()
-    this.setState({
-      current_selected_floor: selected_floor
-    })
-  }
-
   mapResizeHandler = (e) => {
     let heights = [];
-    let visible_elements = ['nav.navbar', '.search-nav', '.floor-buttons', 'main > .header-row'];
+    let visible_elements = ['nav.navbar', '.sub-nav', '.search-nav', '.floor-buttons', 'main > .header-row'];
     visible_elements.forEach((s) => heights.push($(s).height()));
     let height_sum = heights.reduce((p,c) => c + p);
     let window_height = window.innerHeight;
     $('.svgContainer.map').attr('max-height', `${window_height - height_sum - 10}px`);
+    $('.svgContainer.map').attr('height', `${window_height - height_sum - 10}px`);
   }
 
   set_or_reset_timer() {
@@ -135,6 +129,8 @@ class MapAndButtons extends React.Component {
       new_attributes.width = parseInt(group.find('rect').attr('width'));
       new_attributes.position_x = parseInt(group.find('rect').attr('x'));
       new_attributes.position_y = parseInt(group.find('rect').attr('y'));
+      new_attributes.text_position_x = parseInt(group.find('text').attr('x'));
+      new_attributes.text_position_y = parseInt(group.find('text').attr('y'));
       locations_attributes.push(new_attributes);
     })
     $('.save-btn').find('.icon-container').addClass('active');
@@ -198,7 +194,7 @@ class MapAndButtons extends React.Component {
                                         floor={floor}
                                         was_searched_floor={this.searched_floor(this.props.search_result_floors, i)}
                                         hit_count={this.state.result_hit_counts[i]}
-                                        handler={this.handler} />)
+                                        handler={this.selectFloorHandler} />)
                     })
                   }
                 </ul>

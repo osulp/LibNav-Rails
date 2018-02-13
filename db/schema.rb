@@ -66,6 +66,8 @@ ActiveRecord::Schema.define(version: 20180213194031) do
     t.integer "width", default: 50
     t.boolean "persistent"
     t.integer "icon_id"
+    t.integer "text_position_x"
+    t.integer "text_position_y"
     t.integer "label_id"
     t.index ["floor_id"], name: "index_locations_on_floor_id"
     t.index ["icon_id"], name: "index_locations_on_icon_id"

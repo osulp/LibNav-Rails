@@ -45,13 +45,13 @@ class EditMap extends React.Component {
       addedLocationsBoxes: nextProps.added_locations.map(l => l.floor_id === this.props.id ? this.locationBox(l) : null)
     })
   }
+
   componentDidMount = () => {
     this.renderSvg(this.props.mapUrl);
-    $(`#floor-${this.props.current_selected_floor}-save-btn`).on('click', this.saveFloor);
   }
 
   locationBox = l => {
-    return (<LocationBox key={l.id} {...l} />);
+    return (<LocationBox key={l.id} edit_mode={true} {...l} />);
   }
 
   draggedCircle = d => {
@@ -68,37 +68,6 @@ class EditMap extends React.Component {
     d3.select(this)
       .attr("x", d.x = d3.event.x)
       .attr("y", d.y = d3.event.y);
-  }
-
-  saveFloor = (event) => {
-    console.log("clicked save");
-    let floorId = this.props.id;
-    let token = $('meta[name="csrf-token"]').attr('content');
-    let locations_attributes = []
-    Object.keys(this.state.locations).forEach((key) => {
-      let id = this.state.locations[key].id
-      let group = $(`#location-box-${id}`)
-      let new_attributes = {};
-      new_attributes.id = id;
-      new_attributes.height = parseInt(group.find('rect').attr('height'));
-      new_attributes.width = parseInt(group.find('rect').attr('width'));
-      new_attributes.position_x = parseInt(group.find('rect').attr('x'));
-      new_attributes.position_y = parseInt(group.find('rect').attr('y'));
-      locations_attributes.push(new_attributes);
-    });
-    console.log("saving location attributes: ", locations_attributes);
-    $.ajax({
-      url: `floors/${floorId}.json`,
-      type: 'patch',
-      beforeSend: (xhr) => {
-        xhr.setRequestHeader('X-CSRF-Token', token);
-      },
-      data: {
-        floor: {
-          locations_attributes: locations_attributes
-        }
-      }
-    });
   }
 
   renderSvg = (mapUrl) => {
@@ -126,4 +95,4 @@ class EditMap extends React.Component {
   }
 }
 
-export default EditMap
+export default EditMap;

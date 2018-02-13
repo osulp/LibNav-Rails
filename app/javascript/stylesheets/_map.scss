@@ -3,10 +3,20 @@
 @keyframes spin { 100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); } }
 
 .location-box {
-  .bounding-box.edit {
+  .bounding-box {
+    opacity: 0;
+    &.edit {
+      opacity: .75;
+      cursor: move;
+      fill: $beaver-orange;
+    }
+    &.highlight {
+      opacity: .75;
+      fill: $beaver-orange;
+    }
+  }
+  text {
     cursor: move;
-    fill: $beaver-orange;
-    opacity: .75;
   }
   .link-circle {
     cursor: pointer;

@@ -13,7 +13,7 @@ class FloorButton extends React.Component {
         <a onClick={(e) => this.props.handler(e, this.props.floor.level)}
           className={`${this.props.was_searched_floor ? 'searched-floor' : ''} ${this.props.active ? 'active' : ''} btn btn-primary orange`}>
           {this.props.floor.name}
-          {this.props.was_searched_floor ? <span className="search-hit-count">{this.props.hit_count}</span> : ''}
+          {this.props.was_searched_floor ? <span className="badge">{this.props.hit_count}</span> : ''}
         </a>
       </li>
     );
