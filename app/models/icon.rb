@@ -11,8 +11,8 @@ class Icon < ApplicationRecord
 
   rails_admin do
     base do
-      field :icon_image do
-        thumb_method :medium
+      field :icon_image, :paperclip do
+        thumb_method :original
       end
       field :name
       field :locations do
