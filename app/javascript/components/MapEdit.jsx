@@ -7,14 +7,13 @@ require('d3');
 
 class EditMap extends React.Component {
   static propTypes = {
-    mapUrl: PropTypes.string,
-    id: PropTypes.string,
     current_selected_floor: PropTypes.string,
-    added_locations: PropTypes.array,
-    locations: PropTypes.array
+    editLocationHandler: PropTypes.func,
+    id: PropTypes.string,
+    locations: PropTypes.array,
+    mapUrl: PropTypes.string
   }
   static defaultProps = {
-    added_locations: [],
     bounding_box_height: 650,
     bounding_box_width: 800,
     bounding_box_x: 0,
@@ -27,8 +26,7 @@ class EditMap extends React.Component {
     super(props);
     this.state = {
       locations: this.props.locations.filter(l => l.floor_id == this.props.id),
-      locationsBoxes: this.props.locations.map(l => l.floor_id == this.props.id ? this.locationBox(l) : null),
-      addedLocationsBoxes: this.props.added_locations.map(l => l.floor_id === this.props.id ? this.locationBox(l) : null)
+      locationsBoxes: this.props.locations.map(l => l.floor_id == this.props.id ? this.locationBox(l) : null)
     }
   }
   updateGridSize = event => {
@@ -41,8 +39,7 @@ class EditMap extends React.Component {
     this.renderSvg(nextProps.mapUrl);
     this.setState({
       locations: nextProps.locations.filter(l => l.floor_id == nextProps.id),
-      locationsBoxes: nextProps.locations.map(l => l.floor_id == nextProps.id ? this.locationBox(l) : null),
-      addedLocationsBoxes: nextProps.added_locations.map(l => l.floor_id === this.props.id ? this.locationBox(l) : null)
+      locationsBoxes: nextProps.locations.map(l => l.floor_id == nextProps.id ? this.locationBox(l) : null)
     })
   }
 
@@ -51,7 +48,7 @@ class EditMap extends React.Component {
   }
 
   locationBox = l => {
-    return (<LocationBox key={l.id} edit_mode={true} {...l} />);
+    return (<LocationBox key={l.id} edit_mode={true} editLocationHandler={this.props.editLocationHandler} {...l} />);
   }
 
   draggedCircle = d => {
@@ -89,7 +86,6 @@ class EditMap extends React.Component {
     return (
       <svg width="100%" viewBox="0 0 800 650" className="svgContainer map" id={`floor-${this.props.current_selected_floor}-svg`}>
         {this.state.locationsBoxes}
-        {this.state.addedLocationsBoxes}
       </svg>
     );
   }

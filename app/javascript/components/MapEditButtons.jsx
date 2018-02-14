@@ -28,7 +28,7 @@ class MapEditButtons extends React.Component {
               { this.props.admin_user ? <EditButton edit_mode={this.state.edit_mode} {...this.props} /> : '' }
             </div>
             <div className="col-4">
-              { this.props.admin_user && this.state.edit_mode ? <SaveButton /> : '' }
+              { this.props.admin_user && this.state.edit_mode ? <SaveButton saveClickedHandler={this.props.saveClickedHandler} /> : '' }
             </div>
           </div>
           { this.state.edit_mode && this.props.admin_user ? <div className="alert save-result hidden" /> : '' }
@@ -42,6 +42,7 @@ MapEditButtons.propTypes = {
   addLocationHandler: PropTypes.func,
   admin_user: PropTypes.bool,
   edit_mode: PropTypes.bool,
+  saveClickedHandler: PropTypes.func,
   toggleEditHandler: PropTypes.func,
 };
 export default MapEditButtons;

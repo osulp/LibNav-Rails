@@ -42,18 +42,18 @@ class FloorsController < ApplicationController
   def add_location
     locations = []
     floor_params[:locations_attributes].each_pair do |_k, location|
-      location['height'] = location['height'].to_i
-      location['position_x'] = location['position_x'].to_i
-      location['position_y'] = location['position_y'].to_i
-      location['text_position_x'] = location['text_position_x'].to_i
-      location['text_position_y'] = location['text_position_y'].to_i
-      location['width'] = location['width'].to_i
-      location['floor_id'] = @floor['id']
-      locations << Location.create(location)
+      locations << create_location(location) if location['id'].nil?
+      locations << update_location(location) if location['id'].present?
     end
     respond_to do |format|
       format.json do
         render json: locations
+      end
+    end
+  rescue StandardError => e
+    respond_to do |format|
+      format.json do
+        render json: { error: e }, status: :internal_error
       end
     end
   end
@@ -67,6 +67,28 @@ class FloorsController < ApplicationController
   end
 
   private
+
+  def update_location(location)
+    l = Location.find(location['id'])
+    l.height = location['height'].to_i
+    l.position_x = location['position_x'].to_i
+    l.position_y = location['position_y'].to_i
+    l.text_position_x = location['text_position_x'].to_i
+    l.text_position_y = location['text_position_y'].to_i
+    l.width = location['width'].to_i
+    l.save
+    l
+  end
+  def create_location(location)
+    location['height'] = location['height'].to_i
+    location['position_x'] = location['position_x'].to_i
+    location['position_y'] = location['position_y'].to_i
+    location['text_position_x'] = location['text_position_x'].to_i
+    location['text_position_y'] = location['text_position_y'].to_i
+    location['width'] = location['width'].to_i
+    location['floor_id'] = @floor['id']
+    Location.create(location)
+  end
 
   def get_persistent_locations
     locations = Location.persistent.select { |location| !location.kiosk_only? }
