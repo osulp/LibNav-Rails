@@ -5,6 +5,7 @@ import LocationBox from './LocationBox';
 import MapEdit from './MapEdit';
 import MapEditButtons from './MapEditButtons';
 import MapView from './MapView';
+import NotificationList from './NotificationList';
 import SearchFilterAccordion from './SearchFilterAccordion';
 import SplashPage from './SplashPage';
 class MapAndButtons extends React.Component {
@@ -26,7 +27,9 @@ class MapAndButtons extends React.Component {
           })
         }
         return count;
-      })
+      }),
+      success_notifications: [],
+      success_notification_fade_delay: 3000
     }
     $(window).resize(this.mapResizeHandler);
   }
@@ -50,6 +53,13 @@ class MapAndButtons extends React.Component {
     edit_locations.push(l);
     this.setState({ edit_locations: edit_locations });
   }
+
+  successNotificationHandler = (l) => {
+    this.setState({ success_notifications: [...this.state.success_notifications, l] });
+    setTimeout(() => this.removeSuccessNotification(l.id), this.state.success_notification_fade_delay + 500);
+  }
+
+  removeSuccessNotification = (id) => this.setState({ success_notifications: this.state.success_notifications.filter(l => l.id !== id)});
 
   editLocationHandler = (next_state) => {
     let location = this.state.edit_locations.find(el => el.id === next_state.id);
@@ -108,7 +118,8 @@ class MapAndButtons extends React.Component {
                       editLocationHandler={this.editLocationHandler}
                       id={this.props.floors[this.state.current_selected_floor - 1].id.toString()}
                       locations={this.state.edit_locations}
-                      mapUrl={this.props.maps[this.state.current_selected_floor - 1]}/>
+                      mapUrl={this.props.maps[this.state.current_selected_floor - 1]}
+                      successNotificationHandler={this.successNotificationHandler}/>
     } else {
       return <MapView current_selected_floor={this.state.current_selected_floor.toString()}
                       mapUrl={this.props.maps[this.state.current_selected_floor - 1]}
@@ -163,6 +174,7 @@ class MapAndButtons extends React.Component {
           </div>
         </div>
         { this.render_modal() }
+        <NotificationList errors={this.state.edit_locations.filter(l => l.hasError === true)} successes={this.state.success_notifications} success_notification_fade_delay={this.success_notification_fade_delay} />
       </main>
     );
   }
