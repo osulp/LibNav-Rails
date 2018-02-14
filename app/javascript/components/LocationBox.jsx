@@ -9,6 +9,7 @@ class LocationBox extends React.Component {
     add_location_url: PropTypes.string.optional,
     didSave: PropTypes.bool.optional,
     edit_mode: PropTypes.bool.optional,
+    editLocationHandler: PropTypes.func.optional,
     floor_id: PropTypes.string.optional,
     highlight: PropTypes.bool.optional,
     isSaving: PropTypes.bool.optional,
@@ -21,6 +22,7 @@ class LocationBox extends React.Component {
     didSave: false,
     edit_mode: false,
     floor_id: null,
+    hasChanges: false,
     hasError: false,
     height: 50,
     highlight: false,
@@ -43,8 +45,10 @@ class LocationBox extends React.Component {
     this.state = {
       admin_url: this.props.admin_url,
       edit_mode: this.props.edit_mode,
+      hasChanges: this.props.hasChanges,
       height: this.props.height,
       highlight: this.props.highlight,
+      id: this.props.id,
       name: this.props.name,
       new_location: this.props.new_location,
       position_x: this.props.position_x,
@@ -82,10 +86,11 @@ class LocationBox extends React.Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if(nextProps.shouldSave) {
+    if(nextProps.shouldSave && !this.state.isSaving) {
       this.saveLocation(null);
     }
     this.setState({
+      hasChanges: nextProps.hasChanges,
       highlight: nextProps.highlight
     });
   }
@@ -98,16 +103,16 @@ class LocationBox extends React.Component {
     }
     switch(event.key) {
       case 'ArrowUp':
-        this.setState({ position_y: this.getNewPosition(this.state.position_y, (change * -1), this.state.height)});
+        this.setStateWithChanges({ hasChanges: true, position_y: this.getNewPosition(this.state.position_y, (change * -1), this.state.height)});
         break;
       case 'ArrowDown':
-        this.setState({ position_y: this.getNewPosition(this.state.position_y, change, this.state.height)});
+        this.setStateWithChanges({ hasChanges: true, position_y: this.getNewPosition(this.state.position_y, change, this.state.height)});
         break;
       case 'ArrowLeft':
-        this.setState({ position_x: this.getNewPosition(this.state.position_x, (change * -1), this.state.width)});
+        this.setStateWithChanges({ hasChanges: true, position_x: this.getNewPosition(this.state.position_x, (change * -1), this.state.width)});
         break;
       case 'ArrowRight':
-        this.setState({ position_x: this.getNewPosition(this.state.position_x, change, this.state.width)});
+        this.setStateWithChanges({ hasChanges: true, position_x: this.getNewPosition(this.state.position_x, change, this.state.width)});
         break;
     }
   }
@@ -135,31 +140,28 @@ class LocationBox extends React.Component {
     let next_state = {};
     if(box_max_x < text_max_x){
       // box is resizing and pushing text toward the left edge, but not past the left edge (accounting for text_width)
-      next_state = Object.assign(next_state, { text_position_x: box_max_x <= this.state.position_x + this.state.text_width ? this.state.position_x : box_max_x - this.state.text_width });
+      next_state = Object.assign(next_state, { hasChanges: true, text_position_x: box_max_x <= this.state.position_x + this.state.text_width ? this.state.position_x : box_max_x - this.state.text_width });
     }
     if(box_max_y < text_max_y){
       // box is resizing and pushing text toward the top edge, but not past the top edge (accounting for the text_height)
-      next_state = Object.assign(next_state, { text_position_y: box_max_y <= this.state.position_y + this.state.text_height ? this.state.position_y + this.state.text_height : box_max_y });
+      next_state = Object.assign(next_state, { hasChanges: true, text_position_y: box_max_y <= this.state.position_y + this.state.text_height ? this.state.position_y + this.state.text_height : box_max_y });
     }
     if(box_width > this.state.text_width) {
       // the box shouldn't be narrower than the width of the text
-      next_state = Object.assign(next_state, { width: Math.max(Math.min(box_width, 800), 0), });
+      next_state = Object.assign(next_state, { hasChanges: true, width: Math.max(Math.min(box_width, 800), 0), });
     }
     if(box_height > this.state.text_height) {
       // the box shouldn't be shorter than the height of the text
-      next_state = Object.assign(next_state, { height: Math.max(Math.min(box_height, 800), 0), });
+      next_state = Object.assign(next_state, { hasChanges: true, height: Math.max(Math.min(box_height, 800), 0), });
     }
-
-    // Finally, setState if at least one property was updated.
-    if(Object.keys(next_state).length) {
-      this.setState(next_state);
-    }
+    this.setStateWithChanges(next_state);
   }
 
   draggedBox = d => {
     let diffX = d3.event.dx;
     let diffY = d3.event.dy;
-    this.setState({
+    this.setStateWithChanges({
+      hasChanges: true,
       position_y: this.getNewPosition(this.state.position_y, diffY, this.state.height),
       position_x: this.getNewPosition(this.state.position_x, diffX, this.state.width),
       text_position_x: this.state.text_position_x + diffX,
@@ -181,13 +183,23 @@ class LocationBox extends React.Component {
     // Label Y coordinate has to account for the text_height at the top edge, and the bounding-box height at the bottom edge
     // Top edge has an 8px hack included because SVG text wants to render a little extra space at the top edge for readability
     if(py > (this.state.position_y + (this.state.text_height - 8)) && py < (this.state.position_y + this.state.height)){
-      next_state = Object.assign(next_state, { text_position_y: py });
+      next_state = Object.assign(next_state, { hasChanges: true, text_position_y: py });
     }
     // Label X coordinate shares the same left edge, but needs to account for the text width on the right edge
     if(px > this.state.position_x && px < (this.state.position_x + this.state.width - this.state.text_width)){
-      next_state = Object.assign(next_state, { text_position_x: px });
+      next_state = Object.assign(next_state, { hasChanges: true, text_position_x: px });
     }
-    this.setState(next_state);
+    this.setStateWithChanges(next_state);
+  }
+
+  setStateWithChanges = (next_state) => {
+    if(Object.keys(next_state).length) {
+      next_state = Object.assign(next_state, { id: this.state.id } )
+      this.setState(Object.assign(next_state));
+      if(this.state.new_location === false) {
+        this.props.editLocationHandler(next_state);
+      }
+    }
   }
 
   saveLocation = (e) => {
@@ -203,6 +215,9 @@ class LocationBox extends React.Component {
       text_position_y: this.state.text_position_y,
       width: this.state.width
     }];
+    if(!this.state.new_location) {
+      locations[0] = Object.assign(locations[0], { id: this.state.id });
+    }
 
     let add_location_url = this.props.add_location_url.replace('FLOORID', this.props.floor_id);
     let token = $('meta[name="csrf-token"]').attr('content');
@@ -223,18 +238,24 @@ class LocationBox extends React.Component {
           }
         }
       }).done((data, status, xhr) => {
-        this.setState({
+        this.setStateWithChanges({
           admin_url: data[0].admin_url,
           didSave: true,
+          hasChanges: false,
           hasError: false,
           isSaving: false,
-          new_location: false
+          id: data[0].id,
+          new_location: false,
+          shouldSave: false
         });
       }).fail((xhr, status, error) => {
-        this.setState({
+        this.setStateWithChanges({
           didSave: false,
+          hasChanges: false,
           hasError: true,
-          isSaving: false
+          isSaving: false,
+          new_location: false,
+          shouldSave: false
         });
         // TODO: Add a handler to propagate the error to an element for displaying these to user
       });
@@ -249,7 +270,7 @@ class LocationBox extends React.Component {
         icon: 'sync',
         onClick: () => { return false; }
       });
-    } else if(this.state.new_location && !this.state.didSave && !this.state.hasError ) {
+    } else if((this.state.new_location && !this.state.didSave && !this.state.hasError) || this.state.hasChanges ) {
       return this.buildButton({
         className: 'save-location',
         href: '#',
@@ -285,7 +306,7 @@ class LocationBox extends React.Component {
   locationBoxStyles = () => {
     let styles = ['location-box'];
     if(this.state.edit_mode) {
-      if(this.state.new_location && !this.state.didSave) {
+      if((this.state.new_location && !this.state.didSave) || this.state.hasChanges) {
         styles.push('location-box-new');
       }
       if(this.state.isSaving) {

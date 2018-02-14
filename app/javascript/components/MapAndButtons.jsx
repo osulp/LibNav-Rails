@@ -13,8 +13,8 @@ class MapAndButtons extends React.Component {
     super(props)
     this.timer_handle
     this.state = {
-      added_locations: [],
       current_selected_floor: this.props.floor,
+      edit_locations: this.props.edit_locations,
       edit_mode: false,
       map_height: 0,
       modal_popup: true,
@@ -31,16 +31,32 @@ class MapAndButtons extends React.Component {
     $(window).resize(this.mapResizeHandler);
   }
 
-  toggleEditHandler = (e) => this.setState({ edit_mode: !this.state.edit_mode })
-  selectFloorHandler = (e, floor) => this.setState( { current_selected_floor: floor })
+  componentDidMount = () => {
+    $(() => {
+      $('.modal').modal({show: true});
+    });
+    this.mapResizeHandler();
+  }
+
+  componentDidUpdate = () => this.mapResizeHandler();
+
+  // Action Handlers
 
   addLocationHandler = (e, l) => {
-    let added_locations = this.state.added_locations;
+    let edit_locations = this.state.edit_locations;
     l.add_location_url = this.props.add_location_url;
     let floor_id = this.state.current_selected_floor;
     l.floor_id = floor_id.toString();
-    added_locations.push(l);
-    this.setState({ added_locations: added_locations });
+    edit_locations.push(l);
+    this.setState({ edit_locations: edit_locations });
+  }
+
+  editLocationHandler = (next_state) => {
+    let location = this.state.edit_locations.find(el => el.id === next_state.id);
+    let edit_locations = this.state.edit_locations.filter(el => el.id !== next_state.id);
+    location = Object.assign(location, next_state);
+    edit_locations.push(Object.assign(location, { add_location_url: this.props.add_location_url }));
+    this.setState({ edit_locations: edit_locations });
   }
 
   mapResizeHandler = (e) => {
@@ -52,6 +68,22 @@ class MapAndButtons extends React.Component {
     $('.svgContainer.map').attr('max-height', `${window_height - height_sum - 10}px`);
     $('.svgContainer.map').attr('height', `${window_height - height_sum - 10}px`);
   }
+
+  saveClickedHandler = (e) => {
+    let floor_id = this.props.floors[this.state.current_selected_floor - 1].id;
+    let updated_locations = this.state.edit_locations;
+    updated_locations.forEach(l => {
+      if(l.hasChanges || l.hasError) {
+        l.shouldSave = true
+      }
+    });
+    this.setState({ edit_locations: updated_locations });
+  }
+
+  selectFloorHandler = (e, floor) => this.setState( { current_selected_floor: floor })
+  toggleEditHandler = (e) => this.setState({ edit_mode: !this.state.edit_mode })
+
+  // End Action Handlers
 
   set_or_reset_timer() {
     if(this.timer_handle > 0) {
@@ -72,10 +104,10 @@ class MapAndButtons extends React.Component {
 
   render_map_view = () => {
     if (this.state.edit_mode == true) {
-      return <MapEdit added_locations={this.state.added_locations}
-                      current_selected_floor={this.state.current_selected_floor.toString()}
+      return <MapEdit current_selected_floor={this.state.current_selected_floor.toString()}
+                      editLocationHandler={this.editLocationHandler}
                       id={this.props.floors[this.state.current_selected_floor - 1].id.toString()}
-                      locations={this.props.edit_locations}
+                      locations={this.state.edit_locations}
                       mapUrl={this.props.maps[this.state.current_selected_floor - 1]}/>
     } else {
       return <MapView current_selected_floor={this.state.current_selected_floor.toString()}
@@ -88,86 +120,6 @@ class MapAndButtons extends React.Component {
     if (window.location.href.includes("?") == false) {
       return <SplashPage />
     }
-  }
-
-  componentDidMount = () => {
-    $(document).on('click', (event) => {
-      document.body.addEventListener('click', this.set_or_reset_timer);
-      if (event.target.id == 'floor-save-btn') {
-        this.saveFloor(event);
-      }
-    });
-    $(() => {
-      $('.modal').modal({show: true});
-    });
-    this.mapResizeHandler();
-  }
-
-  componentDidUpdate = () => this.mapResizeHandler();
-
-  saveAddedLocations = (e) => {
-    let added_locations = this.state.added_locations;
-    added_locations.filter(l => l.floor_id === this.props.floors[this.state.current_selected_floor - 1].id.toString()).forEach(l => {
-      l.shouldSave = true;
-    });
-    this.setState({
-      added_locations: added_locations
-    });
-  }
-
-  saveFloor = (event) => {
-    let locations = this.props.edit_locations.filter((location) => location.floor_id == this.props.floors[this.state.current_selected_floor - 1].id);
-    let floorId = this.props.floors[this.state.current_selected_floor - 1].id;
-    let token = $('meta[name="csrf-token"]').attr('content');
-    let locations_attributes = []
-    locations.forEach((location) => {
-      let id = location.id;
-      let group = $(`#location-box-${id}`);
-      let new_attributes = {};
-      new_attributes.id = id;
-      new_attributes.height = parseInt(group.find('rect').attr('height'));
-      new_attributes.width = parseInt(group.find('rect').attr('width'));
-      new_attributes.position_x = parseInt(group.find('rect').attr('x'));
-      new_attributes.position_y = parseInt(group.find('rect').attr('y'));
-      new_attributes.text_position_x = parseInt(group.find('text').attr('x'));
-      new_attributes.text_position_y = parseInt(group.find('text').attr('y'));
-      locations_attributes.push(new_attributes);
-    })
-    $('.save-btn').find('.icon-container').addClass('active');
-    $('.save-btn').find('.fa-times').removeClass('active');
-    $('.save-btn').find('.fa-check').removeClass('active');
-    $.ajax({
-      url: `floors/${floorId}.json`,
-      type: 'patch',
-      beforeSend: (xhr) => {
-        xhr.setRequestHeader('X-CSRF-Token', token);
-      },
-      data: {
-        floor: {
-          locations_attributes: locations_attributes
-        }
-      }
-    }).done((data) => {
-      $('.save-btn').find('.fa-spin').removeClass('active');
-      $('.save-btn').find('.fa-times').removeClass('active');
-      $('.save-btn').find('.fa-check').addClass('active');
-      $('.save-btn').find('.fa-check').slideDown();
-      $('.save-btn').removeClass('btn-danger').addClass('btn-success');
-      $('.save-result').removeClass('alert-danger')
-        .removeClass('hidden')
-        .addClass('alert-success')
-        .text('Map saved successfully')
-    }).fail((error, textStatus) => {
-      $('.save-btn').find('.fa-spin').removeClass('active');
-      $('.save-btn').find('.fa-times').addClass('active');
-      $('.save-btn').find('.fa-check').removeClass('active');
-      $('.save-btn').find('.fa-times').slideDown();
-      $('.save-btn').removeClass('btn-success').addClass('btn-danger');
-      $('.save-result').removeClass('alert-success')
-        .removeClass('hidden')
-        .addClass('alert-danger')
-        .text('There was an error');
-    }).then(() => this.saveAddedLocations(event));
   }
 
   render() {
@@ -205,6 +157,7 @@ class MapAndButtons extends React.Component {
             <SearchFilterAccordion />
             <MapEditButtons addLocationHandler={this.addLocationHandler}
                             edit_mode={this.state.edit_mode}
+                            saveClickedHandler={this.saveClickedHandler}
                             toggleEditHandler={this.toggleEditHandler}
                             {...this.props} />
           </div>
