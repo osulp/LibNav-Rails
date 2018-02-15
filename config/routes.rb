@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root 'floors#index'
   get '/floor/:floor_number(/:show_navbar)(/:kiosk)', to: 'floors#index', as: 'chosen_floor'
   post '/floor/:id/location', to: 'floors#add_location', as: 'floor_add_location'
+  delete '/floor/:id/location/:location_id', to: 'floors#delete_location', as: 'floor_delete_location'
   resources :floors do
     resources :locations
   end

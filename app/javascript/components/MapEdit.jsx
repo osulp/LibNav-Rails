@@ -48,7 +48,12 @@ class EditMap extends React.Component {
   }
 
   locationBox = l => {
-    return (<LocationBox key={l.id} edit_mode={true} editLocationHandler={this.props.editLocationHandler} {...l} />);
+    return (<LocationBox key={l.id}
+                         edit_mode={true}
+                         deleteLocationHandler={this.props.deleteLocationHandler}
+                         delete_location_url={this.props.delete_location_url}
+                         editLocationHandler={this.props.editLocationHandler}
+                         {...l} />);
   }
 
   draggedCircle = d => {
