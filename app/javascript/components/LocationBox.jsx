@@ -15,7 +15,8 @@ class LocationBox extends React.Component {
     floor_id: PropTypes.string.optional,
     highlight: PropTypes.bool.optional,
     isSaving: PropTypes.bool.optional,
-    shouldSave: PropTypes.bool.optional
+    shouldSave: PropTypes.bool.optional,
+    successNotificationHandler: PropTypes.bool.func
   }
 
   static defaultProps = {
@@ -269,6 +270,7 @@ class LocationBox extends React.Component {
           }
         }
       }).done((data, status, xhr) => {
+        this.props.successNotificationHandler(data[0]);
         this.setStateWithChanges({
           admin_url: data[0].admin_url,
           didSave: true,
@@ -288,7 +290,6 @@ class LocationBox extends React.Component {
           new_location: false,
           shouldSave: false
         });
-        // TODO: Add a handler to propagate the error to an element for displaying these to user
       });
     }, 1000);
   }
