@@ -45,9 +45,15 @@ class MapAndButtons extends React.Component {
   addLocationHandler = (e, l) => {
     let edit_locations = this.state.edit_locations;
     l.add_location_url = this.props.add_location_url;
+    l.delete_location_url = this.props.delete_location_url;
     let floor_id = this.state.current_selected_floor;
     l.floor_id = floor_id.toString();
     edit_locations.push(l);
+    this.setState({ edit_locations: edit_locations });
+  }
+
+  deleteLocationHandler = (id) => {
+    let edit_locations = this.state.edit_locations.filter(el => el.id !== id);
     this.setState({ edit_locations: edit_locations });
   }
 
@@ -106,6 +112,8 @@ class MapAndButtons extends React.Component {
     if (this.state.edit_mode == true) {
       return <MapEdit current_selected_floor={this.state.current_selected_floor.toString()}
                       editLocationHandler={this.editLocationHandler}
+                      deleteLocationHandler={this.deleteLocationHandler}
+                      delete_location_url={this.props.delete_location_url}
                       id={this.props.floors[this.state.current_selected_floor - 1].id.toString()}
                       locations={this.state.edit_locations}
                       mapUrl={this.props.maps[this.state.current_selected_floor - 1]}/>
