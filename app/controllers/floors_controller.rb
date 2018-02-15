@@ -14,6 +14,7 @@ class FloorsController < ApplicationController
     @state = {
       admin_user: admin_user,
       add_location_url: route_for(:floor_add_location, id: 'FLOORID'),
+      delete_location_url: route_for(:floor_delete_location, id: 'FLOORID', location_id: 'LOCATIONID'),
       edit_locations: Location.all,
       floor: params[:floor_number] || 2,
       floors: @floors,
@@ -48,6 +49,22 @@ class FloorsController < ApplicationController
     respond_to do |format|
       format.json do
         render json: locations
+      end
+    end
+  rescue StandardError => e
+    respond_to do |format|
+      format.json do
+        render json: { error: e }, status: :internal_error
+      end
+    end
+  end
+
+  def delete_location
+    location = Location.find(params[:location_id])
+    location.destroy
+    respond_to do |format|
+      format.json do
+        render json: []
       end
     end
   rescue StandardError => e

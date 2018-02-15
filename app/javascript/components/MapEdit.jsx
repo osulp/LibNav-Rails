@@ -50,8 +50,10 @@ class EditMap extends React.Component {
 
   locationBox = l => {
     return (<LocationBox key={l.id}
+                         deleteLocationHandler={this.props.deleteLocationHandler}
+                         delete_location_url={this.props.delete_location_url}
                          edit_mode={true}
-                         editLocationHandler={this.props.editLocationHandler}
+                         editLocationHandler={this.props.editLocationHandler} 
                          successNotificationHandler ={this.props.successNotificationHandler}
                          {...l} />);
   }

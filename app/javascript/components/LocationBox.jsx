@@ -7,6 +7,8 @@ require('d3');
 class LocationBox extends React.Component {
   static PropTypes = {
     add_location_url: PropTypes.string.optional,
+    delete_location_url: PropTypes.string.optional,
+    deleteLocationHandler: PropTypes.func.optional,
     didSave: PropTypes.bool.optional,
     edit_mode: PropTypes.bool.optional,
     editLocationHandler: PropTypes.func.optional,
@@ -20,6 +22,7 @@ class LocationBox extends React.Component {
   static defaultProps = {
     admin_url: null,
     add_location_url: null,
+    delete_location_url: null,
     didSave: false,
     edit_mode: false,
     floor_id: null,
@@ -203,6 +206,34 @@ class LocationBox extends React.Component {
     }
   }
 
+  deleteLocation = (e) => {
+    e.preventDefault();
+    if(!this.state.new_location) {
+      let delete_location_url = this.props.delete_location_url.replace('FLOORID', this.props.floor_id).replace('LOCATIONID', this.state.id);
+      let token = $('meta[name="csrf-token"]').attr('content');
+      $.ajax({
+        url: delete_location_url,
+        type: 'delete',
+        beforeSend: (xhr) => {
+          xhr.setRequestHeader('X-CSRF-Token', token);
+        }
+      }).done((data, status, xhr) => {
+        this.props.deleteLocationHandler(this.state.id);
+      }).fail((xhr, status, error) => {
+        this.setStateWithChanges({
+          didSave: false,
+          hasChanges: false,
+          hasError: true,
+          isSaving: false,
+          new_location: false,
+          shouldSave: false
+        });
+      });
+    } else {
+      this.props.deleteLocationHandler(this.state.id);
+    }
+  }
+
   saveLocation = (e) => {
     if(e !== null) {
       e.preventDefault();
@@ -340,6 +371,10 @@ class LocationBox extends React.Component {
         <g className="edit-controls">
           <circle className="drag-circle" r="8px" cx={this.state.position_x + this.state.width + "px"} cy={this.state.position_y + this.state.height + "px"}/>
           { this.actionButton() }
+          <a href={this.props.delete_location_url} onClick={this.deleteLocation} className='material-icons delete-location'>
+            <circle className='link-circle delete-location' r="8px" cx={(this.state.position_x + this.state.width) + "px"} cy={this.state.position_y + "px"}/>
+            <text x={(this.state.position_x + this.state.width - 6) + "px"} y={(this.state.position_y + 6) + "px"} fontSize="0.75rem" fill="#fff">clear</text>
+          </a>
         </g>
       );
     } else {

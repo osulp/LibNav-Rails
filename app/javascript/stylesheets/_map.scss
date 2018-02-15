@@ -24,6 +24,9 @@
     stroke: white;
     stroke-width: 2px;
   }
+  .link-circle.delete-location {
+    fill: #ff0000 !important;
+  }
   .drag-circle {
     cursor: nwse-resize;
     fill: black;
@@ -38,7 +41,7 @@
   .link-circle {
     fill: #007bff;
   }
-  a {
+  a:not(.delete-location) {
     -webkit-transform-origin: 50% 50%;
     -moz-transform-origin: 50% 50%;
     -o-transform-origin: 50% 50%;
@@ -61,6 +64,6 @@
     fill: #ff0000;
   }
   .link-circle {
-    fill: #ff0000;
+    fill: #27a645;
   }
 }
