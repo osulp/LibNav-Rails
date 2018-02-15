@@ -210,26 +210,24 @@ class LocationBox extends React.Component {
     if(!this.state.new_location) {
       let delete_location_url = this.props.delete_location_url.replace('FLOORID', this.props.floor_id).replace('LOCATIONID', this.state.id);
       let token = $('meta[name="csrf-token"]').attr('content');
-      setTimeout(() =>   {
-        $.ajax({
-          url: delete_location_url,
-          type: 'delete',
-          beforeSend: (xhr) => {
-            xhr.setRequestHeader('X-CSRF-Token', token);
-          }
-        }).done((data, status, xhr) => {
-          this.props.deleteLocationHandler(this.state.id);
-        }).fail((xhr, status, error) => {
-          this.setStateWithChanges({
-            didSave: false,
-            hasChanges: false,
-            hasError: true,
-            isSaving: false,
-            new_location: false,
-            shouldSave: false
-          });
+      $.ajax({
+        url: delete_location_url,
+        type: 'delete',
+        beforeSend: (xhr) => {
+          xhr.setRequestHeader('X-CSRF-Token', token);
+        }
+      }).done((data, status, xhr) => {
+        this.props.deleteLocationHandler(this.state.id);
+      }).fail((xhr, status, error) => {
+        this.setStateWithChanges({
+          didSave: false,
+          hasChanges: false,
+          hasError: true,
+          isSaving: false,
+          new_location: false,
+          shouldSave: false
         });
-      }, 1000);     // delete it
+      });
     } else {
       this.props.deleteLocationHandler(this.state.id);
     }
