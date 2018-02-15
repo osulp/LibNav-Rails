@@ -53,7 +53,7 @@ kiosk_trait ||= Trait.where(name: 'Kiosk')
 
 you_are_here_label = Label.create(name: 'You Are Here', value: 'You Are Here') unless Label.exists?(name: 'You Are Here')
 you_are_here_label ||= Label.where(name: 'You Are Here')
-you_are_here_trait = Trait.create(name: 'render-only-at-kiosk', value: 'Yes') unless Tag.exists?(name: 'render-only-at-kiosk')
+you_are_here_trait = Trait.create(name: 'render-only-at-kiosk', value: 'Yes') unless Trait.exists?(name: 'render-only-at-kiosk')
 you_are_here_trait ||= Trait.where(name: 'render-only-at-kiosk')
 
 locations.each do |location|
