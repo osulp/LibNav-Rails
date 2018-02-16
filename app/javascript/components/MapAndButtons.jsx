@@ -52,7 +52,11 @@ class MapAndButtons extends React.Component {
   addLocationHandler = (e, location) => {
     let updated_location = Object.assign(location, { add_location_url: this.props.add_location_url,
                                                      delete_location_url: this.props.delete_location_url,
+<<<<<<< HEAD
                                                      floor_id: this.state.current_selected_floor,
+=======
+                                                     floor_id: this.state.current_selected_floor.toString(),
+>>>>>>> polygon creation and refactoring LocationBox
                                                      isNew: true
                                                    });
 
