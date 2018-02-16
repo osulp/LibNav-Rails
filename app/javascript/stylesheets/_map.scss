@@ -36,6 +36,10 @@
   a text {
     cursor: pointer;
   }
+  line {
+    stroke-width: 1px;
+    stroke: black;
+  }
 }
 .location-box.location-box-saving {
   .link-circle {

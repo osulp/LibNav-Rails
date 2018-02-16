@@ -2,7 +2,7 @@ import React from "react"
 import ReactDom from "react-dom"
 import PropTypes from "prop-types"
 import JQuery from "jquery"
-import LocationBox from "./LocationBox";
+import LocationBox from './LocationBox/LocationBox';
 require('d3');
 
 class EditMap extends React.Component {
@@ -49,13 +49,12 @@ class EditMap extends React.Component {
   }
 
   locationBox = l => {
-    return (<LocationBox key={l.id}
+    return (<LocationBox key={`${l.id}`}
                          deleteLocationHandler={this.props.deleteLocationHandler}
-                         delete_location_url={this.props.delete_location_url}
                          edit_mode={true}
-                         editLocationHandler={this.props.editLocationHandler} 
-                         successNotificationHandler ={this.props.successNotificationHandler}
-                         {...l} />);
+                         editLocationHandler={this.props.editLocationHandler}
+                         location={l}
+                         successNotificationHandler ={this.props.successNotificationHandler} />);
   }
 
   draggedCircle = d => {

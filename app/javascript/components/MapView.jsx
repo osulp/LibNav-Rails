@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import * as d3 from "d3";
-import LocationBox from "./LocationBox";
+import LocationBox from './LocationBox/LocationBox';
 
 class MapView extends React.Component {
 
@@ -25,7 +25,7 @@ class MapView extends React.Component {
   }
 
   locationBox = (l, highlight=false) => {
-    return (<LocationBox key={l.id} highlight={highlight} {...l} />);
+    return (<LocationBox key={l.id} highlight={highlight} location={l} />);
   }
 
   getLocationsState = (props, floor) => {

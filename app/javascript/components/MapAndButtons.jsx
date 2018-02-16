@@ -1,7 +1,8 @@
+import update from 'immutability-helper';
 import React from 'react';
 import PropTypes from 'prop-types';
 import FloorButton from './FloorButton';
-import LocationBox from './LocationBox';
+import Location from './Location';
 import MapEdit from './MapEdit';
 import MapEditButtons from './MapEditButtons';
 import MapView from './MapView';
@@ -14,8 +15,11 @@ class MapAndButtons extends React.Component {
     super(props)
     this.timer_handle
     this.state = {
+      csrf: $('meta[name="csrf-token"]').attr('content'),
       current_selected_floor: this.props.floor,
-      edit_locations: this.props.edit_locations,
+      edit_locations: this.props.edit_locations.map(l => new Location({...l,
+                                                                       add_location_url: this.props.add_location_url,
+                                                                       delete_location_url: this.props.delete_location_url })),
       edit_mode: false,
       map_height: 0,
       modal_popup: true,
@@ -45,27 +49,39 @@ class MapAndButtons extends React.Component {
 
   // Action Handlers
 
-  addLocationHandler = (e, l) => {
-    let edit_locations = this.state.edit_locations;
-    l.add_location_url = this.props.add_location_url;
-    l.delete_location_url = this.props.delete_location_url;
-    let floor_id = this.state.current_selected_floor;
-    l.floor_id = floor_id.toString();
-    edit_locations.push(l);
-    this.setState({ edit_locations: edit_locations });
+  addLocationHandler = (e, location) => {
+    let updated_location = Object.assign(location, { add_location_url: this.props.add_location_url,
+                                                     delete_location_url: this.props.delete_location_url,
+                                                     floor_id: this.state.current_selected_floor.toString(),
+                                                     isNew: true
+                                                   });
+
+    this.setState({
+      edit_locations: update(this.state.edit_locations, {
+        $push: [updated_location]
+      })
+    });
   }
 
   deleteLocationHandler = (id) => {
-    let edit_locations = this.state.edit_locations.filter(el => el.id !== id);
-    this.setState({ edit_locations: edit_locations });
+    this.setState({
+      edit_locations: update(this.state.edit_locations, {
+        $apply: locations => locations.filter(el => el.id !== id)
+      })
+    });
   }
 
+  /*
+   * Merge next_state into the targeted location and ensure additional properties are set.
+   */
   editLocationHandler = (next_state) => {
-    let location = this.state.edit_locations.find(el => el.id === next_state.id);
-    let edit_locations = this.state.edit_locations.filter(el => el.id !== next_state.id);
-    location = Object.assign(location, next_state);
-    edit_locations.push(Object.assign(location, { add_location_url: this.props.add_location_url }));
-    this.setState({ edit_locations: edit_locations });
+    let indexOfLocation = this.state.edit_locations.findIndex(el => el.internal_id === next_state.internal_id);
+    let updated_location = Object.assign(this.state.edit_locations[indexOfLocation], next_state);
+    this.setState({
+      edit_locations: update(this.state.edit_locations, {
+        [indexOfLocation]: { $set: updated_location }
+      })
+    });
   }
 
   mapResizeHandler = (e) => {
@@ -77,24 +93,52 @@ class MapAndButtons extends React.Component {
     $('.svgContainer.map').attr('max-height', `${window_height - height_sum - 10}px`);
     $('.svgContainer.map').attr('height', `${window_height - height_sum - 10}px`);
   }
-  
-  removeSuccessNotification = (id) => this.setState({ success_notifications: this.state.success_notifications.filter(l => l.id !== id)});
-  
+
+  removeSuccessNotification = (id) => {
+    this.setState({
+      success_notifications: update(this.state.success_notifications, { $apply: n => n.filter(l => l.id !== id) })
+    });
+  }
+
+  /*
+   * For the current floor, find all locations that have an error or changes pending and
+   * set each to save on the next cycle.
+   */
   saveClickedHandler = (e) => {
     let floor_id = this.props.floors[this.state.current_selected_floor - 1].id;
-    let updated_locations = this.state.edit_locations;
-    updated_locations.forEach(l => {
-      if(l.hasChanges || l.hasError) {
-        l.shouldSave = true
-      }
+    let success_callback = (result) => {
+      this.successNotificationHandler(result.location);
+      this.editLocationHandler(result.next_state);
+    }
+    let should_save = (l, floor_id) => {
+      return (l.hasChanges || l.hasError) && l.floor_id === floor_id;
+    }
+
+    // Fire off async calls to save each location for this floor that has changes or an error to retry saving
+    this.state.edit_locations.filter(l => should_save(l, floor_id)).forEach(l => {
+      l.save(this.state.csrf, success_callback, this.editLocationHandler);
     });
-    this.setState({ edit_locations: updated_locations });
+
+    // Update the edit_locations such that the targeted locations for saving will render with the proper styles
+    // to show that they are attempting to save.
+    this.setState({
+      edit_locations: update(this.state.edit_locations, {
+        $apply: el => el.map(l => {
+          if(should_save(l, floor_id)) {
+            return {...l, isSaving: true, hasError: false};
+          }
+          return l;
+        })
+      })
+    });
   }
 
   selectFloorHandler = (e, floor) => this.setState( { current_selected_floor: floor })
 
   successNotificationHandler = (l) => {
-    this.setState({ success_notifications: [...this.state.success_notifications, l] });
+    this.setState({
+      success_notifications: update(this.state.success_notifications, { $push: [l] })
+    });
     setTimeout(() => this.removeSuccessNotification(l.id), this.state.success_notification_fade_delay + 500);
   }
 
