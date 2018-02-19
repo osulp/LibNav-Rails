@@ -19,11 +19,18 @@ development:
 test:
   <<: *default
   database: db/test.sqlite3
-  
+
+production: &production
+  adapter: <%= ENV['DB_ADAPTER'] || "sqlite3" %>
+  database: <%= ENV['DB'] || 'db/production.sqlite3' %>
+  encoding: utf8
+  reconnect: true
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
+  port: <%= ENV['DB_PORT'] || 3306 %>
+  pool: 5
+  timeout: 5000
+
 staging:
-  <<: *default
-  database: db/staging.sqlite3
-  
-production:
-  <<: *default
-  database: db/production.sqlite3
+  <<: *production
