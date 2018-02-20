@@ -174,10 +174,10 @@ class MapAndButtons extends React.Component {
                       mapUrl={this.props.maps[this.state.current_selected_floor - 1]}
                       successNotificationHandler={this.successNotificationHandler}/>
     } else {
-      return <MapView current_selected_floor={this.state.current_selected_floor.toString()}
+      return <MapView {...this.props}
+                      current_selected_floor={this.state.current_selected_floor.toString()}
                       edit_locations={this.state.edit_locations}
-                      mapUrl={this.props.maps[this.state.current_selected_floor - 1]}
-                      {...this.props}/>
+                      mapUrl={this.props.maps[this.state.current_selected_floor - 1]}/>
     }
   }
 

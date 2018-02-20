@@ -20,10 +20,6 @@ class MapView extends React.Component {
     this.setTooltips();
   }
 
-  componentDidUpdate = () => {
-    this.setTooltips();
-  }
-
   locationBox = (l, highlight=false) => {
     return (<LocationBox key={l.id} highlight={highlight} location={l} />);
   }
