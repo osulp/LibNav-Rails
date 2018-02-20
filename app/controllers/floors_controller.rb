@@ -79,7 +79,7 @@ class FloorsController < ApplicationController
     params.require(:floor).permit(
       :id,
       :name,
-      locations_attributes: %i[height id name position_x position_y text_position_x text_position_y width]
+      locations_attributes: %i[height id name polygon_points position_x position_y text_position_x text_position_y width]
     )
   end
 
@@ -93,6 +93,7 @@ class FloorsController < ApplicationController
     l.text_position_x = location['text_position_x'].to_i
     l.text_position_y = location['text_position_y'].to_i
     l.width = location['width'].to_i
+    l.polygon_points = location['polygon_points']
     l.save
     l
   end

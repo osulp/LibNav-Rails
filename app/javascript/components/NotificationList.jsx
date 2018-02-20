@@ -42,7 +42,7 @@ class NotificationList extends React.Component {
     if(errors.length === 0){
       return null;
     }
-    let message = `${errors.length} location${errors.length !== 1 ? 's' : ''} failed to save.`;
+    let message = `${errors.length} location${errors.length !== 1 ? 's' : ''} failed.`;
     return (<NotificationListItem key='error-notification-list-item' className='alert alert-danger' text={ message } />);
   }
 
