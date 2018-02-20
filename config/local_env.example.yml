@@ -8,3 +8,11 @@ API_LOCATION_MAP_LOOKUP: 'config/alma_location_map.yml'
 # CAS authentication configurations
 CAS_BASE_URL: 'https://login.oregonstate.edu/cas'
 CAS_VALIDATE_URL: 'https://login.oregonstate.edu/cas/samlValidate'
+
+# Database
+DB: development
+DB_ADAPTER: mysql2
+DB_HOST: localhost
+DB_PASSWORD: '12341234'
+DB_PORT: '3300'
+DB_USERNAME: root

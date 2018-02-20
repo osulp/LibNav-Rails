@@ -4,6 +4,7 @@ class Location {
     this.id                     = props.id                    || guid;
     this.admin_url              = props.admin_url             || '';
     this.add_location_url       = props.add_location_url      || '';
+    this.background_color       = props.background_color      || 'transparent';
     this.created_at             = props.created_at            || new Date().toISOString();
     this.delete_location_url    = props.delete_location_url   || '';
     this.didSave                = props.deleteSave            || false;
@@ -11,6 +12,7 @@ class Location {
     this.hasChanges             = props.hasChanges            || false;
     this.hasError               = props.hasError              || false;
     this.height                 = props.height                || 50;
+    this.highlightColor         = null                        || '#FFB500';
     this.label_id               = props.label_id              || 0;
     this.icon_id                = props.icon_id               || 0;
     this.icon_url               = props.icon_url              || '';
@@ -82,6 +84,25 @@ class Location {
     } else {
       return points.map(p => `${p[0]},${p[1]}`).join(' ');
     }
+  }
+
+  static backgroundColorRGB = (location, is_highlight) => {
+    let color = location.background_color;
+    if(is_highlight) {
+      return location.highlightColor;
+    }
+    switch(color) {
+      case '':
+        color = location.highlightColor;
+        break;
+      case 'transparent':
+        color = 'none';
+        break;
+      default:
+        color = `#${color}`;
+        break;
+    }
+    return `${color}`;
   }
 
   delete = (csrf, success, fail) => {

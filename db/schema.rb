@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180216155843) do
+ActiveRecord::Schema.define(version: 20180219184344) do
 
   create_table "floors", force: :cascade do |t|
     t.string "name"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 20180216155843) do
     t.integer "text_position_y"
     t.integer "label_id"
     t.string "polygon_points"
+    t.string "background_color", default: "transparent"
     t.index ["floor_id"], name: "index_locations_on_floor_id"
     t.index ["icon_id"], name: "index_locations_on_icon_id"
     t.index ["label_id"], name: "index_locations_on_label_id"
