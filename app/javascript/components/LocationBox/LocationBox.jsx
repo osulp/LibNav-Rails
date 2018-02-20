@@ -328,10 +328,12 @@ class LocationBox extends React.Component {
                  box_position_y={this.state.location.position_y}
                  box_width={this.state.location.width}
                  draggedPolygonPointHandler={this.draggedPolygonPoint}
+                 edit_mode={this.state.edit_mode}
                  location_id={this.state.location.internal_id}
                  points={this.state.location.polygon_points}
                  polygonClosed={this.state.location.isNew ? this.state.location.polygonClosed : true}
-                 setStateWithChangesHandler={this.setStateWithChanges} />
+                 setStateWithChangesHandler={this.setStateWithChanges}
+                 styles={this.getStyles()} />
         <text className='label'
               fontFamily='-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
               fontSize='20px'
@@ -341,6 +343,17 @@ class LocationBox extends React.Component {
         </text>
       </g>
     );
+  }
+
+  getStyles = () => {
+    let styles = { fillShape: {}, polygonSvg: {}};
+    if(!this.state.edit_mode) {
+      styles = Object.assign(styles, { fillShape: { fill: Location.backgroundColorRGB(this.state.location, this.props.highlight),
+                                                    opacity: 0.75 },
+                                       polygonSvg: { stroke: 'black', strokeWidth: '1px'}
+                                     });
+    }
+    return styles;
   }
 
   render = () => {
@@ -354,6 +367,7 @@ class LocationBox extends React.Component {
         <rect className={this.boundingBoxStyles()}
               data-name={this.props.location.name}
               height={this.state.location.height + "px"}
+              style={this.state.location.polygon_points === '' ? this.getStyles().fillShape : {}}
               width={this.state.location.width + "px"}
               x={this.state.location.position_x + "px"}
               y={this.state.location.position_y} />

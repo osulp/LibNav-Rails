@@ -11,15 +11,19 @@ class Polygon extends React.Component {
     box_position_x: PropTypes.number,
     box_position_y: PropTypes.number,
     box_width: PropTypes.number,
+    edit_mode: PropTypes.bool,
     location_id: PropTypes.number,
     points: PropTypes.string,
-    setStateWithChangesHandler: PropTypes.func
+    setStateWithChangesHandler: PropTypes.func,
+    styles: PropTypes.object
   }
 
   static defaultProps = {
     location_id: 0,
+    edit_mode: false,
     points: '',
-    polygonClosed: false
+    polygonClosed: false,
+    styles: {}
   }
 
   constructor(props) {
@@ -31,6 +35,7 @@ class Polygon extends React.Component {
       box_position_y: props.box_position_y,
       box_width: props.box_width,
       location_id: props.location_id,
+      edit_mode: props.edit_mode,
       points: points,
       polygonClosed: props.polygonClosed
     }
@@ -44,6 +49,7 @@ class Polygon extends React.Component {
       box_position_y: nextProps.box_position_y,
       box_width: nextProps.box_width,
       location_id: nextProps.location_id,
+      edit_mode: nextProps.edit_mode,
       points: points,
       polygonClosed: nextProps.polygonClosed
     });
@@ -111,16 +117,28 @@ class Polygon extends React.Component {
     return links.map(link => this.createPolygonLine(link));
   }
 
+  renderPolygon = () => {
+    if(this.props.edit_mode) {
+      return(
+        <g>
+          { this.linkPolygonPoints(this.state.points, this.state.polygonClosed) }
+          { this.state.points.map((p, i) => this.createPolygonPoint(p, i)) }
+        </g>
+      );
+    } else {
+      return(
+        <g>
+          <polygon key={`polygon-${this.location_id}`} points={this.state.points} style={{...this.props.styles.fillShape, ...this.props.styles.polygonSvg}}></polygon>
+        </g>
+      );
+    }
+  }
+
   render() {
     if(!this.state.points.length) {
       return null;
     }
-    return(
-      <g>
-        { this.linkPolygonPoints(this.state.points, this.state.polygonClosed) }
-        { this.state.points.map((p, i) => this.createPolygonPoint(p, i)) }
-      </g>
-    );
+    return this.renderPolygon();
   }
 }
 export default Polygon;

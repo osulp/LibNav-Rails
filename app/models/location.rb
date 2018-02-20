@@ -39,7 +39,7 @@ class Location < ApplicationRecord
   end
 
   def attributes
-    super.merge({admin_url: admin_url, 
+    super.merge({admin_url: admin_url,
                  icon_url: icon_url,
                  label_text: label_text})
   end
@@ -56,6 +56,7 @@ class Location < ApplicationRecord
   rails_admin do
     base do
       field :name
+      field :background_color, :color
       field :floor
       field :persistent
       field :traits
