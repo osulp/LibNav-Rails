@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import * as d3 from "d3";
+import Location from './Location';
 import LocationBox from './LocationBox/LocationBox';
 
 class MapView extends React.Component {
@@ -24,16 +25,18 @@ class MapView extends React.Component {
     this.setTooltips();
   }
 
-  locationBox = (l, highlight=false) => {
-    return (<LocationBox key={l.id} highlight={highlight} location={l} />);
+  locationBox = (l, result_type) => {
+    return (<LocationBox key={l.id} highlight={result_type.highlight} location={l} />);
   }
 
   getLocationsState = (props, floor) => {
-    let search_result_locations = props.locations.filter(l => l.floor_id.toString() === floor.toString());
-    let persistent_locations = props.persistent_locations.filter(l => l.floor_id.toString() === floor.toString() && !search_result_locations.some(srl => srl.id === l.id));
+    let search_result_locations = props.locations.filter(l => l.floor_id.toString() === floor.toString())
+                                                 .map(l => new Location(l));
+    let persistent_locations = props.persistent_locations.filter(l => l.floor_id.toString() === floor.toString() && !search_result_locations.some(srl => srl.id === l.id))
+                                                         .map(l => new Location(l));
     return {
-      locationsBoxes: search_result_locations.map(l => this.locationBox(l, true)),
-      persistentLocationsBoxes: persistent_locations.map(l => this.locationBox(l))
+      locationsBoxes: search_result_locations.map(l => this.locationBox(l, { highlight: true })),
+      persistentLocationsBoxes: persistent_locations.map(l => this.locationBox(l, { highlight: false }))
     };
   }
 
