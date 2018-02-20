@@ -22,7 +22,7 @@ class FloorsController < ApplicationController
       maps: @floors.map { |f| f.map.url(:original) },
       persistent_locations: get_persistent_locations,
       search_result_floors: search_result_floors,
-      user: { email: current_user.email }
+      user: { email: user_signed_in? ? current_user.email : '' }
     }
   end
 
@@ -118,8 +118,8 @@ class FloorsController < ApplicationController
     return [] if search_params.nil?
     results = []
     results << Location.search_for(search_params)
-    results << Tag.search_for(search_params)
-    results << Trait.search_for(search_params)
+    results << Tag.search_for(search_params).has_location
+    results << Trait.search_for(search_params).has_location
     results.flatten.uniq
   end
 
@@ -134,7 +134,7 @@ class FloorsController < ApplicationController
   def extract_locations(sr)
     locations = []
     locations << sr.select { |r| r.is_a?(Trait) && r.value.casecmp('yes').zero? }.map{ |r| r.locations.to_a }
-    locations << sr.select { |r| r.is_a?(Tag) }.map{ |r| r.location }
+    locations << sr.select { |r| r.is_a?(Tag) && !r.location.nil? }.map{ |r| r.location }
     locations << sr.select { |r| r.is_a?(Location) }
     locations.flatten.uniq
   end
