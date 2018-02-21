@@ -9,7 +9,12 @@ import MapView from './MapView';
 import NotificationList from './NotificationList';
 import SearchFilterAccordion from './SearchFilterAccordion';
 import SplashPage from './SplashPage';
+import Legend from './legend'
 class MapAndButtons extends React.Component {
+
+  create_legend_set(locations){
+    return [...new Set(locations.map(loc => loc.icon_url.split("?")[0] + ":" + loc.icon_name + ":" + loc.floor_id))] 
+  }
 
   constructor(props) {
     super(props)
@@ -39,8 +44,7 @@ class MapAndButtons extends React.Component {
   }
 
   componentDidMount = () => {
-    $(() => {
-      $('.modal').modal({show: true});
+    $(() => { $('.modal').modal({show: true});
     });
     this.mapResizeHandler();
   }
@@ -229,6 +233,10 @@ class MapAndButtons extends React.Component {
         </div>
         { this.render_modal() }
         <NotificationList errors={this.state.edit_locations.filter(l => l.hasError === true)} successes={this.state.success_notifications} success_notification_fade_delay={this.success_notification_fade_delay} />
+        <Legend persistent_locations={this.create_legend_set(this.props.persistent_locations)}
+                searched_locations={this.create_legend_set(this.props.locations)}
+                current_selected_floor={this.state.current_selected_floor.toString()}
+        />
       </main>
     );
   }
