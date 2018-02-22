@@ -21,7 +21,6 @@ class Location {
     this.isDragging             = props.isDragging            || false;
     this.isSaving               = props.isSaving              || false;
     this.isNew                  = props.isNew                 || false;
-    this.label_text             = props.label_text            || '';
     this.name                   = props.name                  || '';
     this.persistent             = props.persistent            || false;
     this.polygon_points         = props.polygon_points        || '';
@@ -35,9 +34,10 @@ class Location {
     this.previous_position_x    = props.previous_position_x   || 10;
     this.previous_position_y    = props.previous_position_y   || 10;
     this.shouldSave             = props.shouldSave            || false;
+    this.text                   = props.text                  || '';
     this.text_height            = props.text_height           || 0;
-    this.text_position_x        = props.text_position_x       || 0;
-    this.text_position_y        = props.text_position_y       || 0;
+    this.text_position_x        = props.text_position_x       || 20;
+    this.text_position_y        = props.text_position_y       || 40;
     this.text_width             = props.text_width            || 0;
     this.updated_at             = props.updated_at            || new Date().toISOString();
     this.width                  = props.width                 || 50;
@@ -129,7 +129,7 @@ class Location {
   }
 
   save = (csrf, success, fail) => {
-    let locations = [{
+    let floor_params = { locations_attributes: [{
       height: this.height,
       name: this.name,
       position_x: this.position_x,
@@ -138,10 +138,14 @@ class Location {
       text_position_x: this.text_position_x,
       text_position_y: this.text_position_y,
       width: this.width
-    }];
+    }],
+      label_attributes: {
+        name: this.text
+      }
+    };
 
     if(typeof(this.id) !== 'string') {
-      locations[0] = {...locations[0], ...{ id: this.id }};
+      floor_params.locations_attributes[0] = {...floor_params.locations_attributes[0], ...{ id: this.id }};
     }
     setTimeout(() =>   {
       $.ajax({
@@ -150,23 +154,22 @@ class Location {
         beforeSend: (xhr) => {
           xhr.setRequestHeader('X-CSRF-Token', csrf);
         },
-        data: {
-          floor: {
-            locations_attributes: locations
-          }
-        }
+        data: { floor: floor_params }
       }).done((data, status, xhr) => {
-        success({location: data[0], next_state: {
-          admin_url: data[0].admin_url,
+        let location = data[0].location;
+        let label = data[0].label;
+        success({location: location, next_state: {
+          admin_url: location.admin_url,
           didSave: true,
           hasChanges: false,
           hasError: false,
-          id: data[0].id,
+          id: location.id,
           internal_id: this.internal_id,
           isNew: false,
           isSaving: false,
-          polygon_points: data[0].polygon_points,
-          shouldSave: false
+          polygon_points: location.polygon_points || '',
+          shouldSave: false,
+          text: label.name
         }});
       }).fail((xhr, status, error) => {
         fail({

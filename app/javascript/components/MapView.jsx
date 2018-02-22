@@ -76,4 +76,4 @@ MapView.propTypes = {
   current_selected_floor: PropTypes.string,
   persistent_locations: PropTypes.array
 };
-export default MapView
+export default MapView;

@@ -49,7 +49,7 @@ class LocationBox extends React.Component {
       d3.select(this.state.box_selector).select('rect.bounding-box').call(d3.drag().on('drag', this.draggedBox)
                                                                                    .on('end', this.droppedBox));
       d3.select(this.state.box_selector).select('circle.drag-circle').call(d3.drag().on('drag', this.draggedCircle));
-      d3.select(this.state.box_selector).select('.label').call(d3.drag().on('drag', this.draggedText));
+      d3.select(this.state.box_selector).select('.box-content').select('.label').call(d3.drag().on('drag', this.draggedText));
 
       // Bind D3 click event without ES6 helping to bind 'this' breakage
       let self = this;
@@ -63,14 +63,14 @@ class LocationBox extends React.Component {
     }
   }
 
+  componentDidUpdate = () => {
+    d3.select(this.state.box_selector).select('.box-content').select('.label').call(d3.drag().on('drag', this.draggedText));
+  }
+
   componentWillReceiveProps = (nextProps) => {
-    //if(nextProps.location.shouldSave && !this.state.location.isSaving) {
-    //  this.saveLocation(null);
-    //} else {
-      this.setState({
-        location: update(this.state.location, { $set: nextProps.location })
-      });
-    //}
+    this.setState({
+      location: update(this.state.location, { $set: nextProps.location })
+    });
   }
 
   // Allow for keyboard movement of the location box
@@ -138,10 +138,16 @@ class LocationBox extends React.Component {
     if(box_width > this.state.location.text_width && box_max_x > polygon_max_x) {
       // the box shouldn't be narrower than the width of the text
       next_state = Object.assign(next_state, { hasChanges: true, width: this.getInt(Math.max(Math.min(box_width, 800), 0)), });
+    } else if(box_width <= this.state.location.text_width && box_max_x <= text_max_x) {
+      // force the box to be at least as wide as the text
+      next_state = Object.assign(next_state, { hasChanges: true, width: this.state.location.text_width });
     }
     if(box_height > this.state.location.text_height && box_max_y > polygon_max_y) {
       // the box shouldn't be shorter than the height of the text
       next_state = Object.assign(next_state, { hasChanges: true, height: this.getInt(Math.max(Math.min(box_height, 800), 0)), });
+    } else if(box_height <= this.state.location.text_height && box_max_y <= text_max_y) {
+      // force the box to be at least as tall as the text
+      next_state = Object.assign(next_state, { hasChanges: true, height: this.state.location.text_height });
     }
     this.setStateWithChanges(next_state);
   }
@@ -174,7 +180,9 @@ class LocationBox extends React.Component {
       this.setStateWithChanges({
         hasChanges: true,
         isDragging: false,
-        polygon_points: points
+        polygon_points: points,
+        text_position_x: location.text_position_x + diffX,
+        text_position_y: location.text_position_y + diffY
       });
     }
   }
@@ -193,17 +201,17 @@ class LocationBox extends React.Component {
    */
   draggedText = d => {
     // Add the diff pixels to the current location to get the proposed new location
-    let py = this.getInt(this.state.text_position_y + d3.event.dy);
-    let px = this.getInt(this.state.text_position_x + d3.event.dx);
+    let py = this.getInt(this.state.location.text_position_y + d3.event.dy);
+    let px = this.getInt(this.state.location.text_position_x + d3.event.dx);
 
     let next_state = {};
     // Label Y coordinate has to account for the text_height at the top edge, and the bounding-box height at the bottom edge
     // Top edge has an 8px hack included because SVG text wants to render a little extra space at the top edge for readability
-    if(py > this.getInt(this.state.position_y + (this.state.text_height - 8)) && py < this.getInt(this.state.position_y + this.state.height)){
+    if(py > this.getInt(this.state.location.position_y + (this.state.location.text_height - 8)) && py < this.getInt(this.state.location.position_y + this.state.location.height)){
       next_state = Object.assign(next_state, { hasChanges: true, text_position_y: py });
     }
     // Label X coordinate shares the same left edge, but needs to account for the text width on the right edge
-    if(px > this.state.position_x && px < this.getInt(this.state.position_x + this.state.width - this.state.text_width)){
+    if(px > this.state.location.position_x && px < this.getInt(this.state.location.position_x + this.state.location.width - this.state.location.text_width)){
       next_state = Object.assign(next_state, { hasChanges: true, text_position_x: px });
     }
     this.setStateWithChanges(next_state);
@@ -339,7 +347,7 @@ class LocationBox extends React.Component {
               fontSize='20px'
               x={this.state.location.text_position_x}
               y={this.state.location.text_position_y}>
-          {this.props.label_text}
+          {this.state.location.text}
         </text>
       </g>
     );
