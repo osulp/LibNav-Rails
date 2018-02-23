@@ -43,7 +43,6 @@ class Location < ApplicationRecord
     super.merge({admin_url: admin_url,
                  icon_url: icon_url,
                  text: text,
-                 label_text: label_text,
                  icon_name: icon_name})
   end
 
