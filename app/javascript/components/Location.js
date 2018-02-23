@@ -130,17 +130,20 @@ class Location {
 
   save = (csrf, success, fail) => {
     let floor_params = { locations_attributes: [{
-      height: this.height,
-      name: this.name,
-      position_x: this.position_x,
-      position_y: this.position_y,
-      polygon_points: this.polygon_points,
-      text_position_x: this.text_position_x,
-      text_position_y: this.text_position_y,
-      width: this.width
-    }],
+        height: this.height,
+        name: this.name,
+        position_x: this.position_x,
+        position_y: this.position_y,
+        polygon_points: this.polygon_points,
+        text_position_x: this.text_position_x,
+        text_position_y: this.text_position_y,
+        width: this.width
+      }],
       label_attributes: {
         name: this.text
+      },
+      icon_attributes: {
+        id: this.icon_id
       }
     };
 
@@ -158,6 +161,7 @@ class Location {
       }).done((data, status, xhr) => {
         let location = data[0].location;
         let label = data[0].label;
+        let icon = data[0].icon;
         success({location: location, next_state: {
           admin_url: location.admin_url,
           didSave: true,

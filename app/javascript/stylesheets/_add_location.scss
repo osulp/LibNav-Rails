@@ -1,0 +1,12 @@
+.add-location-row {
+  padding: 5px;
+  .add-location-buttons {
+    background-color: #eee;
+    padding: 5px;
+    border-radius: 2px;
+    border: solid 1px #ddd;
+    input, select {
+      margin-bottom: 10px;
+    }
+  }
+}

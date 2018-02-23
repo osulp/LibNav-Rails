@@ -41,15 +41,6 @@
   .link-circle {
     fill: #007bff;
   }
-  a:not(.delete-location) {
-    -webkit-transform-origin: 50% 50%;
-    -moz-transform-origin: 50% 50%;
-    -o-transform-origin: 50% 50%;
-    transform-origin: 50% 50%;
-    -webkit-animation: spin 1s linear infinite;
-    -moz-animation: spin 1s linear infinite;
-    animation: spin 1s linear infinite;
-  }
 }
 .location-box.location-box-new {
   .bounding-box.edit {

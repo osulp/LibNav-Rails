@@ -6,6 +6,7 @@ import JQuery from "jquery"
 import ActionButton from './ActionButton';
 import Polygon from './Polygon';
 import Location from '../Location';
+import SavingIndicator from './SavingIndicator';
 require('d3');
 
 class LocationBox extends React.Component {
@@ -317,6 +318,11 @@ class LocationBox extends React.Component {
             <circle className='link-circle delete-location' r="8px" cx={(this.state.location.position_x + this.state.location.width) + "px"} cy={this.state.location.position_y + "px"}/>
             <text x={(this.state.location.position_x + this.state.location.width - 6) + "px"} y={(this.state.location.position_y + 6) + "px"} fontSize="0.75rem" fill="#fff">clear</text>
           </a>
+          <SavingIndicator height={this.state.location.height}
+                           isSaving={this.state.location.isSaving}
+                           position_x={this.state.location.position_x + (this.state.location.width/2)}
+                           position_y={this.state.location.position_y + (this.state.location.height/2)}
+                           width={this.state.location.width} />
         </g>
       );
     } else {
