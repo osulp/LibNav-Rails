@@ -15,6 +15,7 @@ class Location < ApplicationRecord
   scoped_search on: [:name]
 
   validates :name, :floor, :position_x, :position_y, :width, :height, presence: true
+  before_save :allowable_text_position
 
   # Necessary for rails_admin to set the associated model for a has one
   # association
@@ -41,7 +42,7 @@ class Location < ApplicationRecord
   def attributes
     super.merge({admin_url: admin_url,
                  icon_url: icon_url,
-                 label_text: label_text})
+                 text: text})
   end
 
   def get_edit_map_props
@@ -68,7 +69,7 @@ class Location < ApplicationRecord
 
   private
 
-  def label_text
+  def text
     self.label.value unless self.label.nil?
   end
 
@@ -78,5 +79,12 @@ class Location < ApplicationRecord
 
   def self.is_persistent?
     self.persistent
+  end
+
+  def allowable_text_position
+    unless self.label.nil?
+      text_position_x = position_x if text_position_x.nil? || text_position_x < position_x
+      text_position_y = position_y if text_position_y.nil? || text_position_y < position_y
+    end
   end
 end

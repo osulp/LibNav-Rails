@@ -6,6 +6,7 @@ class AddLocation extends React.Component {
     super(props);
     this.state = {
       buttonActive: false,
+      label: null,
       name: null
     }
   }
@@ -13,6 +14,7 @@ class AddLocation extends React.Component {
   addLocationBox = (e) => {
     if(this.state.buttonActive) {
       this.props.addLocationHandler(e, new Location({
+        text: this.state.label,
         name: this.state.name,
         new_location: true,
       }));
@@ -23,11 +25,19 @@ class AddLocation extends React.Component {
     return `btn center-block col-12 ${this.state.buttonActive ? 'btn-primary' : 'btn-secondary'}`;
   }
 
-  textChanged = (e) => {
+  nameChanged = (e) => {
     if(e.target.value.length > 2) {
       this.setState({
         buttonActive: true,
         name: e.target.value
+      });
+    }
+  }
+
+  labelChanged = (e) => {
+    if(e.target.value.length > 2) {
+      this.setState({
+        label: e.target.value
       });
     }
   }
@@ -44,7 +54,8 @@ class AddLocation extends React.Component {
         <div className="col-12">
           <div className="row">
             <div className="col-12">
-              <input className="col-12" type='text' onChange={(e) => this.textChanged(e)} onKeyUp={(e) => this.keyUp(e)} placeholder='Enter Name' />
+              <input className="col-12" type='text' onChange={(e) => this.nameChanged(e)} onKeyUp={(e) => this.keyUp(e)} placeholder='Enter Name' />
+              <input className="col-12" type='text' onChange={(e) => this.labelChanged(e)} placeholder='Label Text (optional)' />
             </div>
           </div>
           <div className="row mt-1 mb-2">

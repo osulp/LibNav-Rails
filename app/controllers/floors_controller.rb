@@ -27,7 +27,7 @@ class FloorsController < ApplicationController
   end
 
   def update
-    if @floor.update(floor_params)
+    if @floor.update(floor_params.except(:label_params))
       floor_params[:locations_attributes].each_pair do |_k, location|
         Location.find(location[:id]).update_attributes(location)
       end
@@ -42,9 +42,11 @@ class FloorsController < ApplicationController
 
   def add_location
     locations = []
-    floor_params[:locations_attributes].each_pair do |_k, location|
-      locations << create_location(location) if location['id'].nil?
-      locations << update_location(location) if location['id'].present?
+    floor_params[:locations_attributes].each_pair do |_k, l|
+      location = create_location(l) if l['id'].nil?
+      location = update_location(l) if l['id'].present?
+      label = find_or_create_label(location, floor_params[:label_attributes])
+      locations << { location: location, label: label }
     end
     respond_to do |format|
       format.json do
@@ -79,33 +81,44 @@ class FloorsController < ApplicationController
     params.require(:floor).permit(
       :id,
       :name,
-      locations_attributes: %i[height id name polygon_points position_x position_y text_position_x text_position_y width]
+      label_attributes: %i[ name ],
+      locations_attributes: %i[ height id name polygon_points position_x position_y text_position_x text_position_y width ]
     )
   end
 
   private
 
-  def update_location(location)
-    l = Location.find(location['id'])
-    l.height = location['height'].to_i
-    l.position_x = location['position_x'].to_i
-    l.position_y = location['position_y'].to_i
-    l.text_position_x = location['text_position_x'].to_i
-    l.text_position_y = location['text_position_y'].to_i
-    l.width = location['width'].to_i
-    l.polygon_points = location['polygon_points']
-    l.save
-    l
+  def find_or_create_label(location, params)
+    return location.label unless location.label.nil?
+    label = Label.where('lower(value) = ?', params[:name].downcase).first
+    label ||= Label.create(name: params[:name], value: params[:name])
+    label.locations << location
+    label.save
+    label
   end
-  def create_location(location)
-    location['height'] = location['height'].to_i
-    location['position_x'] = location['position_x'].to_i
-    location['position_y'] = location['position_y'].to_i
-    location['text_position_x'] = location['text_position_x'].to_i
-    location['text_position_y'] = location['text_position_y'].to_i
-    location['width'] = location['width'].to_i
-    location['floor_id'] = @floor['id']
-    Location.create(location)
+
+  def update_location(l)
+    location = Location.find(l['id'])
+    location.height = l['height'].to_i
+    location.position_x = l['position_x'].to_i
+    location.position_y = l['position_y'].to_i
+    location.text_position_x = l['text_position_x'].to_i
+    location.text_position_y = l['text_position_y'].to_i
+    location.width = l['width'].to_i
+    location.polygon_points = l['polygon_points']
+    location.save
+    location
+  end
+
+  def create_location(params)
+    params['height'] = params['height'].to_i
+    params['position_x'] = params['position_x'].to_i
+    params['position_y'] = params['position_y'].to_i
+    params['text_position_x'] = params['text_position_x'].to_i
+    params['text_position_y'] = params['text_position_y'].to_i
+    params['width'] = params['width'].to_i
+    params['floor_id'] = @floor['id']
+    Location.create(params)
   end
 
   def get_persistent_locations
