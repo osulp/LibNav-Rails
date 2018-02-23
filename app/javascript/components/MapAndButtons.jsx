@@ -12,11 +12,7 @@ import SplashPage from './SplashPage';
 import Legend from './legend'
 class MapAndButtons extends React.Component {
 
-  create_legend_set(locations){
-    return [...new Set(locations.map(loc => loc.icon_url.split("?")[0] + ":" + loc.icon_name + ":" + loc.floor_id))] 
-  }
-
-  constructor(props) {
+    constructor(props) {
     super(props)
     this.timer_handle
     this.state = {
@@ -43,7 +39,7 @@ class MapAndButtons extends React.Component {
     $(window).resize(this.mapResizeHandler);
   }
 
-  componentDidMount = () => {
+    componentDidMount = () => {
     $(() => { $('.modal').modal({show: true});
     });
     this.mapResizeHandler();
@@ -148,7 +144,21 @@ class MapAndButtons extends React.Component {
 
   toggleEditHandler = (e) => this.setState({ edit_mode: !this.state.edit_mode })
 
+  create_unique_icon_set = (icon_set, prop) => {
+    return icon_set.filter((icon, i, icon_set) => {
+        return icon_set.map(icon_object => icon_object[prop]).indexOf(icon[prop]) === i;
+    });
+  }
+
+  build_per_floor_icon_set = (locations) => {
+    return locations.filter(l => l.floor_id === this.state.current_selected_floor).map(loc => Object.assign({}, {icon_url: loc.icon_url, icon_name: loc.icon_name}))
+  }
   // End Action Handlers
+  create_legend_set = () => {
+    let persistent_icons = this.build_per_floor_icon_set(this.props.persistent_locations);
+    let icons = this.build_per_floor_icon_set(this.props.locations)
+    return [].concat.apply([], [this.create_unique_icon_set(persistent_icons, "icon_url"), this.create_unique_icon_set(icons, "icon_url")]);
+  }
 
   set_or_reset_timer() {
     if(this.timer_handle > 0) {
@@ -233,10 +243,7 @@ class MapAndButtons extends React.Component {
         </div>
         { this.render_modal() }
         <NotificationList errors={this.state.edit_locations.filter(l => l.hasError === true)} successes={this.state.success_notifications} success_notification_fade_delay={this.success_notification_fade_delay} />
-        <Legend persistent_locations={this.create_legend_set(this.props.persistent_locations)}
-                searched_locations={this.create_legend_set(this.props.locations)}
-                current_selected_floor={this.state.current_selected_floor.toString()}
-        />
+        <Legend icon_set={this.create_legend_set()} />
       </main>
     );
   }
