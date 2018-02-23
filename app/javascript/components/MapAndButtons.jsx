@@ -144,12 +144,6 @@ class MapAndButtons extends React.Component {
 
   toggleEditHandler = (e) => this.setState({ edit_mode: !this.state.edit_mode })
 
-  create_unique_icon_set = (icon_set, prop) => {
-    return icon_set.filter((icon, i, icon_set) => {
-        return icon_set.map(icon_object => icon_object[prop]).indexOf(icon[prop]) === i;
-    });
-  }
-
   build_per_floor_icon_set = (locations) => {
     return locations.filter(l => l.floor_id === this.state.current_selected_floor).map(loc => Object.assign({}, {icon_url: loc.icon_url, icon_name: loc.icon_name}))
   }
@@ -157,7 +151,9 @@ class MapAndButtons extends React.Component {
   create_legend_set = () => {
     let persistent_icons = this.build_per_floor_icon_set(this.props.persistent_locations);
     let icons = this.build_per_floor_icon_set(this.props.locations)
-    return [].concat.apply([], [this.create_unique_icon_set(persistent_icons, "icon_url"), this.create_unique_icon_set(icons, "icon_url")]);
+    let combined_icons = persistent_icons.concat(icons);
+    let urls = new Set(combined_icons.map(i => i.icon_url));
+    return [...urls.values()].map(u => combined_icons.find(c => c.icon_url === u));
   }
 
   set_or_reset_timer() {
