@@ -42,6 +42,7 @@ MapEditButtons.propTypes = {
   addLocationHandler: PropTypes.func,
   admin_user: PropTypes.bool,
   edit_mode: PropTypes.bool,
+  icons: PropTypes.array,
   saveClickedHandler: PropTypes.func,
   toggleEditHandler: PropTypes.func,
 };

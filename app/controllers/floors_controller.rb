@@ -1,5 +1,6 @@
 class FloorsController < ApplicationController
   before_action :set_floors, only: %i[index]
+  before_action :set_icons, only: %i[index]
   before_action :set_floor, only: %i[add_location update]
   before_action :show_navbar
   # before_action :set_locations, only: %i[update]
@@ -18,6 +19,7 @@ class FloorsController < ApplicationController
       edit_locations: Location.all,
       floor: params[:floor_number] || 2,
       floors: @floors,
+      icons: @icons,
       locations: locations,
       maps: @floors.map { |f| f.map.url(:original) },
       persistent_locations: get_persistent_locations,
@@ -82,6 +84,7 @@ class FloorsController < ApplicationController
       :id,
       :name,
       label_attributes: %i[ name ],
+      icon_attributes: %i[ id ],
       locations_attributes: %i[ height id name polygon_points position_x position_y text_position_x text_position_y width ]
     )
   end
@@ -167,5 +170,9 @@ class FloorsController < ApplicationController
 
   def set_floors
     @floors = Floor.ordered
+  end
+
+  def set_icons
+    @icons = Icon.ordered
   end
 end

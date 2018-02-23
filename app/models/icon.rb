@@ -1,4 +1,5 @@
 class Icon < ApplicationRecord
+  scope :ordered, -> { order(:name) }
   has_many :location_icons
   has_many :locations, through: :location_icons
 
@@ -8,6 +9,14 @@ class Icon < ApplicationRecord
 
   validates :name, presence: true
   validates :icon_image, presence: true
+
+  def icon_url
+    icon_image.url
+  end
+
+  def attributes
+    super.merge({icon_url: icon_url})
+  end
 
   rails_admin do
     base do
