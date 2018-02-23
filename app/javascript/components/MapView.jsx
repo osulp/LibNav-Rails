@@ -1,6 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import * as d3 from "d3";
+import React from 'react'
+import PropTypes from 'prop-types'
+import * as d3 from 'd3';
 import Location from './Location';
 import LocationBox from './LocationBox/LocationBox';
 
@@ -47,23 +47,24 @@ class MapView extends React.Component {
   }
 
   renderSvg = (mapUrl) => {
-    let svgContainer = d3.select(".svgContainer");
+    let svgContainer = d3.select('.svgContainer');
     if (d3.select('.map_image')) {
       d3.select('.map_image').remove();
     }
 
     svgContainer.append('svg:image')
-      .attr("class", "map_image")
-      .attr("xlink:href", mapUrl)
-      .attr("x", 0)
-      .attr("y", 0)
-      .attr("width", '100%')
+      .attr('class', 'map_image')
+      .attr('xlink:href', mapUrl)
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('height', '100%')
+      .attr('width', '100%')
       .lower();
   }
 
   render() {
     return (
-      <svg width="100%" viewBox="0 0 800 650" className="svgContainer map" id={`floor-${this.props.current_selected_floor}-svg`}>
+      <svg width='100%' viewBox='0 0 800 650' className='svgContainer map' id={`floor-${this.props.current_selected_floor}-svg`}>
         {this.state.locationsBoxes}
         {this.state.persistentLocationsBoxes}
       </svg>

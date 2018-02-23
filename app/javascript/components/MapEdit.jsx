@@ -1,7 +1,7 @@
-import React from "react"
-import ReactDom from "react-dom"
-import PropTypes from "prop-types"
-import JQuery from "jquery"
+import React from 'react'
+import ReactDom from 'react-dom'
+import PropTypes from 'prop-types'
+import JQuery from 'jquery'
 import LocationBox from './LocationBox/LocationBox';
 require('d3');
 
@@ -69,28 +69,29 @@ class EditMap extends React.Component {
 
   draggedBox(d) {
     d3.select(this)
-      .attr("x", d.x = d3.event.x)
-      .attr("y", d.y = d3.event.y);
+      .attr('x', d.x = d3.event.x)
+      .attr('y', d.y = d3.event.y);
   }
 
   renderSvg = (mapUrl) => {
-    let svgContainer = d3.select(".svgContainer");
+    let svgContainer = d3.select('.svgContainer');
     if (d3.select('.map_image')) {
       d3.select('.map_image').remove();
     }
 
     svgContainer.append('svg:image')
-      .attr("class", "map_image")
-      .attr("xlink:href", mapUrl)
-      .attr("x", 0)
-      .attr("y", 0)
-      .attr("width", '100%')
+      .attr('class', 'map_image')
+      .attr('xlink:href', mapUrl)
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('height', '100%')
+      .attr('width', '100%')
       .lower();
   }
 
   render() {
     return (
-      <svg width="100%" viewBox="0 0 800 650" className="svgContainer map" id={`floor-${this.props.current_selected_floor}-svg`}>
+      <svg width='100%' viewBox='0 0 800 650' className='svgContainer map' id={`floor-${this.props.current_selected_floor}-svg`}>
         {this.state.locationsBoxes}
       </svg>
     );
