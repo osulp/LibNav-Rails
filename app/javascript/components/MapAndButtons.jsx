@@ -12,35 +12,36 @@ import SplashPage from './SplashPage';
 import Legend from './legend'
 class MapAndButtons extends React.Component {
 
-    constructor(props) {
+  constructor(props) {
     super(props)
     this.timer_handle
     this.state = {
       csrf: $('meta[name="csrf-token"]').attr('content'),
       current_selected_floor: this.props.floor,
       edit_locations: this.props.edit_locations.map(l => new Location({...l,
-                                                                       add_location_url: this.props.add_location_url,
-                                                                       delete_location_url: this.props.delete_location_url })),
-      edit_mode: false,
-      map_height: 0,
-      modal_popup: true,
-      result_hit_counts: this.props.floors.map((floor, index) => {
-        let count = 0;
-        if (this.props.locations) {
-          this.props.locations.forEach((location) => {
-            if (location.floor_id == floor.id) count++;
-          })
-        }
-        return count;
-      }),
-      success_notifications: [],
-      success_notification_fade_delay: 3000
+                                                                          add_location_url: this.props.add_location_url,
+                                                                          delete_location_url: this.props.delete_location_url })),
+        edit_mode: false,
+        map_height: 0,
+        modal_popup: true,
+        result_hit_counts: this.props.floors.map((floor, index) => {
+          let count = 0;
+          if (this.props.locations) {
+            this.props.locations.forEach((location) => {
+              if (location.floor_id == floor.id) count++;
+            })
+          }
+          return count;
+        }),
+        success_notifications: [],
+        success_notification_fade_delay: 3000
     }
     $(window).resize(this.mapResizeHandler);
   }
 
-    componentDidMount = () => {
-    $(() => { $('.modal').modal({show: true});
+  componentDidMount = () => {
+    $(() => { 
+      $('.modal').modal({show: true});
     });
     this.mapResizeHandler();
   }

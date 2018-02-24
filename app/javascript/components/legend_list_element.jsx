@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 class LegendListElement extends React.Component {
   render() {
     return (<li>
-              <img className="legend_icon_image" width="50" height="50" src={ this.props.icon_url }></img>{ this.props.icon_name }
+              <img className="legend_icon_image" src={ this.props.icon_url }></img>{ this.props.icon_name }
             </li>
     );
   }
