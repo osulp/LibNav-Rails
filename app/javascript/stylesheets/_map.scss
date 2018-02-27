@@ -2,6 +2,11 @@
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(-360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); } }
 
+.legend_icon_image {
+  height: 50px;
+  width: 50px;
+}
+
 .location-box {
   .bounding-box {
     opacity: 0;

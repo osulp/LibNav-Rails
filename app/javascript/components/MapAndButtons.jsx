@@ -9,6 +9,7 @@ import MapView from './MapView';
 import NotificationList from './NotificationList';
 import SearchFilterAccordion from './SearchFilterAccordion';
 import SplashPage from './SplashPage';
+import Legend from './Legend'
 class MapAndButtons extends React.Component {
 
   constructor(props) {
@@ -144,7 +145,17 @@ class MapAndButtons extends React.Component {
 
   toggleEditHandler = (e) => this.setState({ edit_mode: !this.state.edit_mode })
 
+  build_per_floor_icon_set = (locations) => {
+    return locations.filter(l => l.floor_id === this.state.current_selected_floor).map(loc => Object.assign({}, {icon_url: loc.icon_url, icon_name: loc.icon_name}))
+  }
   // End Action Handlers
+  create_legend_set = () => {
+    let persistent_icons = this.build_per_floor_icon_set(this.props.persistent_locations);
+    let icons = this.build_per_floor_icon_set(this.props.locations)
+    let combined_icons = persistent_icons.concat(icons);
+    let urls = new Set(combined_icons.map(i => i.icon_url));
+    return [...urls.values()].map(u => combined_icons.find(c => c.icon_url === u));
+  }
 
   set_or_reset_timer() {
     if(this.timer_handle > 0) {
@@ -229,6 +240,7 @@ class MapAndButtons extends React.Component {
         </div>
         { this.render_modal() }
         <NotificationList errors={this.state.edit_locations.filter(l => l.hasError === true)} successes={this.state.success_notifications} success_notification_fade_delay={this.success_notification_fade_delay} />
+        <Legend icon_set={this.create_legend_set()} />
       </main>
     );
   }
