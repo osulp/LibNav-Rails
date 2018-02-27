@@ -21,7 +21,7 @@ class Location {
     this.isDragging             = props.isDragging            || false;
     this.isSaving               = props.isSaving              || false;
     this.isNew                  = props.isNew                 || false;
-    this.text                   = props.label_text            || '';
+    this.text                   = props.text                  || '';
     this.icon_name              = props.icon_name             || '';
     this.name                   = props.name                  || '';
     this.persistent             = props.persistent            || false;
