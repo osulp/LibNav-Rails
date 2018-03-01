@@ -146,7 +146,7 @@ class MapAndButtons extends React.Component {
   toggleEditHandler = (e) => this.setState({ edit_mode: !this.state.edit_mode })
 
   build_per_floor_icon_set = (locations) => {
-    return locations.filter(l => l.floor_id === this.state.current_selected_floor).map(loc => Object.assign({}, {icon_url: loc.icon_url, icon_name: loc.icon_name}))
+    return locations.filter(l => l.floor_id === this.state.current_selected_floor).filter(l => l.icon_name != null).map(loc => Object.assign({}, {icon_url: loc.icon_url, icon_name: loc.icon_name}))
   }
   // End Action Handlers
   create_legend_set = () => {
@@ -230,7 +230,7 @@ class MapAndButtons extends React.Component {
             </div>
           </div>
           <div className="col-12 col-lg-2">
-            <SearchFilterAccordion />
+            <Legend icon_set={this.create_legend_set()} />
             <MapEditButtons addLocationHandler={this.addLocationHandler}
                             edit_mode={this.state.edit_mode}
                             saveClickedHandler={this.saveClickedHandler}
@@ -240,7 +240,6 @@ class MapAndButtons extends React.Component {
         </div>
         { this.render_modal() }
         <NotificationList errors={this.state.edit_locations.filter(l => l.hasError === true)} successes={this.state.success_notifications} success_notification_fade_delay={this.success_notification_fade_delay} />
-        <Legend icon_set={this.create_legend_set()} />
       </main>
     );
   }
