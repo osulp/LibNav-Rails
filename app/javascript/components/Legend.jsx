@@ -4,11 +4,35 @@ import LegendListElement from './LegendListElement'
 
 class Legend extends React.Component {
 
+  render_column = (icon, i) => {
+    if(icon != undefined) {
+      return(
+        <div className="col-6">
+          <LegendListElement key={"searched_" + i}
+                             icon_url={icon.icon_url}
+                             icon_name={icon.icon_name} />
+        </div> 
+      );
+    }
+  }
+
+  render_two_column_list = () => {
+    let table_array = []
+    for (let i = 0 ; i < this.props.icon_set.length ; i+=2) {
+      table_array.push(
+        <div className="row">
+          {this.render_column(this.props.icon_set[i], i)}
+          {this.render_column(this.props.icon_set[i + 1], i + 1)}
+        </div>
+      );
+    }
+    return(table_array);
+  }
+
   render() {
     return (
         <div className="row">
-          <div className="col-4"></div>
-          <div className="col-4">
+          <div className="col-12">
             <div>
               <div className="card">
                 <div className="card-header" id="headingOne">
@@ -19,18 +43,13 @@ class Legend extends React.Component {
                 <div>
                   <div className="card-block">
                     <ul className="list-unstyled">
-                    {this.props.icon_set.map((icon, i) => {
-                      return(
-                        <LegendListElement key={"searched_" + i} icon_url={icon.icon_url} icon_name={icon.icon_name} />
-                      );
-                    })}
+                      {this.render_two_column_list()}
                     </ul>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="col-4"></div>
         </div>
     );
   }
