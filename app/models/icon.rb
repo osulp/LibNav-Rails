@@ -5,7 +5,7 @@ class Icon < ApplicationRecord
 
   has_attached_file :icon_image
 
-  validates_attachment_content_type :icon_image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
+  validates_attachment_content_type :icon_image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif", "image/svg+xml"]
 
   validates :name, presence: true
   validates :icon_image, presence: true
