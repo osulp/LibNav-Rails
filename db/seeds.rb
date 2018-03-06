@@ -43,10 +43,10 @@ kiosk_locations = [
   { name: '4th Floor Kiosk', persistent: true, position_x: 267, position_y: 313, width: 9, height: 11, floor_id: Floor.where(level: 4).first.id },
   { name: '2nd Floor Kiosk', persistent: true, position_x: 440, position_y: 265, width: 9, height: 11, floor_id: Floor.where(level: 2).first.id }
 ]
-you_are_here_locations = [
-  { name: 'You Are Here - 4th Floor', persistent: true, position_x: 425, position_y: 237, width: 100, height: 100, floor_id: Floor.where(level: 4).first.id },
-  { name: 'You Are Here - 2nd Floor', persistent: true, position_x: 	221, position_y: 308, width: 100, height: 100, floor_id: Floor.where(level: 2).first.id }
-]
+# you_are_here_locations = [
+#   { name: 'You Are Here - 4th Floor', persistent: true, position_x: 425, position_y: 237, width: 100, height: 100, floor_id: Floor.where(level: 4).first.id },
+#   { name: 'You Are Here - 2nd Floor', persistent: true, position_x: 	221, position_y: 308, width: 100, height: 100, floor_id: Floor.where(level: 2).first.id }
+# ]
 
 kiosk_trait = Trait.create(name: 'Kiosk', value: 'Yes') unless Trait.exists?(name: 'Kiosk')
 kiosk_trait ||= Trait.where(name: 'Kiosk')
@@ -67,10 +67,10 @@ kiosk_locations.each do |kiosk_location|
   location.save
 end
 
-you_are_here_locations.each do |you_are_here|
-  location = Location.create(you_are_here) unless Location.exists?(name: you_are_here[:name])
-  location ||= Location.where(name: you_are_here[:name]).first
-  location.label << you_are_here_label unless location.label.include?(you_are_here_label)
-  location.traits << you_are_here_trait
-  location.save
-end
+# you_are_here_locations.each do |you_are_here|
+#   location = Location.create(you_are_here) unless Location.exists?(name: you_are_here[:name])
+#   location ||= Location.where(name: you_are_here[:name]).first
+#   location.label << you_are_here_label unless location.label.include?(you_are_here_label)
+#   location.traits << you_are_here_trait
+#   location.save
+# end
