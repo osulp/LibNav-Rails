@@ -3,6 +3,7 @@ class FloorsController < ApplicationController
   before_action :set_icons, only: %i[index]
   before_action :set_floor, only: %i[add_location update]
   before_action :show_navbar
+  before_action :enable_iframe
   # before_action :set_locations, only: %i[update]
 
   def index
@@ -174,5 +175,9 @@ class FloorsController < ApplicationController
 
   def set_icons
     @icons = Icon.ordered
+  end
+
+  def enable_iframe
+    response.headers.except! 'X-Frame-Options'
   end
 end

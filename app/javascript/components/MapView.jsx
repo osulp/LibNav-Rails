@@ -13,7 +13,7 @@ class MapView extends React.Component {
 
   componentWillReceiveProps = (nextProps) => {
     this.renderSvg(nextProps.mapUrl);
-    this.setState(this.getLocationsState(nextProps, props.floors[nextProps.current_selected_floor - 1].id));
+    this.setState(this.getLocationsState(nextProps, this.props.floors[nextProps.current_selected_floor - 1].id));
   }
 
   componentDidMount = () => {
