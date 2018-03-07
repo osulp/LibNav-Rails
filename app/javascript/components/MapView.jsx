@@ -8,12 +8,12 @@ class MapView extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = this.getLocationsState(props, props.floor);
+    this.state = this.getLocationsState(props, props.floors[props.current_selected_floor - 1].id);
   }
 
   componentWillReceiveProps = (nextProps) => {
     this.renderSvg(nextProps.mapUrl);
-    this.setState(this.getLocationsState(nextProps, nextProps.current_selected_floor));
+    this.setState(this.getLocationsState(nextProps, props.floors[nextProps.current_selected_floor - 1].id));
   }
 
   componentDidMount = () => {
@@ -29,9 +29,9 @@ class MapView extends React.Component {
     return (<LocationBox key={l.id} highlight={result_type.highlight} location={l} />);
   }
 
-  getLocationsState = (props, floor) => {
-    let search_result_location_ids = props.locations.filter(l => l.floor_id.toString() === floor.toString()).map(l => l.id);
-    let persistent_location_ids = props.persistent_locations.filter(l => l.floor_id.toString() === floor.toString() && !search_result_location_ids.some(srl => srl.id === l.id)).map(l => l.id);
+  getLocationsState = (props, floor_id) => {
+    let search_result_location_ids = props.locations.filter(l => l.floor_id.toString() === floor_id.toString()).map(l => l.id);
+    let persistent_location_ids = props.persistent_locations.filter(l => l.floor_id.toString() === floor_id.toString() && !search_result_location_ids.some(srl => srl.id === l.id)).map(l => l.id);
     return {
       locationsBoxes: props.edit_locations.filter(el => search_result_location_ids.includes(el.id)).map(l => this.locationBox(l, { highlight: true })),
       persistentLocationsBoxes: props.edit_locations.filter(el => persistent_location_ids.includes(el.id)).map(l => this.locationBox(l, { highlight: false }))
