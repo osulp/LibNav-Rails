@@ -88,7 +88,11 @@ class MapAndButtons extends React.Component {
   mapResizeHandler = (e) => {
     let heights = [];
     let visible_elements = ['nav.navbar', '.sub-nav', '.search-nav', '.floor-buttons', 'main > .header-row'];
-    visible_elements.forEach((s) => heights.push($(s).height()));
+    visible_elements.forEach((s) => {
+      if($(s) !== null) {
+        heights.push($(s).height())
+      }
+    });
     let height_sum = heights.reduce((p,c) => c + p);
     let window_height = window.innerHeight;
     $('.svgContainer.map').attr('max-height', `${window_height - height_sum - 10}px`);
