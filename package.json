@@ -15,7 +15,8 @@
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "react_ujs": "^2.4.1"
+    "react_ujs": "^2.4.1",
+    "virtual-keyboard": "^1.28.0"
   },
   "devDependencies": {
     "jest": "^21.2.1",
