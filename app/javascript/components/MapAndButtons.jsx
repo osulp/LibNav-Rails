@@ -207,7 +207,7 @@ class MapAndButtons extends React.Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-12 col-lg-10">
+          <div className="col-12 col-lg-9">
             <div className="row">
               <div className="col-12">
                 {this.render_map_view()}
@@ -229,7 +229,7 @@ class MapAndButtons extends React.Component {
               </div>
             </div>
           </div>
-          <div className="col-12 col-lg-2">
+          <div className="col-12 col-lg-3">
             <Legend icon_set={this.create_legend_set()} />
             <MapEditButtons addLocationHandler={this.addLocationHandler}
                             edit_mode={this.state.edit_mode}
