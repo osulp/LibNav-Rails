@@ -53,7 +53,7 @@ class MapAndButtons extends React.Component {
   addLocationHandler = (e, location) => {
     let updated_location = Object.assign(location, { add_location_url: this.props.add_location_url,
                                                      delete_location_url: this.props.delete_location_url,
-                                                     floor_id: this.state.current_selected_floor,
+                                                     floor_id: this.props.floors[this.state.current_selected_floor - 1].id,
                                                      isNew: true
                                                    });
 
@@ -146,7 +146,7 @@ class MapAndButtons extends React.Component {
   toggleEditHandler = (e) => this.setState({ edit_mode: !this.state.edit_mode })
 
   build_per_floor_icon_set = (locations) => {
-    return locations.filter(l => (l.floor_id === this.state.current_selected_floor) && (l.icon_name != null || l.icon_name != undefined)).map(loc => Object.assign({}, {icon_url: loc.icon_url, icon_name: loc.icon_name}))
+    return locations.filter(l => (l.floor_id === this.props.floors[this.state.current_selected_floor - 1].id) && (l.icon_name != null || l.icon_name != undefined)).map(loc => Object.assign({}, {icon_url: loc.icon_url, icon_name: loc.icon_name}))
   }
   // End Action Handlers
   create_legend_set = () => {
