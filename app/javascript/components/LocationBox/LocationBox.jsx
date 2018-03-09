@@ -58,6 +58,7 @@ class LocationBox extends React.Component {
 
       let text = $(this.state.box_selector).find('.label');
       let icon = $(this.state.box_selector).find('.icon');
+      alert(icon[0].getBBox().height)
       let updated_location = Object.assign(this.state.location, { text_height: text[0].getBBox().height, text_width: text[0].getBBox().width, icon_height: icon[0].getBBox().height, icon_width: icon[0].getBBox().width });
       this.setState({
         location: update(this.state.location, { $set: updated_location })
@@ -215,7 +216,9 @@ class LocationBox extends React.Component {
         isDragging: false,
         polygon_points: points,
         text_position_x: location.text_position_x + diffX,
-        text_position_y: location.text_position_y + diffY
+        text_position_y: location.text_position_y + diffY,
+        icon_position_x: location.icon_position_x + diffX,
+        icon_position_y: location.icon_position_y + diffY
       });
     }
   }
@@ -258,7 +261,7 @@ class LocationBox extends React.Component {
     let next_state = {};
     // Label Y coordinate has to account for the text_height at the top edge, and the bounding-box height at the bottom edge
     // Top edge has an 8px hack included because SVG text wants to render a little extra space at the top edge for readability
-    if(py > this.getInt(this.state.location.position_y + (this.state.location.icon_height - 8)) && py < this.getInt(this.state.location.position_y + this.state.location.height)){
+    if(py > this.getInt(this.state.location.position_y + (this.state.location.icon_height - 10)) && py < this.getInt(this.state.location.position_y + this.state.location.height)){
       next_state = Object.assign(next_state, { hasChanges: true, icon_position_y: py });
     }
     // Label X coordinate shares the same left edge, but needs to account for the text width on the right edge
