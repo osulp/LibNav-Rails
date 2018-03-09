@@ -14,7 +14,11 @@ class Location {
     this.height                 = props.height                || 50;
     this.highlightColor         = null                        || '#FFB500';
     this.label_id               = props.label_id              || 0;
+    this.icon_height            = props.icon_height           || 50;
     this.icon_id                = props.icon_id               || 0;
+    this.icon_position_x        = props.icon_position_x       || 40;
+    this.icon_position_y        = props.icon_position_y       || 20;
+    this.icon_width             = props.icon_width            || 50;
     this.icon_url               = props.icon_url              || '';
     this.internal_id            = props.internal_id           || guid;
     this.isChanging             = props.isChanging            || false;
@@ -138,6 +142,8 @@ class Location {
         polygon_points: this.polygon_points,
         text_position_x: this.text_position_x,
         text_position_y: this.text_position_y,
+        icon_position_x: this.icon_position_x,
+        icon_position_y: this.icon_position_y,
         width: this.width
       }],
       label_attributes: {

@@ -57,7 +57,8 @@ class LocationBox extends React.Component {
       d3.select(this.state.box_selector).select('rect.bounding-box').on('click', function(d) { self.clickedBox(this); });
 
       let text = $(this.state.box_selector).find('.label');
-      let updated_location = Object.assign(this.state.location, { text_height: text[0].getBBox().height, text_width: text[0].getBBox().width });
+      let icon = $(this.state.box_selector).find('.icon');
+      let updated_location = Object.assign(this.state.location, { text_height: text[0].getBBox().height, text_width: text[0].getBBox().width, icon_height: icon[0].getBBox().height, icon_width: icon[0].getBBox().width });
       this.setState({
         location: update(this.state.location, { $set: updated_location })
       });
@@ -66,6 +67,7 @@ class LocationBox extends React.Component {
 
   componentDidUpdate = () => {
     d3.select(this.state.box_selector).select('.box-content').select('.label').call(d3.drag().on('drag', this.draggedText));
+    d3.select(this.state.box_selector).select('.box-content').select('.icon').call(d3.drag().on('drag', this.draggedIcon));
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -120,6 +122,10 @@ class LocationBox extends React.Component {
     let text_max_y = this.getInt(this.state.location.text_position_y);
     let text_min_x = this.getInt(this.state.location.text_position_x);
     let text_min_y = this.getInt(this.state.location.text_position_y - this.state.location.text_height);
+    let icon_max_x = this.getInt(this.state.location.icon_position_x + this.state.location.icon_width);
+    let icon_max_y = this.getInt(this.state.location.icon_position_y);
+    let icon_min_x = this.getInt(this.state.location.icon_position_x);
+    let icon_min_y = this.getInt(this.state.location.icon_position_y - this.state.location.icon_height);
     let polygon_max_x = 0;
     let polygon_max_y = 0;
     let points = Location.deserializedPolygonPoints(this.state.location.polygon_points);
@@ -128,6 +134,7 @@ class LocationBox extends React.Component {
       polygon_max_y = this.getInt(Math.max(...points.map(p => p[1])) + 8);
     }
     let next_state = {};
+    //For text limits
     if(box_max_x < text_max_x){
       // box is resizing and pushing text toward the left edge, but not past the left edge (accounting for text_width)
       next_state = Object.assign(next_state, { hasChanges: true, text_position_x: box_max_x <= this.state.location.position_x + this.state.location.text_width ? this.state.location.position_x : box_max_x - this.state.location.text_width });
@@ -150,6 +157,31 @@ class LocationBox extends React.Component {
       // force the box to be at least as tall as the text
       next_state = Object.assign(next_state, { hasChanges: true, height: this.state.location.text_height });
     }
+
+    //for icon limit
+    if(box_max_x < icon_max_x){
+      // box is resizing and pushing text toward the left edge, but not past the left edge (accounting for text_width)
+      next_state = Object.assign(next_state, { hasChanges: true, icon_position_x: box_max_x <= this.state.location.position_x + this.state.location.icon_width ? this.state.location.position_x : box_max_x - this.state.location.icon_width });
+    }
+    if(box_max_y < icon_max_y){
+      // box is resizing and pushing text toward the top edge, but not past the top edge (accounting for the text_height)
+      next_state = Object.assign(next_state, { hasChanges: true, icon_position_y: box_max_y <= this.state.location.position_y + this.state.location.icon_height ? this.state.location.position_y + this.state.location.icon_height : box_max_y });
+    }
+    if(box_width > this.state.location.icon_width && box_max_x > polygon_max_x) {
+      // the box shouldn't be narrower than the width of the text
+      next_state = Object.assign(next_state, { hasChanges: true, width: this.getInt(Math.max(Math.min(box_width, 800), 0)), });
+    } else if(box_width <= this.state.location.icon_width && box_max_x <= icon_max_x) {
+      // force the box to be at least as wide as the text
+      next_state = Object.assign(next_state, { hasChanges: true, width: this.state.location.icon_width });
+    }
+    if(box_height > this.state.location.icon_height && box_max_y > polygon_max_y) {
+      // the box shouldn't be shorter than the height of the text
+      next_state = Object.assign(next_state, { hasChanges: true, height: this.getInt(Math.max(Math.min(box_height, 800), 0)), });
+    } else if(box_height <= this.state.location.icon_height && box_max_y <= icon_max_y) {
+      // force the box to be at least as tall as the text
+      next_state = Object.assign(next_state, { hasChanges: true, height: this.state.location.icon_height });
+    }
+
     this.setStateWithChanges(next_state);
   }
 
@@ -214,6 +246,24 @@ class LocationBox extends React.Component {
     // Label X coordinate shares the same left edge, but needs to account for the text width on the right edge
     if(px > this.state.location.position_x && px < this.getInt(this.state.location.position_x + this.state.location.width - this.state.location.text_width)){
       next_state = Object.assign(next_state, { hasChanges: true, text_position_x: px });
+    }
+    this.setStateWithChanges(next_state);
+  }
+
+  draggedIcon = d => {
+    // Add the diff pixels to the current location to get the proposed new location
+    let py = this.getInt(this.state.location.icon_position_y + d3.event.dy);
+    let px = this.getInt(this.state.location.icon_position_x + d3.event.dx);
+
+    let next_state = {};
+    // Label Y coordinate has to account for the text_height at the top edge, and the bounding-box height at the bottom edge
+    // Top edge has an 8px hack included because SVG text wants to render a little extra space at the top edge for readability
+    if(py > this.getInt(this.state.location.position_y + (this.state.location.icon_height - 8)) && py < this.getInt(this.state.location.position_y + this.state.location.height)){
+      next_state = Object.assign(next_state, { hasChanges: true, icon_position_y: py });
+    }
+    // Label X coordinate shares the same left edge, but needs to account for the text width on the right edge
+    if(px > this.state.location.position_x && px < this.getInt(this.state.location.position_x + this.state.location.width - this.state.location.icon_width)){
+      next_state = Object.assign(next_state, { hasChanges: true, icon_position_x: px });
     }
     this.setStateWithChanges(next_state);
   }
@@ -355,7 +405,13 @@ class LocationBox extends React.Component {
               y={this.state.location.text_position_y}>
           {this.state.location.text}
         </text>
-      </g>
+        <image className='icon'
+               width={this.state.location.icon_width}
+               height={this.state.location.icon_height}
+               x={this.state.location.icon_position_x}
+               xlinkHref={this.props.location.icon_url}
+               y={this.state.location.icon_position_y}>
+        </image> </g>
     );
   }
 
@@ -373,11 +429,6 @@ class LocationBox extends React.Component {
   render = () => {
     return (
       <g className={this.locationBoxStyles()} id={`location-box-${this.state.location.internal_id}`}>
-        <image width={this.state.location.width}
-               x={this.state.location.position_x}
-               xlinkHref={this.props.location.icon_url}
-               y={this.state.location.position_y}>
-        </image>
         <rect className={this.boundingBoxStyles()}
               data-name={this.props.location.name}
               height={this.state.location.height + "px"}
