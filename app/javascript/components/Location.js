@@ -13,7 +13,6 @@ class Location {
     this.hasError               = props.hasError              || false;
     this.height                 = props.height                || 50;
     this.highlightColor         = null                        || '#FFB500';
-    this.label_id               = props.label_id              || 0;
     this.icon_height            = props.icon_height           || 50;
     this.icon_id                = props.icon_id               || 0;
     this.icon_position_x        = props.icon_position_x       || 10;
@@ -26,6 +25,7 @@ class Location {
     this.isSaving               = props.isSaving              || false;
     this.isNew                  = props.isNew                 || false;
     this.icon_name              = props.icon_name             || '';
+    this.label_id               = props.label_id              || 0;
     this.name                   = props.name                  || '';
     this.persistent             = props.persistent            || false;
     this.polygon_points         = props.polygon_points        || '';

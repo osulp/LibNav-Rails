@@ -158,27 +158,21 @@ class LocationBox extends React.Component {
       next_state = Object.assign(next_state, { hasChanges: true, height: this.state.location.text_height });
     }
 
-    //for icon limit
+    //for icon limit it is the same as the above
     if(box_max_x < icon_max_x){
-      // box is resizing and pushing text toward the left edge, but not past the left edge (accounting for text_width)
       next_state = Object.assign(next_state, { hasChanges: true, icon_position_x: box_max_x <= this.state.location.position_x + this.state.location.icon_width ? this.state.location.position_x : box_max_x - this.state.location.icon_width });
     }
     if(box_max_y < icon_max_y){
-      // box is resizing and pushing text toward the top edge, but not past the top edge (accounting for the text_height)
       next_state = Object.assign(next_state, { hasChanges: true, icon_position_y: box_max_y <= this.state.location.position_y + this.state.location.icon_height ? this.state.location.position_y + this.state.location.icon_height : box_max_y });
     }
     if(box_width > this.state.location.icon_width && box_max_x > polygon_max_x) {
-      // the box shouldn't be narrower than the width of the text
       next_state = Object.assign(next_state, { hasChanges: true, width: this.getInt(Math.max(Math.min(box_width, 800), 0)), });
     } else if(box_width <= this.state.location.icon_width && box_max_x <= icon_max_x) {
-      // force the box to be at least as wide as the text
       next_state = Object.assign(next_state, { hasChanges: true, width: this.state.location.icon_width });
     }
     if(box_height > this.state.location.icon_height && box_max_y > polygon_max_y) {
-      // the box shouldn't be shorter than the height of the text
       next_state = Object.assign(next_state, { hasChanges: true, height: this.getInt(Math.max(Math.min(box_height, 800), 0)), });
     } else if(box_height <= this.state.location.icon_height && box_max_y <= icon_max_y) {
-      // force the box to be at least as tall as the text
       next_state = Object.assign(next_state, { hasChanges: true, height: this.state.location.icon_height });
     }
 
@@ -258,12 +252,13 @@ class LocationBox extends React.Component {
     let px = this.getInt(this.state.location.icon_position_x + d3.event.dx);
 
     let next_state = {};
-    // Label Y coordinate has to account for the text_height at the top edge, and the bounding-box height at the bottom edge
-    // Top edge has an 8px hack included because SVG text wants to render a little extra space at the top edge for readability
+    //New icon position checks to see if it is at the top of the location box
+    //and whether or not its at the bottom of the location box minus the height
+    //of the icon itself
     if((py > this.getInt(this.state.location.position_y)) && (py < this.getInt(this.state.location.position_y + this.state.location.height - this.state.location.icon_height))){
       next_state = Object.assign(next_state, { hasChanges: true, icon_position_y: py });
     }
-    // Label X coordinate shares the same left edge, but needs to account for the text width on the right edge
+    // Icon X coordinate shares the same left edge, but needs to account for the text width on the right edge
     if(px > this.state.location.position_x && px < this.getInt(this.state.location.position_x + this.state.location.width - this.state.location.icon_width)){
       next_state = Object.assign(next_state, { hasChanges: true, icon_position_x: px });
     }
