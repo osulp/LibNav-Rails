@@ -123,9 +123,9 @@ class LocationBox extends React.Component {
     let text_min_x = this.getInt(this.state.location.text_position_x);
     let text_min_y = this.getInt(this.state.location.text_position_y - this.state.location.text_height);
     let icon_max_x = this.getInt(this.state.location.icon_position_x + this.state.location.icon_width);
-    let icon_max_y = this.getInt(this.state.location.icon_position_y);
+    let icon_max_y = this.getInt(this.state.location.icon_position_y + this.state.location.icon_height);
     let icon_min_x = this.getInt(this.state.location.icon_position_x);
-    let icon_min_y = this.getInt(this.state.location.icon_position_y - this.state.location.icon_height);
+    let icon_min_y = this.getInt(this.state.location.icon_position_y);
     let polygon_max_x = 0;
     let polygon_max_y = 0;
     let points = Location.deserializedPolygonPoints(this.state.location.polygon_points);
@@ -163,7 +163,7 @@ class LocationBox extends React.Component {
       next_state = Object.assign(next_state, { hasChanges: true, icon_position_x: box_max_x <= this.state.location.position_x + this.state.location.icon_width ? this.state.location.position_x : box_max_x - this.state.location.icon_width });
     }
     if(box_max_y < icon_max_y){
-      next_state = Object.assign(next_state, { hasChanges: true, icon_position_y: box_max_y <= this.state.location.position_y + this.state.location.icon_height ? this.state.location.position_y + this.state.location.icon_height : box_max_y });
+      next_state = Object.assign(next_state, { hasChanges: true, icon_position_y: box_max_y <= this.state.location.position_y + this.state.location.icon_height ? this.state.location.position_y : box_max_y - this.state.location.icon_height });
     }
     if(box_width > this.state.location.icon_width && box_max_x > polygon_max_x) {
       next_state = Object.assign(next_state, { hasChanges: true, width: this.getInt(Math.max(Math.min(box_width, 800), 0)), });
