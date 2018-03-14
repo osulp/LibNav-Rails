@@ -11,7 +11,7 @@ class Legend extends React.Component {
           <LegendListElement key={"searched_" + i}
                              icon_url={icon.icon_url}
                              icon_name={icon.icon_name} />
-        </div> 
+        </div>
       );
     }
   }
@@ -29,9 +29,17 @@ class Legend extends React.Component {
     return(table_array);
   }
 
+  hidden_class_name = () => {
+    if (this.props.icon_set.length == 0) {
+      return 'd-none'
+    } else {
+      return ''
+    }
+  }
+
   render() {
     return (
-        <div className="row">
+        <div className={"row " + this.hidden_class_name()}>
           <div className="col-12">
             <div>
               <div className="card">
