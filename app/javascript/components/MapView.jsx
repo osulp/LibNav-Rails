@@ -31,7 +31,7 @@ class MapView extends React.Component {
 
   getLocationsState = (props, floor_id) => {
     let search_result_location_ids = props.locations.filter(l => l.floor_id.toString() === floor_id.toString()).map(l => l.id);
-    let persistent_location_ids = props.persistent_locations.filter(l => l.floor_id.toString() === floor_id.toString() && !search_result_location_ids.some(srl => srl.id === l.id)).map(l => l.id);
+    let persistent_location_ids = props.persistent_locations.filter(l => l.floor_id.toString() === floor_id.toString() && !search_result_location_ids.some(srl => srl === l.id)).map(l => l.id);
     return {
       locationsBoxes: props.edit_locations.filter(el => search_result_location_ids.includes(el.id)).map(l => this.locationBox(l, { highlight: true })),
       persistentLocationsBoxes: props.edit_locations.filter(el => persistent_location_ids.includes(el.id)).map(l => this.locationBox(l, { highlight: false }))
