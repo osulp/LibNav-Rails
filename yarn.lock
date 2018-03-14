@@ -6267,9 +6267,9 @@ viewport-dimensions@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/viewport-dimensions/-/viewport-dimensions-0.2.0.tgz#de740747db5387fd1725f5175e91bac76afdf36c"
 
-virtual-keyboard@^1.28.0:
+"virtual-keyboard@https://github.com/revgum/Keyboard":
   version "1.28.0"
-  resolved "https://registry.yarnpkg.com/virtual-keyboard/-/virtual-keyboard-1.28.0.tgz#3a3584b6ebe22678351853c6f9e32f663f5f32d0"
+  resolved "https://github.com/revgum/Keyboard#d67a5a5b95d5608945a9114c49eb5e24eff4c4e6"
   dependencies:
     jquery ">=3.3.1"
   optionalDependencies:
