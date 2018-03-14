@@ -4,9 +4,29 @@
     </div>
     <div class="col-10 col-md-8 top-margin">
       <%= form_tag(root_path, :method => :get, class: "form-group row overflowing") do %>
+        <%= hidden_field_tag :show_navbar, params[:show_navbar] %>
+        <%= hidden_field_tag :kiosk, params[:kiosk] %>
         <%= text_field_tag :search, params[:search], class: "form-control col", :placeholder => "(example: Circulation, Restrooms, Well Lit)" %>
-        <%= submit_tag "Search", :method => :get, class: 'col-3 btn btn-primary' %>
+        <%= submit_tag "Search", :method => :get, class: 'search-button col-3 btn btn-primary' %>
       <% end %>
     </div>
   </div>
 </div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
+<%= javascript_include_tag 'application' %>
+<script type='text/javascript'>
+  $('#search').keyboard({
+    accepted: function(e, keyboard, el) {
+      $('.search-button').click();
+    },
+    beforeVisible: function(e, keyboard, el) {
+      $('.search-button').hide();
+    },
+    beforeClose: function(e, keyboard, el) {
+      $('.search-button').show();
+    }
+  });
+</script>

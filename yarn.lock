@@ -3493,6 +3493,10 @@ jest@^21.2.1:
   dependencies:
     jest-cli "^21.2.1"
 
+jquery-ui@>=1.12.1:
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/jquery-ui/-/jquery-ui-1.12.1.tgz#bcb4045c8dd0539c134bc1488cdd3e768a7a9e51"
+
 jquery-ujs@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/jquery-ujs/-/jquery-ujs-1.2.2.tgz#6a8ef1020e6b6dda385b90a4bddc128c21c56397"
@@ -3502,6 +3506,10 @@ jquery-ujs@^1.2.2:
 jquery@>=1.8.0, jquery@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
+
+jquery@>=3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
 js-base64@^2.1.8, js-base64@^2.1.9:
   version "2.3.2"
@@ -6258,6 +6266,14 @@ verror@1.10.0:
 viewport-dimensions@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/viewport-dimensions/-/viewport-dimensions-0.2.0.tgz#de740747db5387fd1725f5175e91bac76afdf36c"
+
+virtual-keyboard@^1.28.0:
+  version "1.28.0"
+  resolved "https://registry.yarnpkg.com/virtual-keyboard/-/virtual-keyboard-1.28.0.tgz#3a3584b6ebe22678351853c6f9e32f663f5f32d0"
+  dependencies:
+    jquery ">=3.3.1"
+  optionalDependencies:
+    jquery-ui ">=1.12.1"
 
 vm-browserify@0.0.4:
   version "0.0.4"

@@ -89,7 +89,7 @@ class MapAndButtons extends React.Component {
     let heights = [];
     let visible_elements = ['nav.navbar', '.sub-nav', '.search-nav', '.floor-buttons', 'main > .header-row'];
     visible_elements.forEach((s) => {
-      if($(s) !== null) {
+      if($(s) !== null && $(s).length) {
         heights.push($(s).height())
       }
     });
