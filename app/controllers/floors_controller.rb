@@ -7,7 +7,8 @@ class FloorsController < ApplicationController
   # before_action :set_locations, only: %i[update]
 
   def index
-    search_results = process_search(params[:search])
+    params[:search] ||= []
+    search_results = is_valid_search? ? process_search(params[:search]) : []
     locations = extract_locations(search_results)
     search_result_floors = extract_floors(locations)
     admin_user = false
@@ -183,5 +184,9 @@ class FloorsController < ApplicationController
 
   def enable_iframe
     response.headers.except! 'X-Frame-Options'
+  end
+
+  def is_valid_search?
+    params[:search].present? && !params[:search].empty?
   end
 end
