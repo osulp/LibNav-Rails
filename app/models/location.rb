@@ -16,6 +16,7 @@ class Location < ApplicationRecord
 
   validates :name, :floor, :position_x, :position_y, :width, :height, presence: true
   before_save :allowable_text_position
+  before_save :allowable_icon_position
 
   # Necessary for rails_admin to set the associated model for a has one
   # association
@@ -90,6 +91,13 @@ class Location < ApplicationRecord
     unless self.label.nil?
       text_position_x = position_x if text_position_x.nil? || text_position_x < position_x
       text_position_y = position_y if text_position_y.nil? || text_position_y < position_y
+    end
+  end
+
+  def allowable_icon_position
+    unless self.icon.nil?
+      icon_position_x = position_x if icon_position_x.nil? || icon_position_x < position_x
+      icon_position_y = position_y if icon_position_y.nil? || icon_position_y < position_y
     end
   end
 end

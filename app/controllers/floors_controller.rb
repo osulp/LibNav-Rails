@@ -86,7 +86,7 @@ class FloorsController < ApplicationController
       :name,
       label_attributes: %i[ name ],
       icon_attributes: %i[ id ],
-      locations_attributes: %i[ height id name polygon_points position_x position_y text_position_x text_position_y width ]
+      locations_attributes: %i[ height id name polygon_points position_x position_y text_position_x text_position_y icon_position_x icon_position_y width ]
     )
   end
 
@@ -108,6 +108,8 @@ class FloorsController < ApplicationController
     location.position_y = l['position_y'].to_i
     location.text_position_x = l['text_position_x'].to_i
     location.text_position_y = l['text_position_y'].to_i
+    location.icon_position_x = l['icon_position_x'].to_i
+    location.icon_position_y = l['icon_position_y'].to_i
     location.width = l['width'].to_i
     location.polygon_points = l['polygon_points']
     location.save
@@ -120,6 +122,8 @@ class FloorsController < ApplicationController
     params['position_y'] = params['position_y'].to_i
     params['text_position_x'] = params['text_position_x'].to_i
     params['text_position_y'] = params['text_position_y'].to_i
+    params['icon_position_x'] = params['icon_position_x'].to_i
+    params['icon_position_y'] = params['icon_position_y'].to_i
     params['width'] = params['width'].to_i
     params['floor_id'] = @floor['id']
     Location.create(params)
