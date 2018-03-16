@@ -1,7 +1,10 @@
 RailsAdmin.config do |config|
   ## == Devise/Warden Authorization using User #admin? method ==
   config.authorize_with do
-    redirect_to main_app.root_path unless !warden.user.nil? && warden.user.admin?
+    if !current_user.nil? && !current_user.admin?
+      flash[:notice] = 'Access Denied'
+      redirect_to main_app.root_path
+    end
   end
 
   # Configures CRUD Actions/Functionality

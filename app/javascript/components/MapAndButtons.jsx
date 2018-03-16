@@ -202,9 +202,14 @@ class MapAndButtons extends React.Component {
     }
   }
 
+  render_flash_notices = () => {
+   return Object.keys(this.props.flash_messages).map(flash => <div className={`alert alert-+${flash}`}>{this.props.flash_messages[flash]}</div>);
+  }
+
   render() {
     return (
       <main className="container-fluid" id="main-content">
+        {this.render_flash_notices()}
         <div className="row header-row">
           <div className="col-12">
             <h2 className="text-center">{this.props.floors[this.state.current_selected_floor - 1].name}</h2>
