@@ -1,6 +1,15 @@
 import React from "react"
 import PropTypes from "prop-types"
 class LegendListElement extends React.Component {
+
+  build_search_url = (icon_name) => {
+    if (window.location.href.includes("search")){
+      return window.location.href.replace(/(search=).*?(&|$)/,'$1' + icon_name.replace(" ", "+") + '$2');
+    } else {
+      return window.location.href.toString() + '?search=' + icon_name.replace(" ", "+") + '&commit=Search'
+    }
+  }
+
   render() {
     return (<li>
               <div className="container">
@@ -9,7 +18,7 @@ class LegendListElement extends React.Component {
                 </div>
                 <div className="row">
                   <div className="legend_padding">
-                    { this.props.icon_name }
+                    <a href={this.build_search_url(this.props.icon_name)}> { this.props.icon_name } </a>
                   </div>
                 </div>
               </div>
