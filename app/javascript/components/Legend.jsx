@@ -39,7 +39,7 @@ class Legend extends React.Component {
 
   render() {
     return (
-        <div className={"row " + this.hidden_class_name()}>
+        <div className={`row ${this.hidden_class_name()}`}>
           <div className="col-12">
             <div>
               <div className="card">
