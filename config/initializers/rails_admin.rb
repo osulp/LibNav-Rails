@@ -2,7 +2,7 @@ RailsAdmin.config do |config|
   ## == Devise/Warden Authorization using User #admin? method ==
   config.authorize_with do
     if !current_user.nil? && !current_user.admin?
-      flash[:notice] = 'Access Denied'
+      flash[:info] = 'Access Denied'
       redirect_to main_app.root_path
     end
   end
