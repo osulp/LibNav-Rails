@@ -15,6 +15,7 @@ class FloorsController < ApplicationController
 
     @state = {
       admin_user: admin_user,
+      flash_messages: flash.to_h,
       add_location_url: route_for(:floor_add_location, id: 'FLOORID'),
       delete_location_url: route_for(:floor_delete_location, id: 'FLOORID', location_id: 'LOCATIONID'),
       edit_locations: Location.all,

@@ -202,9 +202,16 @@ class MapAndButtons extends React.Component {
     }
   }
 
+  render_flash_notices = () => {
+   return Object.keys(this.props.flash_messages).map(flash => <div role='alert' className={`alert alert-${flash} alert-dismissible fade show`}>{this.props.flash_messages[flash]}<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button></div>);
+  }
+
   render() {
     return (
       <main className="container-fluid" id="main-content">
+        {this.render_flash_notices()}
         <div className="row header-row">
           <div className="col-12">
             <h2 className="text-center">{this.props.floors[this.state.current_selected_floor - 1].name}</h2>
