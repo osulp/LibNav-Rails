@@ -141,7 +141,7 @@ class FloorsController < ApplicationController
     results << Location.search_for(search_params)
     results << Tag.search_for(search_params).has_location
     results << Trait.search_for(search_params).has_location
-    results << Icon.search_for(search_params).select{ |i| !i.location_ids.nil? }
+    results << Icon.search_for(search_params).has_locations
     results.flatten.uniq
   end
 

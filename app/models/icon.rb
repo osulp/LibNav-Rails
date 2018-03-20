@@ -1,6 +1,6 @@
 class Icon < ApplicationRecord
   scope :ordered, -> { order(:name) }
-  scope :has_location, -> { where.not(location_ids: nil) }
+  scope :has_locations, -> { includes(:locations).where.not(locations: { id: nil }) }
   has_many :location_icons
   has_many :locations, through: :location_icons
 
