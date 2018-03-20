@@ -141,6 +141,7 @@ class FloorsController < ApplicationController
     results << Location.search_for(search_params)
     results << Tag.search_for(search_params).has_location
     results << Trait.search_for(search_params).has_location
+    results << Icon.search_for(search_params).select{ |i| !i.location_ids.nil? }
     results.flatten.uniq
   end
 
@@ -157,6 +158,7 @@ class FloorsController < ApplicationController
     locations << sr.select { |r| r.is_a?(Trait) && r.value.casecmp('yes').zero? }.map{ |r| r.locations.to_a }
     locations << sr.select { |r| r.is_a?(Tag) && !r.location.nil? }.map{ |r| r.location }
     locations << sr.select { |r| r.is_a?(Location) }
+    locations << sr.select { |r| r.is_a?(Icon) }.map{ |r| r.locations.to_a }
     locations.flatten.uniq
   end
 
