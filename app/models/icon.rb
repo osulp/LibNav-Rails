@@ -1,9 +1,12 @@
 class Icon < ApplicationRecord
   scope :ordered, -> { order(:name) }
+  scope :has_locations, -> { includes(:locations).where.not(locations: { id: nil }) }
   has_many :location_icons
   has_many :locations, through: :location_icons
 
   has_attached_file :icon_image
+
+  scoped_search on: [:name]
 
   validates_attachment_content_type :icon_image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif", "image/svg+xml"]
 
