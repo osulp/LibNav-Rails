@@ -5,6 +5,8 @@ class LegendListElement extends React.Component {
   build_search_url = (icon_name) => {
     if (window.location.href.includes("search")){
       return window.location.href.replace(/(search=).*?(&|$)/,'$1' + icon_name.replace(" ", "+") + '$2');
+    } else if(window.location.href.includes("?")) {
+      return window.location.href.toString() + '&search=' + icon_name.replace(" ", "+") + '&commit=Search'
     } else {
       return window.location.href.toString() + '?search=' + icon_name.replace(" ", "+") + '&commit=Search'
     }
