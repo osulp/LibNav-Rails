@@ -14,7 +14,7 @@ class Location {
     this.height                 = props.height                || 50;
     this.highlightColor         = null                        || '#FFB500';
     this.icon_height            = props.icon_height           || 50;
-    this.icon_id                = props.icon_id               || '';
+    this.icon_id                = props.icon_id               || 0;
     this.icon_position_x        = props.icon_position_x       || 10;
     this.icon_position_y        = props.icon_position_y       || 10;
     this.icon_width             = props.icon_width            || 50;
