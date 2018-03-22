@@ -13,7 +13,7 @@ RailsAdmin.config do |config|
     dashboard
     index
     new do
-      except %w(Floor User)
+      except %w(Floor User Icon)
     end
     show
     edit
