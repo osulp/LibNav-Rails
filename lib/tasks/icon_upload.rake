@@ -1,5 +1,5 @@
 namespace :libnav do
-  desc "Expires the elapsed embargoes"
+  desc "Uploads a directory specified or default directories images as Icons in LibNav"
   task :upload_icons, [:icon_directory_path] => [ :environment ] do |t, args|
     #set default for the argument
     args.with_defaults(:icon_directory_path => Rails.root.join("public", "images", "icons"))
