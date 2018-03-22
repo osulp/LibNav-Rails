@@ -50,7 +50,8 @@ class FloorsController < ApplicationController
       location = create_location(l) if l['id'].nil?
       location = update_location(l) if l['id'].present?
       label = find_or_create_label(location, floor_params[:label_attributes])
-      locations << { location: location, label: label }
+      icon = save_location_on_icon(location, floor_params[:icon_attributes][:id])
+      locations << { location: location, label: label, icon: icon }
     end
     respond_to do |format|
       format.json do
@@ -100,6 +101,13 @@ class FloorsController < ApplicationController
     label.locations << location
     label.save
     label
+  end
+
+  def save_location_on_icon(location, icon_id)
+    icon = Icon.find(icon_id)
+    icon.locations << location
+    icon.save
+    icon
   end
 
   def update_location(l)
