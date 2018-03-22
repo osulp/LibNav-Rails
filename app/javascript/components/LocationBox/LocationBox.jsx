@@ -402,7 +402,7 @@ class LocationBox extends React.Component {
               y={this.state.location.text_position_y}>
           {this.state.location.text}
         </text>
-        <image className='icon'
+        <image className={`icon ${this.state.location.icon_url != '' ? '' : 'd-none'}`}
                width={this.state.location.icon_width}
                height={this.state.location.icon_height}
                x={this.state.location.icon_position_x}
