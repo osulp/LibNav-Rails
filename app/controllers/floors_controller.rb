@@ -52,7 +52,7 @@ class FloorsController < ApplicationController
       label = find_or_create_label(location, floor_params[:label_attributes])
       icon = save_location_on_icon(location, floor_params[:icon_attributes][:id])
       data = { location: location, label: label }
-      data[:icon] << icon if icon.present?
+      data.merge({icon: icon}) if icon.present?
       locations << data
     end
     respond_to do |format|
