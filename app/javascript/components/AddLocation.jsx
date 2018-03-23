@@ -47,12 +47,10 @@ class AddLocation extends React.Component {
   }
 
   iconChanged = (e) => {
-    if(e.target.selectedIndex > 0) {
-      this.setState({
-        icon_id: e.target.selectedOptions[0].value,
-        icon_url: e.target.selectedOptions[0].dataset.url
-      });
-    }
+    this.setState({
+      icon_id: e.target.selectedOptions[0].value,
+      icon_url: e.target.selectedOptions[0].dataset.url
+    });
   }
 
   keyUp = (e) => {
