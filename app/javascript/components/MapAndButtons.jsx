@@ -17,7 +17,7 @@ class MapAndButtons extends React.Component {
     this.timer_handle
     this.state = {
       csrf: $('meta[name="csrf-token"]').attr('content'),
-      current_selected_floor: this.props.floor,
+      current_selected_floor: this.pick_floor(),
       edit_locations: this.props.edit_locations.map(l => new Location({...l,
                                                                        add_location_url: this.props.add_location_url,
                                                                        delete_location_url: this.props.delete_location_url })),
@@ -166,6 +166,14 @@ class MapAndButtons extends React.Component {
       window.clearTimeout(this.time_handle);
     }
     this.timer_handle = window.setTimeout(() => { location.reload() }, 600000);
+  }
+
+  pick_floor = () => {
+    if(this.props.search_result_floors.filter(floor => floor != undefined).length){
+      return this.props.search_result_floors.filter(floor => floor != undefined)[0].level
+    } else {
+      return this.props.floor
+    }
   }
 
   searched_floor(search_result_floors, floor_index) {
