@@ -22,6 +22,17 @@
   <%= javascript_include_tag 'application' %>
   <script type='text/javascript'>
     $('#search').keyboard({
+      autoAccept: true,
+      layout: 'custom',
+      customLayout: {
+        'normal': [
+          '1 2 3 4 5 6 7 8 9 0 - = {bksp}',
+          'q w e r t y u i o p',
+          'a s d f g h j k l ; \'',
+          'z x c v b n m , .',
+          '{cancel} {space} {accept}'
+        ],
+      },
       accepted: function(e, keyboard, el) {
         $('.search-button').click();
       },
@@ -29,8 +40,9 @@
         $('.search-button').hide();
       },
       beforeClose: function(e, keyboard, el) {
-      $('.search-button').show();
+        $('.search-button').show();
       }
+
     });
   </script>
 <% end %>
