@@ -157,7 +157,10 @@ class FloorsController < ApplicationController
     results << Tag.search_for(search_params).has_location
     results << Trait.search_for(search_params).has_location
     results << Icon.search_for(search_params).has_locations
-    results.flatten.uniq
+    results = results.flatten.uniq
+    flash.clear
+    flash[:info] = 'No results found' if results.empty?
+    results
   end
 
   def extract_floors(locations)
