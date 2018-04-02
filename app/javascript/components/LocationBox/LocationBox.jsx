@@ -267,7 +267,7 @@ class LocationBox extends React.Component {
 
   clickedBox = (e) => {
     let location = this.state.location;
-    if(location.polygonClosed || !location.isNew) {
+    if(location.polygonClosed) {
       return null;
     }
     let mouse = d3.mouse(e);
