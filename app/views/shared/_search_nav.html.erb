@@ -3,23 +3,35 @@
     <div class="col-1 col-md-2">
     </div>
     <div class="col-10 col-md-8 top-margin">
-      <%= form_tag(root_path, :method => :get, class: "form-group row overflowing") do %>
+      <%= form_tag(root_path, :method => :get, class: "search_group shrunk form-group row overflowing") do %>
         <%= hidden_field_tag :show_navbar, params[:show_navbar] %>
         <%= hidden_field_tag :kiosk, params[:kiosk] %>
-        <%= text_field_tag :search, params[:search], class: "form-control col", :placeholder => "(example: Circulation, Restrooms, Well Lit)" %>
-        <%= submit_tag "Search", :method => :get, class: 'search-button col-3 btn btn-primary' %>
+        <%= text_field_tag :search, params[:search], class: "search_form col", :placeholder => "(example: Circulation, Restrooms, Well Lit)" %>
+        <%= submit_tag "Search", :method => :get, class: 'search-button btn btn-primary col-3' %>
       <% end %>
+    </div>
+    <div id="search_toggle">
+      <i class="fa fa-search"></i>
     </div>
   </div>
 </div>
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
+<%= javascript_include_tag 'application' %>
+<script type="text/javascript">
+  $("#search_toggle").on("click", function() {
+    if($('.search_group').hasClass('shrunk')) {
+      $('.search_group').removeClass('shrunk');
+    } else {
+      $('.search_group').addClass('shrunk');
+    }
+  });
+</script>
 <%# Don't render the virtual keyboard for clients other than the kiosks, and try to allow for a range
     of truthy/falsey params that might be passed on the querystring. %>
 <% if params[:kiosk].present? && ActiveRecord::Type::Boolean.new.cast(params[:kiosk]) %>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
-  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
-  <%= javascript_include_tag 'application' %>
   <script type='text/javascript'>
     $('#search').keyboard({
       autoAccept: true,
