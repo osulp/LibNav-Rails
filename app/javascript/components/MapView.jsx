@@ -46,6 +46,14 @@ class MapView extends React.Component {
     });
   }
 
+  searchResultOverlay = () => {
+    if(this.state.locationsBoxes.length) {
+      return(<rect width='100%' height='100%' style={{fill: 'white', fillOpacity: '0.5'}} />)
+    } else {
+      return null;
+    }
+  }
+
   renderSvg = (mapUrl) => {
     let svgContainer = d3.select('.svgContainer');
     if (d3.select('.map_image')) {
@@ -65,8 +73,9 @@ class MapView extends React.Component {
   render() {
     return (
       <svg width='100%' viewBox='0 0 800 650' className='svgContainer map' id={`floor-${this.props.current_selected_floor}-svg`}>
-        {this.state.locationsBoxes}
         {this.state.persistentLocationsBoxes}
+        {this.searchResultOverlay()}
+        {this.state.locationsBoxes}
       </svg>
     );
   }
