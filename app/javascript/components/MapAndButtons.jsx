@@ -1,6 +1,7 @@
 import update from 'immutability-helper';
 import React from 'react';
 import PropTypes from 'prop-types';
+import FlashMessages from './FlashMessages';
 import FloorButton from './FloorButton';
 import Location from './Location';
 import MapEdit from './MapEdit';
@@ -22,6 +23,7 @@ class MapAndButtons extends React.Component {
                                                                        add_location_url: this.props.add_location_url,
                                                                        delete_location_url: this.props.delete_location_url })),
       edit_mode: false,
+      flash_messages: this.props.flash_messages,
       map_height: 0,
       modal_popup: true,
       result_hit_counts: this.props.floors.map((floor, index) => {
@@ -210,16 +212,10 @@ class MapAndButtons extends React.Component {
     }
   }
 
-  render_flash_notices = () => {
-   return Object.keys(this.props.flash_messages).map(flash => <div role='alert' className={`alert alert-${flash} alert-dismissible fade show`}>{this.props.flash_messages[flash]}<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button></div>);
-  }
-
   render() {
     return (
       <main className="container-fluid" id="main-content">
-        {this.render_flash_notices()}
+        <FlashMessages messages={this.state.flash_messages} />
         <div className="row header-row">
           <div className="col-12">
             <h2 className="text-center">{this.props.floors[this.state.current_selected_floor - 1].name}</h2>

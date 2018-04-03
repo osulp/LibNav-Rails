@@ -7,18 +7,21 @@ class FloorsController < ApplicationController
   # before_action :set_locations, only: %i[update]
 
   def index
+    flash.clear
     search_results = is_valid_search? ? process_search(params[:search]) : []
+    flash[:info] = 'No locations found' if search_results.empty?
+    flash[:success] = "Found #{search_results.count} location#{search_results.count == 1 ? '' : 's'}" unless search_results.empty?
     locations = extract_locations(search_results)
     search_result_floors = extract_floors(locations)
     admin_user = false
     admin_user = current_user.admin? if user_signed_in?
 
     @state = {
-      admin_user: admin_user,
-      flash_messages: flash.to_h,
       add_location_url: route_for(:floor_add_location, id: 'FLOORID'),
+      admin_user: admin_user,
       delete_location_url: route_for(:floor_delete_location, id: 'FLOORID', location_id: 'LOCATIONID'),
       edit_locations: Location.all,
+      flash_messages: flash.to_h,
       floor: params[:floor_number] || 2,
       floors: @floors,
       icons: @icons,
@@ -158,8 +161,6 @@ class FloorsController < ApplicationController
     results << Trait.search_for(search_params).has_location
     results << Icon.search_for(search_params).has_locations
     results = results.flatten.uniq
-    flash.clear
-    flash[:info] = 'No results found' if results.empty?
     results
   end
 
