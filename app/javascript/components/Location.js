@@ -94,20 +94,20 @@ class Location {
   static backgroundColorRGB = (location, is_highlight) => {
     let color = location.background_color;
     if(is_highlight) {
-      return location.highlightColor;
+      switch(color) {
+        case '':
+          color = location.highlightColor;
+          break;
+        case 'transparent':
+          color = 'none';
+          break;
+        default:
+          color = `#${color}`;
+          break;
+      }
+      return color;
     }
-    switch(color) {
-      case '':
-        color = location.highlightColor;
-        break;
-      case 'transparent':
-        color = 'none';
-        break;
-      default:
-        color = `#${color}`;
-        break;
-    }
-    return `${color}`;
+    return 'none';
   }
 
   delete = (csrf, success, fail) => {

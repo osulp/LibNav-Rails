@@ -9,12 +9,12 @@ class FloorsController < ApplicationController
   def index
     flash.clear
     search_results = is_valid_search? ? process_search(params[:search]) : []
-    flash[:info] = 'No locations found' if search_results.empty?
-    flash[:success] = "Found #{search_results.count} location#{search_results.count == 1 ? '' : 's'}" unless search_results.empty?
     locations = extract_locations(search_results)
     search_result_floors = extract_floors(locations)
     admin_user = false
     admin_user = current_user.admin? if user_signed_in?
+    flash[:info] = 'No locations found' if search_results.empty?
+    flash[:success] = "Found #{locations.count} location#{locations.count == 1 ? '' : 's'}" unless locations.empty?
 
     @state = {
       add_location_url: route_for(:floor_add_location, id: 'FLOORID'),
@@ -174,7 +174,7 @@ class FloorsController < ApplicationController
 
   def extract_locations(sr)
     locations = []
-    locations << sr.select { |r| r.is_a?(Trait) && r.value.casecmp('yes').zero? }.map{ |r| r.locations.to_a }
+    locations << sr.select { |r| r.is_a?(Trait) }.map{ |r| r.locations.to_a }
     locations << sr.select { |r| r.is_a?(Tag) && !r.location.nil? }.map{ |r| r.location }
     locations << sr.select { |r| r.is_a?(Location) }
     locations << sr.select { |r| r.is_a?(Icon) }.map{ |r| r.locations.to_a }
