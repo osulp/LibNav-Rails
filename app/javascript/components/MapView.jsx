@@ -26,7 +26,7 @@ class MapView extends React.Component {
   }
 
   locationBox = (l, result_type) => {
-    return (<LocationBox key={l.id} highlight={result_type.highlight} location={l} />);
+    return (<LocationBox key={l.id} highlight={result_type.highlight} location={l} map_marker_path={this.props.map_marker_path} />);
   }
 
   getLocationsState = (props, floor_id) => {
@@ -84,6 +84,7 @@ MapView.propTypes = {
   mapUrl: PropTypes.string,
   locations: PropTypes.array,
   current_selected_floor: PropTypes.string,
-  persistent_locations: PropTypes.array
+  persistent_locations: PropTypes.array,
+  map_marker_path: PropTypes.string
 };
 export default MapView;

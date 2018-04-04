@@ -26,6 +26,7 @@ class MapAndButtons extends React.Component {
       flash_messages: this.props.flash_messages,
       map_height: 0,
       modal_popup: true,
+      map_marker_path: this.props.map_marker_path,
       result_hit_counts: this.props.floors.map((floor, index) => {
         let count = 0;
         if (this.props.locations) {
@@ -197,12 +198,14 @@ class MapAndButtons extends React.Component {
                       id={this.props.floors[this.state.current_selected_floor - 1].id.toString()}
                       locations={this.state.edit_locations}
                       mapUrl={this.props.maps[this.state.current_selected_floor - 1]}
-                      successNotificationHandler={this.successNotificationHandler}/>
+                      successNotificationHandler={this.successNotificationHandler}
+                      map_marker_path={this.state.map_marker_path}/>
     } else {
       return <MapView {...this.props}
                       current_selected_floor={this.state.current_selected_floor.toString()}
                       edit_locations={this.state.edit_locations}
-                      mapUrl={this.props.maps[this.state.current_selected_floor - 1]}/>
+                      mapUrl={this.props.maps[this.state.current_selected_floor - 1]}
+                      map_marker_path={this.state.map_marker_path}/>
     }
   }
 
