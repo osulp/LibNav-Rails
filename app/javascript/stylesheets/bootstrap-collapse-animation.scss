@@ -1,0 +1,26 @@
+.form-group {
+  width: 100%;
+  float: right;
+  -webkit-transition: width .5s ease;
+  -moz-transition: width .5s ease;
+  transition: width .5s ease;
+}
+.form-group.collapsed_search {
+  width: 254px;
+  float: right;
+}
+.search_input.hidden-search {
+  visibility: hidden;
+  -webkit-transition: visibility 100ms ease;
+  -moz-transition: visibility 100ms ease;
+  transition: visibility 100ms ease;
+}
+.search-button.collapsed_button {
+  width: 100px !important;
+}
+.search-button {
+  width: 200px !important;
+  -webkit-transition: width .5s ease;
+  -moz-transition: width .5s ease;
+  transition: width .5s ease;
+}
