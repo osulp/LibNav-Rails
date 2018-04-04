@@ -20,8 +20,7 @@
 <script type="text/javascript">
   var has_clicked = false
   $("#search_toggle").on("click", function(e) {
-    if(has_clicked === true) {
-    } else {
+    if(!has_clicked) {
       e.preventDefault();
       has_clicked = true;
       $('.form-group').removeClass('collapsed_search');
