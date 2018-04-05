@@ -26,6 +26,7 @@ class FloorsController < ApplicationController
       floors: @floors,
       icons: @icons,
       locations: locations,
+      map_marker_path: ActionController::Base.helpers.asset_path("map-marker.png"),
       maps: @floors.map { |f| f.map.url(:original) },
       persistent_locations: get_persistent_locations,
       search_result_floors: search_result_floors,

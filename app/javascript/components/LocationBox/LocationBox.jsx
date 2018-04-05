@@ -33,11 +33,15 @@ class LocationBox extends React.Component {
       highlight: this.props.highlight,
       location: this.props.location,
       map_height: 650,
-      map_width: 800
+      map_width: 800,
+      map_marker_path: this.props.map_marker_path
     }
   }
 
   componentDidMount = () => {
+    $(function () {
+      $('[data-toggle="popover"]').popover()
+    });
     if(this.state.edit_mode) {
       // Tooltip visibility
       $(this.state.box_selector).find('.bounding-box').on('mousedown', (event) => { $(this.state.box_selector).find('.bounding-box').tooltip('hide') });
@@ -382,11 +386,20 @@ class LocationBox extends React.Component {
     }
   }
 
-  boxContents = () => {
-    if(this.state.location.isDragging) {
-      return null;
-    }
-    return (
+  boxContentsOrMarker = () => {
+    if(this.state.location.height < 75 && this.state.location.width < 75 && this.state.edit_mode == false) {
+      return(
+          <a data-toggle="popover" data-placement="top" data-content={this.state.location.name}>
+            <image width={"20"}
+                   height={"20"}
+                   xlinkHref={this.state.map_marker_path}
+                   x={this.state.location.position_x + (this.state.location.width / 2) - 10}
+                   y={this.state.location.position_y + (this.state.location.height / 2) - 10}>
+            </image>
+          </a>
+        )
+    } else {
+      return(
       <g className='box-content'>
         <Polygon key={`polygon-${this.state.location.internal_id}`}
                  box_height={this.state.location.height}
@@ -405,7 +418,7 @@ class LocationBox extends React.Component {
               fontSize='20px'
               x={this.state.location.text_position_x}
               y={this.state.location.text_position_y}>
-          {this.state.location.text}
+              {this.state.location.text}
         </text>
         <image className={`icon ${this.state.location.icon_url != '' ? '' : 'd-none'}`}
                width={this.state.location.icon_width}
@@ -413,8 +426,16 @@ class LocationBox extends React.Component {
                x={this.state.location.icon_position_x}
                xlinkHref={this.props.location.icon_url}
                y={this.state.location.icon_position_y}>
-        </image> </g>
-    );
+        </image>
+      </g>)
+    }
+  }
+
+  boxContents = () => {
+    if(this.state.location.isDragging) {
+      return null;
+    }
+    return this.boxContentsOrMarker()
   }
 
   getStyles = () => {

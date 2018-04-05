@@ -12,7 +12,8 @@ class EditMap extends React.Component {
     id: PropTypes.string,
     locations: PropTypes.array,
     mapUrl: PropTypes.string,
-    successNotificationHandler: PropTypes.func
+    successNotificationHandler: PropTypes.func,
+    map_marker_path: PropTypes.string
   }
   static defaultProps = {
     bounding_box_height: 650,
@@ -54,7 +55,8 @@ class EditMap extends React.Component {
                          edit_mode={true}
                          editLocationHandler={this.props.editLocationHandler}
                          location={l}
-                         successNotificationHandler ={this.props.successNotificationHandler} />);
+                         successNotificationHandler ={this.props.successNotificationHandler}
+                         map_marker_path={this.props.map_marker_path} />);
   }
 
   draggedCircle = d => {
