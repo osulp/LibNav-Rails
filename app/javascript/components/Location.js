@@ -4,7 +4,7 @@ class Location {
     this.id                     = props.id                    || guid;
     this.admin_url              = props.admin_url             || '';
     this.add_location_url       = props.add_location_url      || '';
-    this.background_color       = props.background_color      || 'transparent';
+    this.background_color       = props.background_color      || 'none';
     this.created_at             = props.created_at            || new Date().toISOString();
     this.delete_location_url    = props.delete_location_url   || '';
     this.didSave                = props.deleteSave            || false;
@@ -95,17 +95,16 @@ class Location {
     let color = location.background_color;
     if(is_highlight) {
       switch(color) {
+        case 'transparent':
+        case 'none':
         case '':
           color = location.highlightColor;
-          break;
-        case 'transparent':
-          color = 'none';
           break;
         default:
           color = `#${color}`;
           break;
       }
-      return color;
+      return `${color}`;
     }
     return 'none';
   }
