@@ -145,14 +145,16 @@ class Location {
         icon_position_x: this.icon_position_x,
         icon_position_y: this.icon_position_y,
         width: this.width
-      }],
-      label_attributes: {
-        name: this.text
-      },
-      icon_attributes: {
-        id: this.icon_id
-      }
+      }]
     };
+
+    if(parseInt(this.icon_id) > 0){
+      floor_params.icon_attributes = {id: this.icon_id};
+    }
+
+    if(this.text !== ''){
+      floor_params.label_attributes = {name: this.text};
+    }
 
     if(typeof(this.id) !== 'string') {
       floor_params.locations_attributes[0] = {...floor_params.locations_attributes[0], ...{ id: this.id }};
@@ -167,8 +169,7 @@ class Location {
         data: { floor: floor_params }
       }).done((data, status, xhr) => {
         let location = data[0].location;
-        let label = data[0].label;
-        let icon = data[0].icon;
+        let label = data[0].label || '';
         success({location: location, next_state: {
           admin_url: location.admin_url,
           didSave: true,

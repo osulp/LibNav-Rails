@@ -269,15 +269,20 @@ class LocationBox extends React.Component {
     let location = this.state.location;
     if(location.polygonClosed) {
       return null;
+    } else if(this.state.location.hasChanges === false) {
+      this.setStateWithChanges({
+        hasChanges: true
+      });
+    } else {
+      let mouse = d3.mouse(e);
+      let x = this.getInt(mouse[0]);
+      let y = this.getInt(mouse[1]);
+      let points = Location.addPolygonPoint(x, y, location.polygon_points);
+      this.setStateWithChanges({
+        hasChanges: true,
+        polygon_points: points
+      });
     }
-    let mouse = d3.mouse(e);
-    let x = this.getInt(mouse[0]);
-    let y = this.getInt(mouse[1]);
-    let points = Location.addPolygonPoint(x, y, location.polygon_points);
-    this.setStateWithChanges({
-      hasChanges: true,
-      polygon_points: points
-    });
   }
 
   /*

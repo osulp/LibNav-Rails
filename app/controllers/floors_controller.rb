@@ -33,29 +33,16 @@ class FloorsController < ApplicationController
     }
   end
 
-  def update
-    if @floor.update(floor_params.except(:label_params))
-      floor_params[:locations_attributes].each_pair do |_k, location|
-        Location.find(location[:id]).update_attributes(location)
-      end
-      respond_to do |format|
-        format.json do
-          puts '== responding to JSON'
-          render json: @floor
-        end
-      end
-    end
-  end
-
   def add_location
     locations = []
     floor_params[:locations_attributes].each_pair do |_k, l|
       location = create_location(l) if l['id'].nil?
       location = update_location(l) if l['id'].present?
-      label = find_or_create_label(location, floor_params[:label_attributes])
-      icon = save_location_on_icon(location, floor_params[:icon_attributes][:id])
-      data = { location: location, label: label }
+      label = find_or_create_label(location, floor_params[:label_attributes]) if floor_params[:label_attributes].present?
+      icon = save_location_on_icon(location, floor_params[:icon_attributes][:id]) if floor_params[:icon_attributes].present?
+      data = { location: location }
       data.merge({icon: icon}) if icon.present?
+      data.merge({label: label}) if label.present?
       locations << data
     end
     respond_to do |format|
@@ -64,9 +51,11 @@ class FloorsController < ApplicationController
       end
     end
   rescue StandardError => e
+    logger.error e.message
+    e.backtrace.each { |l| logger.error l }
     respond_to do |format|
       format.json do
-        render json: { error: e }, status: :internal_error
+        render json: { error: 'Failed saving location.' }, status: :internal_error
       end
     end
   end
