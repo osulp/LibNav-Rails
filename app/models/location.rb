@@ -2,7 +2,6 @@ class Location < ApplicationRecord
   scope :persistent, -> { where(persistent: true) }
   scope :on_floor, -> (floor_id) {where(floor_id: floor_id)}
 
-  has_many :tags
   has_one :location_icon
   has_one :icon, through: :location_icon
   has_one :location_label
@@ -10,6 +9,7 @@ class Location < ApplicationRecord
 
   belongs_to :floor, inverse_of: :locations
 
+  has_and_belongs_to_many :tags
   has_and_belongs_to_many :traits
 
   scoped_search on: [:name]
@@ -64,7 +64,7 @@ class Location < ApplicationRecord
       field :persistent
       field :traits
       field :tags
-      field :icon
+      #field :icon
       field :label
     end
   end

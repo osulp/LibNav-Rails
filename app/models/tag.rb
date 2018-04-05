@@ -1,6 +1,6 @@
 class Tag < ApplicationRecord
-  scope :has_location, -> { where.not(location_id: nil) }
-  belongs_to :location, optional: true
+  scope :has_location, -> { joins(:locations).where('locations.id is not null') }
+  has_and_belongs_to_many :locations
   scoped_search on: [:label]
   validates :label, presence: true, uniqueness: true
 
@@ -11,7 +11,7 @@ class Tag < ApplicationRecord
   rails_admin do
     base do
       field :label
-      field :location
+      field :locations
     end
   end
 end
