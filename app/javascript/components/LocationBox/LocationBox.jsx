@@ -388,8 +388,8 @@ class LocationBox extends React.Component {
             <image width={"20"}
                    height={"20"}
                    xlinkHref={this.state.map_marker_path}
-                   x={this.state.location.position_x + (this.state.location.width / 2)}
-                   y={this.state.location.position_y + (this.state.location.height / 2)}>
+                   x={this.state.location.position_x + (this.state.location.width / 2) - 10}
+                   y={this.state.location.position_y + (this.state.location.height / 2) - 10}>
             </image>
           </a>
         )
