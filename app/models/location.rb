@@ -89,15 +89,15 @@ class Location < ApplicationRecord
 
   def allowable_text_position
     unless self.label.nil?
-      text_position_x = position_x if text_position_x.nil? || text_position_x < position_x
-      text_position_y = position_y if text_position_y.nil? || text_position_y < position_y
+      text_position_x = position_x if text_position_x.blank? || text_position_x < position_x
+      text_position_y = position_y if text_position_y.blank? || text_position_y < position_y
     end
   end
 
   def allowable_icon_position
     unless self.icon.nil?
-      icon_position_x = position_x if icon_position_x.nil? || icon_position_x < position_x
-      icon_position_y = position_y if icon_position_y.nil? || icon_position_y < position_y
+      icon_position_x = position_x if icon_position_x.blank? || icon_position_x < position_x
+      icon_position_y = position_y if icon_position_y.blank? || icon_position_y < position_y
     end
   end
 end
