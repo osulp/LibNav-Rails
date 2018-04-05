@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180309183139) do
+ActiveRecord::Schema.define(version: 20180404151516) do
 
   create_table "floors", force: :cascade do |t|
     t.string "name"
@@ -76,6 +76,12 @@ ActiveRecord::Schema.define(version: 20180309183139) do
     t.index ["floor_id"], name: "index_locations_on_floor_id"
     t.index ["icon_id"], name: "index_locations_on_icon_id"
     t.index ["label_id"], name: "index_locations_on_label_id"
+  end
+
+  create_table "locations_tags", id: false, force: :cascade do |t|
+    t.integer "location_id", null: false
+    t.integer "tag_id", null: false
+    t.index ["location_id", "tag_id"], name: "index_locations_tags_on_location_id_and_tag_id"
   end
 
   create_table "locations_traits", id: false, force: :cascade do |t|
