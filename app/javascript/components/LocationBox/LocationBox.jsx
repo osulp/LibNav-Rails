@@ -39,6 +39,9 @@ class LocationBox extends React.Component {
   }
 
   componentDidMount = () => {
+    $(function () {
+      $('[data-toggle="popover"]').popover()
+    });
     if(this.state.edit_mode) {
       // Tooltip visibility
       $(this.state.box_selector).find('.bounding-box').on('mousedown', (event) => { $(this.state.box_selector).find('.bounding-box').tooltip('hide') });
@@ -378,25 +381,17 @@ class LocationBox extends React.Component {
     }
   }
 
-  popoverClick = () => {
-    return(
-      <Popover id="popover-trigger-click" title="Popover top">
-        <strong>Holy guacamole!</strong> Check this info.
-      </Popover>
-    )
-  }
-
   boxContentsOrMarker = () => {
     if(this.state.location.height < 75 && this.state.location.width < 75 && this.state.edit_mode == false) {
       return(
-        <OverlayTrigger trigger="click" placement="top" overlay={popoverClick}>
-          <image width={"20"}
-                 height={"20"}
-                 xlinkHref={this.state.map_marker_path}
-                 x={this.state.location.position_x + (this.state.location.width / 2)}
-                 y={this.state.location.position_y + (this.state.location.height / 2)}>
-          </image>
-        </OverlayTrigger>
+          <a data-toggle="popover" data-placement="top" data-content={this.state.location.name}>
+            <image width={"20"}
+                   height={"20"}
+                   xlinkHref={this.state.map_marker_path}
+                   x={this.state.location.position_x + (this.state.location.width / 2)}
+                   y={this.state.location.position_y + (this.state.location.height / 2)}>
+            </image>
+          </a>
         )
     } else {
       return(
