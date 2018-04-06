@@ -4,17 +4,33 @@
 
 .legend_container {
   text-align: center;
-  min-width: 113px;
 }
 .selected_element{
   background: #dc4405;
-  //width: 85px;
 }
 .selected_element a{
   color: white;
 }
 .selected_element img{
   filter: invert(100%) grayscale(100%) brightness(5000%);
+}
+
+.floor-buttons li.nav-item a.active {
+  min-width: 190px;
+}
+
+.floor-buttons li.nav-item a {
+  text-align: left;
+  background: #eee;
+  min-width: 190px;
+
+  border-radius: 2px;
+  border: 1px solid #eee;
+  box-shadow: 0 1px 2px #ccc;
+}
+
+.card-block {
+  word-wrap: normal;
 }
 .modal-dialog {
   margin-top: 160px !important;

@@ -14,7 +14,7 @@ class LegendListElement extends React.Component {
   }
 
   render() {
-    return (<div className={`col-2 legend_container ${(this.props.selected_element ? "selected_element" : "")}`}>
+    return (<div className={`col-4 legend_container ${(this.props.selected_element ? "selected_element" : "")}`}>
                   <a href={this.build_search_url(this.props.icon_name)}>
                       <img className="legend_icon_image legend_padding" src={ this.props.icon_url }></img>
                       <span>{ this.props.icon_name }</span>
