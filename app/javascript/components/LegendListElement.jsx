@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+
 class LegendListElement extends React.Component {
 
   build_search_url = (icon_name) => {
@@ -13,24 +14,18 @@ class LegendListElement extends React.Component {
   }
 
   render() {
-    return (<li>
-              <div className="container">
-                <div className="row">
-                  <img className="legend_icon_image legend_padding" src={ this.props.icon_url }></img>
-                </div>
-                <div className="row">
-                  <div className="legend_padding">
-                    <a href={this.build_search_url(this.props.icon_name)}> { this.props.icon_name } </a>
-                  </div>
-                </div>
-              </div>
-            </li>
-
+    return (<div className={`col-2 legend_container ${(this.props.selected_element ? "selected_element" : "")}`}>
+                  <a href={this.build_search_url(this.props.icon_name)}>
+                      <img className="legend_icon_image legend_padding" src={ this.props.icon_url }></img>
+                      <span>{ this.props.icon_name }</span>
+                  </a>
+            </div>
     );
   }
 }
 LegendListElement.propTypes = {
   icon_url: PropTypes.string,
-  icon_name: PropTypes.string
+  icon_name: PropTypes.string,
+  selected_element: PropTypes.bool
 };
 export default LegendListElement

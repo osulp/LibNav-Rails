@@ -8,6 +8,10 @@
 }
 
 .location-box {
+  .box-content image.icon {
+    width: 25px;
+    height: 25px;
+  }
   .bounding-box {
     opacity: 0;
     &.edit {

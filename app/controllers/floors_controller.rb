@@ -30,6 +30,7 @@ class FloorsController < ApplicationController
       maps: @floors.map { |f| f.map.url(:original) },
       persistent_locations: get_persistent_locations,
       search_result_floors: search_result_floors,
+      active_search: "#{params[:search]}",
       user: { email: user_signed_in? ? current_user.email : '' }
     }
   end

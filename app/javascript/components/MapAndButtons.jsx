@@ -17,6 +17,7 @@ class MapAndButtons extends React.Component {
     super(props)
     this.timer_handle
     this.state = {
+      active_search: this.props.active_search,
       csrf: $('meta[name="csrf-token"]').attr('content'),
       current_selected_floor: this.pick_floor(),
       edit_locations: this.props.edit_locations.map(l => new Location({...l,
@@ -248,7 +249,7 @@ class MapAndButtons extends React.Component {
             </div>
           </div>
           <div className="col-12 col-lg-3">
-            <Legend icon_set={this.create_legend_set()} />
+            <Legend icon_set={this.create_legend_set()} active_search={this.state.active_search} />
             <MapEditButtons addLocationHandler={this.addLocationHandler}
                             edit_mode={this.state.edit_mode}
                             saveClickedHandler={this.saveClickedHandler}
