@@ -1,6 +1,21 @@
 .legend_padding {
   padding: 10px;
 }
+
+.legend_container {
+  text-align: center;
+  min-width: 113px;
+}
+.selected_element{
+  background: #dc4405;
+  //width: 85px;
+}
+.selected_element a{
+  color: white;
+}
+.selected_element img{
+  filter: invert(100%) grayscale(100%) brightness(5000%);
+}
 .modal-dialog {
   margin-top: 160px !important;
 }
