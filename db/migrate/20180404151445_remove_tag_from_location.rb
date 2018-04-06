@@ -1,5 +1,7 @@
 class RemoveTagFromLocation < ActiveRecord::Migration[5.1]
   def change
-    remove_reference :locations, :tag, index: true
+    if foreign_key_exists?(:locations, column: :tag_id)
+      remove_reference :locations, :tag, index: true
+    end
   end
 end
