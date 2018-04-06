@@ -225,29 +225,30 @@ class MapAndButtons extends React.Component {
             <h2 className="text-center">{this.props.floors[this.state.current_selected_floor - 1].name}</h2>
           </div>
         </div>
-        <div className="row">
-          <div className="col-12 col-lg-9">
+        <div className="row floor-buttons">
+          <div className="col-12 col-lg-2">
+              <ul className="nav justify-content-center flex-sm-column flex-md-row">
+                  {this.props.floors.map((floor, i) => {
+                      return (<FloorButton key={`floor.${i}`}
+                                           active={i == this.state.current_selected_floor - 1}
+                                           floor={floor}
+                                           was_searched_floor={this.searched_floor(this.props.search_result_floors, i)}
+                                           hit_count={this.state.result_hit_counts[i]}
+                                           handler={this.selectFloorHandler} />)
+                  })
+                  }
+              </ul>
+          </div>
+
+          <div className="col-12 col-lg-7">
             <div className="row">
               <div className="col-12">
                 {this.render_map_view()}
               </div>
             </div>
-            <div className="row floor-buttons">
-              <div className="col-12">
-                <ul className="nav justify-content-center flex-sm-column flex-md-row">
-                  {this.props.floors.map((floor, i) => {
-                    return (<FloorButton key={`floor.${i}`}
-                                        active={i == this.state.current_selected_floor - 1}
-                                        floor={floor}
-                                        was_searched_floor={this.searched_floor(this.props.search_result_floors, i)}
-                                        hit_count={this.state.result_hit_counts[i]}
-                                        handler={this.selectFloorHandler} />)
-                    })
-                  }
-                </ul>
-              </div>
-            </div>
+
           </div>
+
           <div className="col-12 col-lg-3">
             <Legend icon_set={this.create_legend_set()} active_search={this.state.active_search} />
             <MapEditButtons addLocationHandler={this.addLocationHandler}
@@ -256,6 +257,7 @@ class MapAndButtons extends React.Component {
                             toggleEditHandler={this.toggleEditHandler}
                             {...this.props} />
           </div>
+
         </div>
         { this.render_modal() }
         <NotificationList errors={this.state.edit_locations.filter(l => l.hasError === true)} successes={this.state.success_notifications} success_notification_fade_delay={this.success_notification_fade_delay} />
