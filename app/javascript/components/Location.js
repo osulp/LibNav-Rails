@@ -94,7 +94,16 @@ class Location {
   static backgroundColorRGB = (location, is_highlight, is_search) => {
     let color = location.background_color;
     if ( is_search && is_highlight ) {
-      color = location.highlightColor;
+      switch(color) {
+        case 'transparent':
+        case 'none':
+        case '':
+          color = location.highlightColor;
+          break;
+        default:
+          color = `#${color}`;
+          break;
+      }
     } else if ( is_search && !is_highlight ) {
       color = 'none';
     }
