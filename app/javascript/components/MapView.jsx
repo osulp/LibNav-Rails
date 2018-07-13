@@ -26,15 +26,15 @@ class MapView extends React.Component {
   }
 
   locationBox = (l, result_type) => {
-    return (<LocationBox key={l.id} highlight={result_type.highlight} location={l} map_marker_path={this.props.map_marker_path} />);
+    return (<LocationBox key={l.id} highlight={result_type.highlight} search={result_type.search}location={l} map_marker_path={this.props.map_marker_path} />);
   }
 
   getLocationsState = (props, floor_id) => {
     let search_result_location_ids = props.locations.filter(l => l.floor_id.toString() === floor_id.toString()).map(l => l.id);
     let persistent_location_ids = props.persistent_locations.filter(l => l.floor_id.toString() === floor_id.toString() && !search_result_location_ids.some(srl_id => srl_id === l.id)).map(l => l.id);
     return {
-      locationsBoxes: props.edit_locations.filter(el => search_result_location_ids.includes(el.id)).map(l => this.locationBox(l, { highlight: true })),
-      persistentLocationsBoxes: props.edit_locations.filter(el => persistent_location_ids.includes(el.id)).map(l => this.locationBox(l, { highlight: false }))
+      locationsBoxes: props.edit_locations.filter(el => search_result_location_ids.includes(el.id)).map(l => this.locationBox(l, { highlight: true, search: true })),
+      persistentLocationsBoxes: props.edit_locations.filter(el => persistent_location_ids.includes(el.id)).map(l => this.locationBox(l, { highlight: false, search: search_result_location_ids == 0 ? false : true}))
     };
   }
 

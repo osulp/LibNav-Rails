@@ -91,22 +91,14 @@ class Location {
     }
   }
 
-  static backgroundColorRGB = (location, is_highlight) => {
+  static backgroundColorRGB = (location, is_highlight, is_search) => {
     let color = location.background_color;
-    if(is_highlight) {
-      switch(color) {
-        case 'transparent':
-        case 'none':
-        case '':
-          color = location.highlightColor;
-          break;
-        default:
-          color = `#${color}`;
-          break;
-      }
-      return `${color}`;
+    if ( is_search && is_highlight ) {
+      color = location.highlightColor;
+    } else if ( is_search && !is_highlight ) {
+      color = 'none';
     }
-    return 'none';
+    return color;
   }
 
   delete = (csrf, success, fail) => {
