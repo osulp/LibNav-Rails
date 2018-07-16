@@ -91,9 +91,9 @@ class Location {
     }
   }
 
-  static backgroundColorRGB = (location, is_highlight) => {
+  static backgroundColorRGB = (location, is_highlight, is_search) => {
     let color = location.background_color;
-    if(is_highlight) {
+    if ( is_search && is_highlight ) {
       switch(color) {
         case 'transparent':
         case 'none':
@@ -104,9 +104,10 @@ class Location {
           color = `#${color}`;
           break;
       }
-      return `${color}`;
+    } else if ( is_search && !is_highlight ) {
+      color = 'none';
     }
-    return 'none';
+    return color;
   }
 
   delete = (csrf, success, fail) => {

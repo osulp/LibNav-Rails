@@ -15,6 +15,7 @@ class LocationBox extends React.Component {
     edit_mode: PropTypes.bool.optional,
     editLocationHandler: PropTypes.func.optional,
     highlight: PropTypes.bool.optional,
+    search: PropTypes.bool.optional,
     location: PropTypes.object,
     successNotificationHandler: PropTypes.bool.func
   }
@@ -31,6 +32,7 @@ class LocationBox extends React.Component {
       box_selector: `#location-box-${this.props.location.internal_id}`,
       edit_mode: this.props.edit_mode,
       highlight: this.props.highlight,
+      search: this.props.search,
       location: this.props.location,
       map_height: 650,
       map_width: 800,
@@ -441,7 +443,7 @@ class LocationBox extends React.Component {
   getStyles = () => {
     let styles = { fillShape: {}, polygonSvg: {}};
     if(!this.state.edit_mode) {
-      styles = Object.assign(styles, { fillShape: { fill: Location.backgroundColorRGB(this.state.location, this.props.highlight),
+      styles = Object.assign(styles, { fillShape: { fill: Location.backgroundColorRGB(this.state.location, this.props.highlight, this.props.search),
                                                     opacity: 0.75 },
                                        polygonSvg: { stroke: 'black', strokeWidth: '1px'}
                                      });
