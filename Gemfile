@@ -12,10 +12,13 @@ gem 'coffee-rails', '~> 4.2'
 gem 'haml'
 gem 'jbuilder', '~> 2.5'
 gem 'rails', '~> 5.1.4'
+gem 'rails-html-sanitizer', '~> 1.0.4'
 gem 'sass-rails', '~> 5.0'
+gem 'sprockets', '~> 3.7.2'
 gem 'sqlite3'
-gem 'uglifier', '>= 1.3.0'
 gem 'turbolinks', '~> 5'
+gem 'uglifier', '>= 1.3.0'
+
 gem 'mysql2'
 
 # Use Puma as the app server
@@ -59,6 +62,10 @@ gem "scoped_search"
 gem 'devise_cas_authenticatable'
 gem 'rubycas-client', git: 'https://github.com/osulp/rubycas-client'
 gem 'rubycas-client-rails', git: 'https://github.com/osulp/rubycas-client-rails'
+
+group :production, :staging do
+  gem 'ddtrace'
+end
 
 # Testing/Development gems
 group :development, :test do

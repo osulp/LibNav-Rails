@@ -153,8 +153,10 @@ GEM
       thor
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
-    crass (1.0.3)
+    crass (1.0.4)
     database_cleaner (1.6.1)
+    ddtrace (0.14.0)
+      msgpack
     debride (1.8.0)
       path_expander (~> 1.0)
       ruby_parser (~> 3.6)
@@ -239,6 +241,7 @@ GEM
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
     minitest (5.11.3)
+    msgpack (1.2.4)
     multi_json (1.12.2)
     mysql2 (0.4.10)
     nested_form (0.3.2)
@@ -247,7 +250,7 @@ GEM
     net-ssh (4.2.0)
     netrc (0.11.0)
     nio4r (2.3.0)
-    nokogiri (1.8.2)
+    nokogiri (1.8.4)
       mini_portile2 (~> 2.3.0)
     orm_adapter (0.5.0)
     paperclip (5.2.1)
@@ -271,7 +274,7 @@ GEM
     puma_worker_killer (0.1.0)
       get_process_mem (~> 0.2)
       puma (>= 2.7, < 4)
-    rack (2.0.4)
+    rack (2.0.5)
     rack-pjax (1.0.0)
       nokogiri (~> 1.5)
       rack (>= 1.1)
@@ -298,8 +301,8 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.0.3)
-      loofah (~> 2.0)
+    rails-html-sanitizer (1.0.4)
+      loofah (~> 2.2, >= 2.2.2)
     rails_admin (1.3.0)
       builder (~> 3.1)
       coffee-rails (~> 4.0)
@@ -410,7 +413,7 @@ GEM
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
       spring (>= 1.2, < 3.0)
-    sprockets (3.7.1)
+    sprockets (3.7.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sprockets-rails (3.2.1)
@@ -478,6 +481,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   coveralls
   database_cleaner
+  ddtrace
   debride
   devise
   devise_cas_authenticatable
@@ -496,6 +500,7 @@ DEPENDENCIES
   puma_worker_killer
   rails (~> 5.1.4)
   rails-controller-testing
+  rails-html-sanitizer (~> 1.0.4)
   rails_admin (~> 1.2)
   rcodetools
   react-rails
@@ -515,6 +520,7 @@ DEPENDENCIES
   simplecov
   spring
   spring-watcher-listen (~> 2.0.0)
+  sprockets (~> 3.7.2)
   sqlite3
   turbolinks (~> 5)
   tzinfo-data
