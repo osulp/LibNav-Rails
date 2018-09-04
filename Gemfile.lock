@@ -185,7 +185,7 @@ GEM
       colorize (~> 0.7)
       ruby_parser (~> 3.7)
     fastri (0.3.1.1)
-    ffi (1.9.23)
+    ffi (1.9.25)
     font-awesome-rails (4.7.0.3)
       railties (>= 3.2, < 5.2)
     font-awesome-sass (4.7.0)
@@ -488,6 +488,7 @@ DEPENDENCIES
   equivalent-xml
   fasterer
   fastri
+  ffi (~> 1.9.24)
   font-awesome-sass
   haml
   jbuilder (~> 2.5)
