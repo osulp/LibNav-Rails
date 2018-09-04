@@ -63,6 +63,8 @@ gem 'devise_cas_authenticatable'
 gem 'rubycas-client', git: 'https://github.com/osulp/rubycas-client'
 gem 'rubycas-client-rails', git: 'https://github.com/osulp/rubycas-client-rails'
 
+gem 'ffi', '~> 1.9.24'
+
 group :production, :staging do
   gem 'ddtrace'
 end
