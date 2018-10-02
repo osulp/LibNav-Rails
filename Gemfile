@@ -26,7 +26,7 @@ gem 'puma', '~> 3.7'
 gem 'puma_worker_killer'
 
 # Bootstrap/UI gems
-gem 'bootstrap', '~> 4.0.0.beta'
+gem 'bootstrap', '~> 4.1.2'
 gem 'jquery-rails'
 
 # Use Capistrano for deployment
