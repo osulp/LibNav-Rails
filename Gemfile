@@ -65,6 +65,10 @@ gem 'rubycas-client-rails', git: 'https://github.com/osulp/rubycas-client-rails'
 
 gem 'ffi', '~> 1.9.24'
 
+# Security audit update
+gem 'loofah', '>= 2.2.3'
+gem 'rubyzip', '>= 1.2.2'
+
 group :production, :staging do
   gem 'ddtrace'
 end
