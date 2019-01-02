@@ -66,7 +66,9 @@ gem 'rubycas-client-rails', git: 'https://github.com/osulp/rubycas-client-rails'
 gem 'ffi', '~> 1.9.24'
 
 # Security audit update
+gem 'activejob', '>= 5.1.6.1'
 gem 'loofah', '>= 2.2.3'
+gem 'rack', '>= 2.0.6'
 gem 'rubyzip', '>= 1.2.2'
 
 group :production, :staging do
