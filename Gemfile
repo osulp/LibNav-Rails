@@ -71,10 +71,6 @@ gem 'loofah', '>= 2.2.3'
 gem 'rack', '>= 2.0.6'
 gem 'rubyzip', '>= 1.2.2'
 
-group :production, :staging do
-  gem 'ddtrace'
-end
-
 # Testing/Development gems
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
