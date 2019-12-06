@@ -22,7 +22,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'mysql2'
 
 # Use Puma as the app server
-gem 'puma', '~> 3.7'
+gem 'puma', '~> 3.12'
 gem 'puma_worker_killer'
 
 # Bootstrap/UI gems
